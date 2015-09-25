@@ -76,6 +76,8 @@ namespace Unnamed_Racing_Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
+
             Window.AllowUserResizing = false;
 
             base.Draw(gameTime);
