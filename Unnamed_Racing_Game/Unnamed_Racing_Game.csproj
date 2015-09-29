@@ -83,15 +83,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <ToolkitFont Include="Content\Font\Font.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
+    <ToolkitTexture Include="Content\Test\Ellipse Test 1.png" />
+    <ToolkitTexture Include="Content\Test\Ellipse Test 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Test\Button Base Pressed.png" />
+    <ToolkitTexture Include="Content\Test\Button Base Un-Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Test\Circle Test 1.png" />
+    <ToolkitTexture Include="Content\Test\Circle Test 2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />

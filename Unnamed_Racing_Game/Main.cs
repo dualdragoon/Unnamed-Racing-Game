@@ -14,8 +14,21 @@ namespace Unnamed_Racing_Game
 {
     class Main : Game
     {
-        GraphicsDeviceManager graphics;
+        private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
+
+        Menu menu;
+
+        public static GraphicsDeviceManager Graphics
+        {
+            get { return graphics; }
+        }
+
+        public static ContentManager GameContent
+        {
+            get { return content; }
+        }
+        private static ContentManager content;
 
         public static MouseState CurrentMouse
         {
@@ -49,6 +62,13 @@ namespace Unnamed_Racing_Game
             Content.RootDirectory = "Content";
             mouseManager = new MouseManager(this);
             keyboardManager = new KeyboardManager(this);
+            IsMouseVisible = true;
+            graphics.PreferredBackBufferHeight = 450;
+            graphics.PreferredBackBufferWidth = 800;
+
+            content = Content;
+
+            menu = new Menu();
         }
 
         protected override void Initialize()
@@ -61,13 +81,15 @@ namespace Unnamed_Racing_Game
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
+            menu.LoadContent();
 
             base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            
+            mouse = Mouse.GetState();
+            menu.Update(gameTime);            
             
             base.Update(gameTime);
         }
@@ -79,6 +101,15 @@ namespace Unnamed_Racing_Game
             spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
 
             Window.AllowUserResizing = false;
+
+            try
+            {
+                menu.Draw(spritebatch);
+            }
+            catch
+            { }
+
+            spritebatch.End();
 
             base.Draw(gameTime);
         }
