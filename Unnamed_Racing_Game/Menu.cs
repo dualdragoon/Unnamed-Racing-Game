@@ -23,8 +23,8 @@ namespace Unnamed_Racing_Game
             pressed = Main.GameContent.Load<Texture2D>("Test/Button Base Pressed");
             eUnPressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 1");
             ePressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 2");
-            cUnPressed = Main.GameContent.Load<Texture2D>("Test/Circle Test 1");
-            cPressed = Main.GameContent.Load<Texture2D>("Test/Circle Test 2");
+            cUnPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Un-Pressed");
+            cPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Pressed");
 
             test = new Button(new Vector2(300, 150), 170, 90, 1, Main.CurrentMouse, unPressed, pressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
             test2 = new Button(new Vector2(200, 300), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
