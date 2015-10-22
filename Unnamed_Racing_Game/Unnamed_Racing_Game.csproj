@@ -7,7 +7,7 @@
     <ProjectGuid>{F047A9D0-7BD3-44C5-9B96-007E7E0DDD5D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unnamed_Racing_Game</RootNamespace>
+    <RootNamespace>Kross_Kart</RootNamespace>
     <AssemblyName>Unnamed_Racing_Game</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -86,10 +86,12 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <ToolkitFont Include="Content\Font\Font.spritefont" />
+    <ToolkitModel Include="Content\Test\Sphere.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

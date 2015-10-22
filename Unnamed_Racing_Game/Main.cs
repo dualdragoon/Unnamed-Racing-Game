@@ -10,14 +10,17 @@ using SharpDX.Toolkit.Content;
 using SharpDX.Toolkit.Graphics;
 using SharpDX.Toolkit.Input;
 
-namespace Unnamed_Racing_Game
+namespace Kross_Kart
 {
     class Main : Game
     {
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
+        
+        Matrix view, projection;
 
         Menu menu;
+        Test test;
 
         public static GraphicsDeviceManager Graphics
         {
@@ -65,10 +68,12 @@ namespace Unnamed_Racing_Game
             IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 450;
             graphics.PreferredBackBufferWidth = 800;
+            WindowCreated += WindowShown;
 
             content = Content;
 
             menu = new Menu();
+            test = new Test();
         }
 
         protected override void Initialize()
@@ -78,10 +83,19 @@ namespace Unnamed_Racing_Game
             base.Initialize();
         }
 
+        private void WindowShown(object sender, EventArgs args)
+        {
+            Window.Title = "Kross Kart";
+        }
+
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
             menu.LoadContent();
+            test.LoadContent();
+
+            view = Matrix.LookAtLH(new Vector3(0, 0, 10), Vector3.Zero, Vector3.UnitY);
+            projection = Matrix.OrthoLH(6f, 3.6f, 0.1f, 100f);
 
             base.LoadContent();
         }
@@ -89,8 +103,10 @@ namespace Unnamed_Racing_Game
         protected override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
-            menu.Update(gameTime);            
-            
+            keyboard = Keyboard.GetState();
+            menu.Update(gameTime);
+            test.Update(gameTime, view, projection);
+
             base.Update(gameTime);
         }
 
@@ -98,16 +114,15 @@ namespace Unnamed_Racing_Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
+
+            test.Draw(GraphicsDevice);
+
             spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
 
             Window.AllowUserResizing = false;
 
-            try
-            {
-                menu.Draw(spritebatch);
-            }
-            catch
-            { }
+            menu.Draw(spritebatch);
 
             spritebatch.End();
 

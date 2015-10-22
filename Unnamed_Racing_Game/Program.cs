@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX.Toolkit;
 
-namespace Unnamed_Racing_Game
+namespace Kross_Kart
 {
     class Program
     {
