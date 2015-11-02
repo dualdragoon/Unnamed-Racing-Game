@@ -16,7 +16,7 @@ namespace Kross_Kart
     {
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
-        
+
         Matrix view, projection;
 
         Menu menu;
@@ -95,7 +95,7 @@ namespace Kross_Kart
             test.LoadContent();
 
             view = Matrix.LookAtLH(new Vector3(0, 0, 10), Vector3.Zero, Vector3.UnitY);
-            projection = Matrix.OrthoLH(6f, 3.6f, 0.1f, 100f);
+            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 480f, .1f, 100f);
 
             base.LoadContent();
         }
