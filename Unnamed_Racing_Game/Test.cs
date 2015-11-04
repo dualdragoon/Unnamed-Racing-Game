@@ -12,29 +12,27 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
-    class Test
+    /// <summary>
+    /// Player Kart class.
+    /// </summary>
+    sealed class Test : Entity
     {
-        BasicEffect effect;
-        float angle = 0;
-        Matrix translation, view, projection;
-        Model sphere;
         Stopwatch s = new Stopwatch();
-        Vector3 position = new Vector3(0, 0, 0), temp;
 
         public Test()
         {
             
         }
 
-        public void LoadContent()
+        public override void LoadContent()
         {
-            sphere = Main.GameContent.Load<Model>("Test/Sphere");
+            model = Main.GameContent.Load<Model>("Test/Sphere");
 
-            //BasicEffect.EnableDefaultLighting(sphere);
+            //BasicEffect.EnableDefaultLighting(model);
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
             effect.LightingEnabled = true;
-            effect.DirectionalLight0.DiffuseColor = Color.Aqua.ToVector3();
+            effect.DirectionalLight0.DiffuseColor = Color.BurlyWood.ToVector3();
             effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
             effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
         }
@@ -51,8 +49,6 @@ namespace Kross_Kart
 
             angle += .03f;
             //position += new Vector3(0, -.01f, 0);
-            temp = new Vector3(0, 1, 0);
-            temp.Normalize();
             translation = Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) * Matrix.Translation(position);
 
             if (s.ElapsedMilliseconds == 5625)
@@ -62,13 +58,8 @@ namespace Kross_Kart
 
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.A))
             {
-                position = new Vector3(0, -1, 0);
+                position = Vector3.Zero;
             }
-        }
-
-        public void Draw(GraphicsDevice graphicsDevice)
-        {
-            sphere.Draw(graphicsDevice, translation, view, projection, effect);
         }
     }
 }
