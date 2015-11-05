@@ -15,13 +15,13 @@ namespace Kross_Kart
     /// <summary>
     /// Player Kart class.
     /// </summary>
-    sealed class Test : Entity
+    sealed class Test : KartEntity
     {
         Stopwatch s = new Stopwatch();
 
         public Test()
         {
-            
+
         }
 
         public override void LoadContent()
@@ -35,6 +35,8 @@ namespace Kross_Kart
             effect.DirectionalLight0.DiffuseColor = Color.BurlyWood.ToVector3();
             effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
             effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
+
+            gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0);
         }
 
         public void Update(GameTime gameTime, Matrix view, Matrix projection)
@@ -42,13 +44,16 @@ namespace Kross_Kart
             this.view = view;
             this.projection = projection;
 
+            frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+            ApplyGravity();
+
             if (!s.IsRunning)
             {
-                s.Start(); 
+                s.Start();
             }
 
             angle += .03f;
-            //position += new Vector3(0, -.01f, 0);
             translation = Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) * Matrix.Translation(position);
 
             if (s.ElapsedMilliseconds == 5625)
@@ -60,6 +65,15 @@ namespace Kross_Kart
             {
                 position = Vector3.Zero;
             }
+        }
+
+        public override void ApplyGravity()
+        {
+            if (frameTime < .0155)
+            {
+                velocity += gravitationalAcceleration * frameTime; 
+            }
+            position += velocity * frameTime;
         }
     }
 }
