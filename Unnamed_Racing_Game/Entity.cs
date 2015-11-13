@@ -13,38 +13,106 @@ namespace Kross_Kart
     /// </summary>
     class KartEntity
     {
-        public BasicEffect effect;
+        private BasicEffect effect;
         public float angle, frameTime;
-        public Matrix translation, view, projection;
-        public Model model;
-        public Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f/.22f)*2f, 0), acceleration, velocity;
+        private Level level;
+        private Matrix translation, view, projection;
+        private Model model;
+        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f/.22f)*2f, 0), acceleration, velocity;
+
+        #region Properties
+        public BasicEffect Effect
+        {
+            get { return effect; }
+            set { effect = value; }
+        }
+
+        public Level Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
+        public Matrix Projection
+        {
+            get { return projection; }
+            set { projection = value; }
+        }
+
+        public Matrix View
+        {
+            get { return view; }
+            set { view = value; }
+        }
+
+        public Matrix World
+        {
+            get { return translation; }
+            set { translation = value; }
+        }
+
+        public Model Model
+        {
+            get { return model; }
+            set { model = value; }
+        }
+
+        public Vector3 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public Vector3 GravitationalAcceleration
+        {
+            get { return gravitationalAcceleration; }
+        }
+
+        public Vector3 Acceleration
+        {
+            get { return acceleration; }
+            set { acceleration = value; }
+        }
+
+        public Vector3 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+        #endregion
 
         public KartEntity()
         {
+
+        }
+
+        public KartEntity(Level level)
+        {
             angle = 0;
-            translation = Matrix.Zero;
-            view = Matrix.Zero;
-            projection = Matrix.Zero;
-            position = Vector3.Zero;
-            acceleration = Vector3.Zero;
-            velocity = Vector3.Zero;
+            World = Matrix.Zero;
+            View = Matrix.Zero;
+            Projection = Matrix.Zero;
+            Position = Vector3.Zero;
+            Acceleration = Vector3.Zero;
+            Velocity = Vector3.Zero;
+            Level = level;
         }
 
         public virtual void LoadContent()
         {
-            effect = new BasicEffect(null);
-            model = null;
+            Effect = new BasicEffect(null);
+            Model = null;
         }
 
         public virtual void ApplyGravity()
         {
-            velocity += gravitationalAcceleration * frameTime;
-            position += velocity * frameTime;
+            Velocity += GravitationalAcceleration * frameTime;
+            Position += Velocity * frameTime;
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
         {
-            model.Draw(graphicsDevice, translation, view, projection, effect);
+            Model.Draw(graphicsDevice, World, View, Projection, Effect);
         }
     }
 }

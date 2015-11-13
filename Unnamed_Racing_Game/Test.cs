@@ -19,34 +19,35 @@ namespace Kross_Kart
     {
         Stopwatch s = new Stopwatch();
 
-        public Test()
+        public Test(Level level)
         {
-
+            Level = level;
         }
 
         public override void LoadContent()
         {
-            model = Main.GameContent.Load<Model>("Test/Sphere");
+            Model = Main.GameContent.Load<Model>("Test/Sphere");
 
             //BasicEffect.EnableDefaultLighting(model);
 
-            effect = new BasicEffect(Main.Graphics.GraphicsDevice);
-            effect.LightingEnabled = true;
-            effect.DirectionalLight0.DiffuseColor = Color.BurlyWood.ToVector3();
-            effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
-            effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
-
-            gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0);
+            Effect = new BasicEffect(Main.Graphics.GraphicsDevice);
+            Effect.LightingEnabled = true;
+            Effect.DirectionalLight0.DiffuseColor = Color.BurlyWood.ToVector3();
+            Effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
+            Effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
         }
 
         public void Update(GameTime gameTime, Matrix view, Matrix projection)
         {
-            this.view = view;
-            this.projection = projection;
+            this.View = view;
+            this.Projection = projection;
 
             frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-            ApplyGravity();
+            if (!CollisionHelper.IsCollision(this, Level))
+            {
+                ApplyGravity();
+            }
 
             if (!s.IsRunning)
             {
@@ -54,7 +55,7 @@ namespace Kross_Kart
             }
 
             angle += .03f;
-            translation = Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) * Matrix.Translation(position);
+            World = /*Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) **/ Matrix.Translation(Position);
 
             if (s.ElapsedMilliseconds == 5625)
             {
@@ -63,17 +64,17 @@ namespace Kross_Kart
 
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.A))
             {
-                position = Vector3.Zero;
+                Position = Vector3.Zero;
             }
         }
 
         public override void ApplyGravity()
         {
-            if (frameTime < .0155)
+            if (Velocity.Y > -19)
             {
-                velocity += gravitationalAcceleration * frameTime; 
+                Velocity += GravitationalAcceleration * frameTime; 
             }
-            position += velocity * frameTime;
+            Position += Velocity * frameTime;
         }
     }
 }

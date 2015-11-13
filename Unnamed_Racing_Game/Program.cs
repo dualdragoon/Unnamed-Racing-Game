@@ -11,6 +11,7 @@ namespace Kross_Kart
     {
         static void Main(string[] args)
         {
+            Console.Title = "Kross Kart Debug";
 
             using (Main game = new Main())
             {

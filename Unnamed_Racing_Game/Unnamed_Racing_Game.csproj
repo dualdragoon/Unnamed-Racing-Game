@@ -82,7 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollisionHelper.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
