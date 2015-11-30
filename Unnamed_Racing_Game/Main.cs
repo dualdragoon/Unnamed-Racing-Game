@@ -17,10 +17,7 @@ namespace Kross_Kart
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
 
-        Matrix view, projection;
-
-        //Menu menu;
-        Test test;
+        Menu menu;
         Level level;
 
         public static GraphicsDeviceManager Graphics
@@ -73,9 +70,8 @@ namespace Kross_Kart
 
             content = Content;
 
-            //menu = new Menu();
+            menu = new Menu();
             level = new Level();
-            test = new Test(level);
         }
 
         protected override void Initialize()
@@ -93,12 +89,8 @@ namespace Kross_Kart
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
-            //menu.LoadContent();
-            test.LoadContent();
+            menu.LoadContent();
             level.LoadContent();
-
-            view = Matrix.LookAtLH(new Vector3(0, 10, 10), Vector3.Zero, Vector3.UnitY);
-            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 480f, .1f, 100f);
 
             base.LoadContent();
         }
@@ -107,9 +99,8 @@ namespace Kross_Kart
         {
             mouse = Mouse.GetState();
             keyboard = Keyboard.GetState();
-            //menu.Update(gameTime);
-            test.Update(gameTime, view, projection);
-            level.Update(gameTime, view, projection);
+            menu.Update(gameTime);
+            level.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -120,14 +111,13 @@ namespace Kross_Kart
 
             GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
 
-            test.Draw(GraphicsDevice);
             level.Draw(GraphicsDevice);
 
             spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
 
             Window.AllowUserResizing = false;
 
-            //menu.Draw(spritebatch);
+            menu.Draw(spritebatch);
 
             spritebatch.End();
 

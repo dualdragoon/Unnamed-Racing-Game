@@ -14,6 +14,7 @@ namespace Kross_Kart
     class KartEntity
     {
         private BasicEffect effect;
+        private event EventHandler onCreated;
         public float angle, frameTime;
         private Level level;
         private Matrix translation, view, projection;
@@ -25,6 +26,12 @@ namespace Kross_Kart
         {
             get { return effect; }
             set { effect = value; }
+        }
+
+        public event EventHandler OnCreated
+        {
+            add { onCreated += value; }
+            remove { onCreated -= value; }
         }
 
         public Level Level

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX;
-using SharpDX.Toolkit;
-using SharpDX.Toolkit.Graphics;
+﻿using SharpDX;
 
 namespace Kross_Kart
 {
@@ -21,9 +14,9 @@ namespace Kross_Kart
         public static bool IsCollision(KartEntity kart, Level level)
         {
             BoundingSphere sphere1 = kart.Model.CalculateBounds(kart.World), sphere2;
-            for (int i = 0; i < level.model.Meshes.Count; i++)
+            for (int i = 0; i < level.WorldModel.Meshes.Count; i++)
             {
-                sphere2 = TransformBoundingSphere(level.translation, level.model.Meshes[i].BoundingSphere);
+                sphere2 = TransformBoundingSphere(level.translation, level.WorldModel.Meshes[i].BoundingSphere);
                 if (Collision.SphereIntersectsSphere(ref sphere1, ref sphere2))
                 {
                     return true;

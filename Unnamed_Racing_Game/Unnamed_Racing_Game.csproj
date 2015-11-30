@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="CollisionHelper.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Level.cs" />
@@ -96,6 +97,7 @@
     <ToolkitFont Include="Content\Font\Font.spritefont" />
     <ToolkitModel Include="Content\Test\Sphere.fbx" />
     <ToolkitModel Include="Content\Test\Test Room.fbx" />
+    <None Include="Content\Test\Test Kart.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

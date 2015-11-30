@@ -55,7 +55,7 @@ namespace Kross_Kart
             }
 
             angle += .03f;
-            World = /*Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) **/ Matrix.Translation(Position);
+            World = Matrix.RotationY(MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f)) * Matrix.Translation(Position);
 
             if (s.ElapsedMilliseconds == 5625)
             {

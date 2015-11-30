@@ -12,10 +12,46 @@ namespace Kross_Kart
 {
     class Level
     {
-        public BasicEffect effect;
+        private BasicEffect effect;
+        private Camera cam;
         public Matrix translation, view, projection;
-        public Model model;
-        public Vector3 position = new Vector3(0, -10, 0);
+        private Model model;
+        private Test test;
+        private Vector3 position = new Vector3(0, -10, 0);
+
+        #region Properties
+
+        public BasicEffect Effect
+        {
+            get { return effect; }
+            set { effect = value; }
+        }
+
+        public Camera Cam
+        {
+            get { return cam; }
+            set { cam = value; }
+        }
+
+        public Model WorldModel
+        {
+            get { return model; }
+            set { model = value; }
+        }
+
+        public Test Player
+        {
+            get { return test; }
+            set { test = value; }
+        }
+
+        #endregion
+
+        public Level()
+        {
+            test = new Test(this);
+            test.OnCreated += OnPlayerCreate;
+        }
 
         public void LoadContent()
         {
@@ -27,19 +63,36 @@ namespace Kross_Kart
             effect.DirectionalLight0.Direction = new Vector3(1, -10, -1);
             effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);*/
             effect.EnableDefaultLighting();
+
+            test.LoadContent();
+
+            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 480f, .1f, 100f);
         }
 
-        public void Update(GameTime gameTime, Matrix view, Matrix projection)
+        public void Update(GameTime gameTime)
         {
-            this.view = view;
-            this.projection = projection;
-
             translation = Matrix.Translation(position);
+
+            test.Update(gameTime, view, projection);
+
+            try
+            {
+                view = Cam.View;
+            }
+            catch
+            {}
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
         {
             model.Draw(graphicsDevice, translation, view, projection, effect);
+            test.Draw(graphicsDevice);
+        }
+
+        private void OnPlayerCreate(object sender, EventArgs args)
+        {
+            view = Cam.View;
+            test.OnCreated -= OnPlayerCreate;
         }
     }
 }
