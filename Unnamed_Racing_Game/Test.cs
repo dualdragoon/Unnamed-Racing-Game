@@ -26,7 +26,7 @@ namespace Kross_Kart
 
         public override void LoadContent()
         {
-            Model = Main.GameContent.Load<Model>("Test/Test Kart");
+            Model = Main.GameContent.Load<Model>("Test/Sphere");
 
             //BasicEffect.EnableDefaultLighting(model);
 
