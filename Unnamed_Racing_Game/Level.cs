@@ -49,7 +49,8 @@ namespace Kross_Kart
 
         public Level()
         {
-            test = new Test(this);
+            Cam = new Camera(this);
+            Player = new Test(this);
             test.OnCreated += OnPlayerCreate;
         }
 
@@ -73,14 +74,10 @@ namespace Kross_Kart
         {
             translation = Matrix.Translation(position);
 
-            test.Update(gameTime, view, projection);
+            Cam.Update(gameTime);
+            Player.Update(gameTime, view, projection);
 
-            try
-            {
-                view = Cam.View;
-            }
-            catch
-            {}
+            view = Cam.View;
         }
 
         public void Draw(GraphicsDevice graphicsDevice)

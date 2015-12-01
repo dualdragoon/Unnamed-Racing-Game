@@ -17,7 +17,7 @@ namespace Kross_Kart
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
 
-        Menu menu;
+        //Menu menu;
         Level level;
 
         public static GraphicsDeviceManager Graphics
@@ -70,7 +70,7 @@ namespace Kross_Kart
 
             content = Content;
 
-            menu = new Menu();
+            //menu = new Menu();
             level = new Level();
         }
 
@@ -89,7 +89,7 @@ namespace Kross_Kart
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
-            menu.LoadContent();
+            //menu.LoadContent();
             level.LoadContent();
 
             base.LoadContent();
@@ -99,7 +99,7 @@ namespace Kross_Kart
         {
             mouse = Mouse.GetState();
             keyboard = Keyboard.GetState();
-            menu.Update(gameTime);
+            //menu.Update(gameTime);
             level.Update(gameTime);
 
             base.Update(gameTime);
@@ -117,7 +117,7 @@ namespace Kross_Kart
 
             Window.AllowUserResizing = false;
 
-            menu.Draw(spritebatch);
+            //menu.Draw(spritebatch);
 
             spritebatch.End();
 
