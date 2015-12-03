@@ -22,7 +22,6 @@ namespace Kross_Kart
                     return true;
                 }
             }
-            //Console.WriteLine(sphere2.Center.ToString() + "//" + sphere2.Radius.ToString());
             return false;
         }
 
