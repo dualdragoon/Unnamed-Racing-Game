@@ -19,7 +19,7 @@ namespace Kross_Kart
         private Level level;
         private Matrix translation, view, projection;
         private Model model;
-        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f/.22f)*2f, 0), acceleration, velocity;
+        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity;
 
         #region Properties
         public BasicEffect Effect
