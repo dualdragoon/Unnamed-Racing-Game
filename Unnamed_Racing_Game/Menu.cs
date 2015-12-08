@@ -14,8 +14,14 @@ namespace Kross_Kart
 {
     class Menu
     {
+        Main main;
         Texture2D unPressed, pressed, eUnPressed, ePressed, cUnPressed, cPressed;
-        Button Rectangle, Ellipse, Circle;
+        Button test, test2, test3;
+
+        public Menu(Main main)
+        {
+            this.main = main;
+        }
 
         public void LoadContent()
         {
@@ -26,33 +32,47 @@ namespace Kross_Kart
             cUnPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Un-Pressed");
             cPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Pressed");
 
-            Rectangle = new Button(new Vector2(320, 170), 170, 90, 1, Main.CurrentMouse, unPressed, pressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-            Ellipse = new Button(new Vector2(550, 210), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-            Circle = new Button(new Vector2(250, 210), 100, 3, Main.CurrentMouse, cUnPressed, cPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+            test = new Button(new Vector2(500, 150), 170, 90, 1, Main.CurrentMouse, unPressed, pressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+            test2 = new Button(new Vector2(200, 300), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+            test3 = new Button(new Vector2(100, 100), 100, 3, Main.CurrentMouse, cUnPressed, cPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
-            Rectangle.ButtonPressed += StartGame;
+            test.ButtonPressed += StartGame;
         }
 
         public void Update(GameTime gameTime)
         {
-            Rectangle.Update(Main.CurrentMouse);
-            Ellipse.Update(Main.CurrentMouse);
-            Circle.Update(Main.CurrentMouse);
+            test.Update(Main.CurrentMouse);
+            test2.Update(Main.CurrentMouse);
+            test3.Update(Main.CurrentMouse);
+        }
+
+        public void Dispose()
+        {
+            test.Dispose();
+            test2.Dispose();
+            test3.Dispose();
+
+            unPressed.Dispose();
+            pressed.Dispose();
+            eUnPressed.Dispose();
+            ePressed.Dispose();
+            cUnPressed.Dispose();
+            cPressed.Dispose();
         }
 
         public void StartGame(object sender, EventArgs args)
         {
-            Main.gameState = GameStates.Test;
-            Rectangle.ButtonPressed -= StartGame;
+            main.GameState = GameStates.Test;
+            test.ButtonPressed -= StartGame;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             try
             {
-                spriteBatch.Draw(Rectangle.Texture, Rectangle.Position, Color.White);
-                spriteBatch.Draw(Ellipse.Texture, Ellipse.Position, Color.White);
-                spriteBatch.Draw(Circle.Texture, Circle.Position, Color.White);
+                spriteBatch.Draw(test.Texture, test.Position, Color.White);
+                spriteBatch.Draw(test2.Texture, test2.Position, Color.White);
+                spriteBatch.Draw(test3.Texture, test3.Position, Color.White);
             }
             catch { }
         }
