@@ -29,6 +29,8 @@ namespace Kross_Kart
             test = new Button(new Vector2(500, 150), 170, 90, 1, Main.CurrentMouse, unPressed, pressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
             test2 = new Button(new Vector2(200, 300), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
             test3 = new Button(new Vector2(100, 100), 100, 3, Main.CurrentMouse, cUnPressed, cPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+
+            test.ButtonPressed += StartGame;
         }
 
         public void Update(GameTime gameTime)
@@ -36,6 +38,12 @@ namespace Kross_Kart
             test.Update(Main.CurrentMouse);
             test2.Update(Main.CurrentMouse);
             test3.Update(Main.CurrentMouse);
+        }
+
+        public void StartGame(object sender, EventArgs args)
+        {
+            Main.gameState = GameStates.Test;
+            test.ButtonPressed -= StartGame;
         }
 
         public void Draw(SpriteBatch spriteBatch)

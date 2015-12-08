@@ -12,12 +12,16 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
+    public enum GameStates { MainMenu, Test };
+
     class Main : Game
     {
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
 
-        //Menu menu;
+        public static GameStates gameState = GameStates.MainMenu;
+
+        Menu menu;
         Level level;
 
         public static GraphicsDeviceManager Graphics
@@ -70,7 +74,7 @@ namespace Kross_Kart
 
             content = Content;
 
-            //menu = new Menu();
+            menu = new Menu();
             level = new Level();
         }
 
@@ -89,7 +93,7 @@ namespace Kross_Kart
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
-            //menu.LoadContent();
+            menu.LoadContent();
             level.LoadContent();
 
             base.LoadContent();
@@ -99,8 +103,18 @@ namespace Kross_Kart
         {
             mouse = Mouse.GetState();
             keyboard = Keyboard.GetState();
-            //menu.Update(gameTime);
-            level.Update(gameTime);
+
+            switch(gameState)
+            {
+                case GameStates.MainMenu:
+                    menu.Update(gameTime);
+                    break;
+                case GameStates.Test:
+                    level.Update(gameTime);
+                    break;
+                default:
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -109,15 +123,22 @@ namespace Kross_Kart
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
-
-            level.Draw(GraphicsDevice);
-
-            spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
-
             Window.AllowUserResizing = false;
 
-            //menu.Draw(spritebatch);
+            switch(gameState)
+            {
+                case GameStates.MainMenu:
+                    spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
+                    menu.Draw(spritebatch);
+                    break;
+                case GameStates.Test:
+                    GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
+                    level.Draw(GraphicsDevice);
+                    spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
+                    break;
+                default:
+                    break;
+            }
 
             spritebatch.End();
 
