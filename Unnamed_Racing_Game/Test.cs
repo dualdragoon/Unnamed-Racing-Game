@@ -19,6 +19,7 @@ namespace Kross_Kart
     {
         bool turnLeft, turnRight, grounded, accel;
         Stopwatch s = new Stopwatch();
+        Vector4 temp;
 
         public Test(Level level)
         {
@@ -45,15 +46,20 @@ namespace Kross_Kart
 
             frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-            if (!grounded)
-            {
-                ApplyGravity();
-            }
-
             if (grounded)
             {
                 Velocity -= new Vector3(0, Velocity.Y, 0);
             }
+            else
+            {
+                ApplyGravity();
+            }
+
+            temp = Vector3.Transform(Acceleration, Matrix.RotationAxis(new Vector3(Position.X, 1, Position.Z), angle));
+            Acceleration = new Vector3(temp.X, temp.Y, temp.Z);
+
+            temp = Vector3.Transform(Friction, Matrix.RotationAxis(new Vector3(Position.X, 1, Position.Z), angle));
+            Friction = new Vector3(temp.X, temp.Y, temp.Z);
 
             if (!s.IsRunning)
             {
@@ -105,6 +111,16 @@ namespace Kross_Kart
             {
                 Velocity += Acceleration * frameTime;
             }
+
+            if (!accel && Velocity.Z > 0)
+            {
+                Velocity += Friction * frameTime;
+                if (Velocity.Z <= 0)
+                {
+                    Velocity = new Vector3(Velocity.X, Velocity.Y, 0);
+                }
+            }
+
             Position += Velocity * frameTime;
         }
     }

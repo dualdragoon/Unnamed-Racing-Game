@@ -19,7 +19,7 @@ namespace Kross_Kart
         private Level level;
         private Matrix translation, view, projection;
         private Model model;
-        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity;
+        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity, friction = new Vector3(0, 0, -(10.260796f / .44f) * 2f);
 
         #region Properties
         public BasicEffect Effect
@@ -79,6 +79,12 @@ namespace Kross_Kart
         {
             get { return acceleration; }
             set { acceleration = value; }
+        }
+
+        public Vector3 Friction
+        {
+            get { return friction; }
+            set { friction = value; }
         }
 
         public Vector3 Velocity
