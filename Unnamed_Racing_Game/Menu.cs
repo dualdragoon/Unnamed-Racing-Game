@@ -14,8 +14,14 @@ namespace Kross_Kart
 {
     class Menu
     {
+        Main main;
         Texture2D unPressed, pressed, eUnPressed, ePressed, cUnPressed, cPressed;
         Button test, test2, test3;
+
+        public Menu(Main main)
+        {
+            this.main = main;
+        }
 
         public void LoadContent()
         {
@@ -40,9 +46,23 @@ namespace Kross_Kart
             test3.Update(Main.CurrentMouse);
         }
 
+        public void Dispose()
+        {
+            test.Dispose();
+            test2.Dispose();
+            test3.Dispose();
+
+            unPressed.Dispose();
+            pressed.Dispose();
+            eUnPressed.Dispose();
+            ePressed.Dispose();
+            cUnPressed.Dispose();
+            cPressed.Dispose();
+        }
+
         public void StartGame(object sender, EventArgs args)
         {
-            Main.gameState = GameStates.Test;
+            main.GameState = GameStates.Test;
             test.ButtonPressed -= StartGame;
         }
 

@@ -19,10 +19,21 @@ namespace Kross_Kart
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
 
-        public static GameStates gameState = GameStates.MainMenu;
+        private GameStates gameState;
+        event EventHandler GameStateChanged;
 
         Menu menu;
         Level level;
+
+        public GameStates GameState
+        {
+            get { return gameState; }
+            set 
+            { 
+                gameState = value;
+                OnGameStateChange();
+            }
+        }
 
         public static GraphicsDeviceManager Graphics
         {
@@ -71,11 +82,9 @@ namespace Kross_Kart
             graphics.PreferredBackBufferHeight = 450;
             graphics.PreferredBackBufferWidth = 800;
             WindowCreated += WindowShown;
+            GameStateChanged += NewGameState;
 
             content = Content;
-
-            menu = new Menu();
-            level = new Level();
         }
 
         protected override void Initialize()
@@ -93,8 +102,8 @@ namespace Kross_Kart
         protected override void LoadContent()
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
-            menu.LoadContent();
-            level.LoadContent();
+
+            GameState = GameStates.MainMenu;
 
             base.LoadContent();
         }
@@ -143,6 +152,31 @@ namespace Kross_Kart
             spritebatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void NewGameState(object sender, EventArgs args)
+        {
+            switch(gameState)
+            {
+                case GameStates.MainMenu:
+                    menu = new Menu(this);
+                    menu.LoadContent();
+                    break;
+                case GameStates.Test:
+                    level = new Level();
+                    level.LoadContent();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnGameStateChange()
+        {
+            if (GameStateChanged != null)
+            {
+                GameStateChanged(this, EventArgs.Empty);
+            }
         }
     }
 }
