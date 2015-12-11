@@ -145,6 +145,7 @@ namespace Kross_Kart
                     level.Draw(GraphicsDevice);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     break;
+                //case 
                 default:
                     break;
             }
