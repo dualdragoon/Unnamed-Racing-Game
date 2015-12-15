@@ -35,11 +35,11 @@ namespace Kross_Kart
 
         public void Update(GameTime gameTime)
         {
-            position = Level.Player.Position - new Vector3(0, -7.5f, 15);
-            transformedPos = Vector3.Transform(position - Level.Player.Position, Matrix.RotationAxis(new Vector3(Level.Player.Position.X, 1, Level.Player.Position.Z), Level.Player.angle));
-            position = new Vector3(transformedPos.X, Level.Player.Position.Y + transformedPos.Y, transformedPos.Z);
+            position = Level.Player.position - new Vector3(0, -7.5f, 15);
+            //transformedPos = Vector3.Transform(position, Level.Player.Rotation);
+            //position = new Vector3(transformedPos.X, Level.Player.position.Y + transformedPos.Y, transformedPos.Z) - Level.Player.position;
 
-            view = Matrix.LookAtLH(position, Level.Player.Position, Vector3.Up);
+            view = Matrix.LookAtLH(position, Level.Player.position, Vector3.Up);
         }
     }
 }
