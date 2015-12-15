@@ -79,7 +79,7 @@ namespace Kross_Kart
             mouseManager = new MouseManager(this);
             keyboardManager = new KeyboardManager(this);
             IsMouseVisible = true;
-            graphics.PreferredBackBufferHeight = 450;
+            graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
             WindowCreated += WindowShown;
             GameStateChanged += NewGameState;

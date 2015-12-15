@@ -18,7 +18,7 @@ namespace Kross_Kart
 
         Main main;
         MenuType type = MenuType.Main;
-        Texture2D startUnPressed, startPressed, optionsUnPressed, optionsPressed, cUnPressed, cPressed;
+        Texture2D startUnPressed, startPressed, optionsUnPressed, optionsPressed, cUnPressed, cPressed, title;
         Button start, options, circle;
 
         public Menu(Main main)
@@ -31,6 +31,7 @@ namespace Kross_Kart
             switch (type)
             {
                 case MenuType.Main:
+                    title = Main.GameContent.Load<Texture2D>("Test/Logo");
                     startUnPressed = Main.GameContent.Load<Texture2D>("Test/Start");
                     startPressed = Main.GameContent.Load<Texture2D>("Test/Start Pressed");
                     optionsUnPressed = Main.GameContent.Load<Texture2D>("Test/Options");
@@ -118,6 +119,7 @@ namespace Kross_Kart
                 switch (type)
                 {
                     case MenuType.Main:
+                        spriteBatch.Draw(title, new Vector2(200, 0), Color.White);
                         spriteBatch.Draw(start.Texture, start.Position, Color.White);
                         spriteBatch.Draw(options.Texture, options.Position, Color.White);
                         spriteBatch.Draw(circle.Texture, circle.Position, Color.White);
