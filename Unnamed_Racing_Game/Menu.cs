@@ -31,15 +31,15 @@ namespace Kross_Kart
             switch (type)
             {
                 case MenuType.Main:
-                    title = Main.GameContent.Load<Texture2D>("Test/Logo");
-                    startUnPressed = Main.GameContent.Load<Texture2D>("Test/Start");
-                    startPressed = Main.GameContent.Load<Texture2D>("Test/Start Pressed");
-                    highScoresUnPressed = Main.GameContent.Load<Texture2D>("Test/High Scores");
-                    highScoresPressed = Main.GameContent.Load<Texture2D>("Test/High Scores Pressed");
-                    optionsUnPressed = Main.GameContent.Load<Texture2D>("Test/Options");
-                    optionsPressed = Main.GameContent.Load<Texture2D>("Test/Options Pressed");
-                    menuUnPressed = Main.GameContent.Load<Texture2D>("Test/Menu");
-                    menuPressed = Main.GameContent.Load<Texture2D>("Test/Menu Pressed");
+                    title = Main.GameContent.Load<Texture2D>("Menus/Logo");
+                    startUnPressed = Main.GameContent.Load<Texture2D>("Menus/Start");
+                    startPressed = Main.GameContent.Load<Texture2D>("Menus/Start Pressed");
+                    highScoresUnPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores");
+                    highScoresPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores Pressed");
+                    optionsUnPressed = Main.GameContent.Load<Texture2D>("Menus/Options");
+                    optionsPressed = Main.GameContent.Load<Texture2D>("Menus/Options Pressed");
+                    menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
+                    menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
 
                     start = new Button(new Vector2(500, 500), 173, 53, 1, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     highScore = new Button(new Vector2(200, 300), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
@@ -50,8 +50,8 @@ namespace Kross_Kart
                     break;
 
                 case MenuType.Options:
-                    highScoresUnPressed = Main.GameContent.Load<Texture2D>("Test/High Scores");
-                    highScoresPressed = Main.GameContent.Load<Texture2D>("Test/High Scores Pressed");
+                    highScoresUnPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores");
+                    highScoresPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores Pressed");
 
                     highScore = new Button(new Vector2(470, 540), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);

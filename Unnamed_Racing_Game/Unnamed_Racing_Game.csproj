@@ -101,37 +101,37 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Ellipse Test 1.png" />
-    <ToolkitTexture Include="Content\Test\Ellipse Test 2.png" />
+    <ToolkitTexture Include="Content\Menus\Ellipse Test 1.png" />
+    <ToolkitTexture Include="Content\Menus\Ellipse Test 2.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Button Base Pressed.png" />
-    <ToolkitTexture Include="Content\Test\Button Base Un-Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Button Base Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Button Base Un-Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Circular Button Base Pressed.png" />
-    <ToolkitTexture Include="Content\Test\Circular Button Base Un-Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Circular Button Base Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Circular Button Base Un-Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\High Scores.png" />
-    <ToolkitTexture Include="Content\Test\High Scores Pressed.png" />
-    <ToolkitTexture Include="Content\Test\Start.png" />
-    <ToolkitTexture Include="Content\Test\Start Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\High Scores.png" />
+    <ToolkitTexture Include="Content\Menus\High Scores Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Start.png" />
+    <ToolkitTexture Include="Content\Menus\Start Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Logo.png" />
+    <ToolkitTexture Include="Content\Menus\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Menu.png" />
+    <ToolkitTexture Include="Content\Menus\Menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Menu Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Menu Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Options Pressed.png" />
+    <ToolkitTexture Include="Content\Menus\Options Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitTexture Include="Content\Test\Options.png" />
+    <ToolkitTexture Include="Content\Menus\Options.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
