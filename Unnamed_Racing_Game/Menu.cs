@@ -14,12 +14,12 @@ namespace Kross_Kart
 {
     class Menu
     {
-        enum MenuType { Main, Credits };
+        enum MenuType { Main, Options };
 
         Main main;
         MenuType type = MenuType.Main;
-        Texture2D unPressed, pressed, eUnPressed, ePressed, cUnPressed, cPressed;
-        Button Rectangle, Ellipse, Circle;
+        Texture2D startUnPressed, startPressed, optionsUnPressed, optionsPressed, cUnPressed, cPressed;
+        Button start, options, circle;
 
         public Menu(Main main)
         {
@@ -31,28 +31,28 @@ namespace Kross_Kart
             switch (type)
             {
                 case MenuType.Main:
-                    unPressed = Main.GameContent.Load<Texture2D>("Test/Button Base Un-Pressed");
-                    pressed = Main.GameContent.Load<Texture2D>("Test/Button Base Pressed");
-                    eUnPressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 1");
-                    ePressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 2");
+                    startUnPressed = Main.GameContent.Load<Texture2D>("Test/Start");
+                    startPressed = Main.GameContent.Load<Texture2D>("Test/Start Pressed");
+                    optionsUnPressed = Main.GameContent.Load<Texture2D>("Test/Options");
+                    optionsPressed = Main.GameContent.Load<Texture2D>("Test/Options Pressed");
                     cUnPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Un-Pressed");
                     cPressed = Main.GameContent.Load<Texture2D>("Test/Circular Button Base Pressed");
 
-                    Rectangle = new Button(new Vector2(500, 150), 170, 90, 1, Main.CurrentMouse, unPressed, pressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-                    Ellipse = new Button(new Vector2(200, 300), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-                    Circle = new Button(new Vector2(100, 100), 100, 3, Main.CurrentMouse, cUnPressed, cPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    start = new Button(new Vector2(500, 150), 173, 53, 1, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    options = new Button(new Vector2(200, 300), 233, 42, 2, Main.CurrentMouse, optionsUnPressed, optionsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    circle = new Button(new Vector2(100, 100), 100, 3, Main.CurrentMouse, cUnPressed, cPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
-                    Rectangle.ButtonPressed += StartGame;
-                    Circle.ButtonPressed += Credits;
+                    start.ButtonPressed += StartGame;
+                    circle.ButtonPressed += Credits;
                     break;
 
-                case MenuType.Credits:
-                    eUnPressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 1");
-                    ePressed = Main.GameContent.Load<Texture2D>("Test/Ellipse Test 2");
+                case MenuType.Options:
+                    optionsUnPressed = Main.GameContent.Load<Texture2D>("Test/Options");
+                    optionsPressed = Main.GameContent.Load<Texture2D>("Test/Options Pressed");
 
-                    Ellipse = new Button(new Vector2(200, 300), 2, Main.CurrentMouse, eUnPressed, ePressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    options = new Button(new Vector2(200, 300), 233, 42, 2, Main.CurrentMouse, optionsUnPressed, optionsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
-                    Ellipse.ButtonPressed += MainMenu;
+                    options.ButtonPressed += MainMenu;
                     break;
 
                 default:
@@ -65,13 +65,13 @@ namespace Kross_Kart
             switch (type)
             {
                 case MenuType.Main:
-                    Rectangle.Update(Main.CurrentMouse);
-                    Ellipse.Update(Main.CurrentMouse);
-                    Circle.Update(Main.CurrentMouse);
+                    start.Update(Main.CurrentMouse);
+                    options.Update(Main.CurrentMouse);
+                    circle.Update(Main.CurrentMouse);
                     break;
 
-                case MenuType.Credits:
-                    Ellipse.Update(Main.CurrentMouse);
+                case MenuType.Options:
+                    options.Update(Main.CurrentMouse);
                     break;
 
                 default:
@@ -81,14 +81,14 @@ namespace Kross_Kart
 
         public void Dispose()
         {
-            Rectangle.Dispose();
-            Ellipse.Dispose();
-            Circle.Dispose();
+            start.Dispose();
+            options.Dispose();
+            circle.Dispose();
 
-            unPressed.Dispose();
-            pressed.Dispose();
-            eUnPressed.Dispose();
-            ePressed.Dispose();
+            startUnPressed.Dispose();
+            startPressed.Dispose();
+            optionsUnPressed.Dispose();
+            optionsPressed.Dispose();
             cUnPressed.Dispose();
             cPressed.Dispose();
         }
@@ -96,19 +96,19 @@ namespace Kross_Kart
         public void StartGame(object sender, EventArgs args)
         {
             main.GameState = GameStates.Test;
-            Rectangle.ButtonPressed -= StartGame;
+            start.ButtonPressed -= StartGame;
         }
         public void Credits(object sender, EventArgs args)
         {
-            type = MenuType.Credits;
+            type = MenuType.Options;
             LoadContent();
-            Circle.ButtonPressed -= Credits;
+            circle.ButtonPressed -= Credits;
         }
         public void MainMenu(object sender, EventArgs args)
         {
             type = MenuType.Main;
             LoadContent();
-            Ellipse.ButtonPressed -= MainMenu;
+            options.ButtonPressed -= MainMenu;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -118,13 +118,13 @@ namespace Kross_Kart
                 switch (type)
                 {
                     case MenuType.Main:
-                        spriteBatch.Draw(Rectangle.Texture, Rectangle.Position, Color.White);
-                        spriteBatch.Draw(Ellipse.Texture, Ellipse.Position, Color.White);
-                        spriteBatch.Draw(Circle.Texture, Circle.Position, Color.White);
+                        spriteBatch.Draw(start.Texture, start.Position, Color.White);
+                        spriteBatch.Draw(options.Texture, options.Position, Color.White);
+                        spriteBatch.Draw(circle.Texture, circle.Position, Color.White);
                         break;
 
-                    case MenuType.Credits:
-                        spriteBatch.Draw(Ellipse.Texture, Ellipse.Position, Color.White);
+                    case MenuType.Options:
+                        spriteBatch.Draw(options.Texture, options.Position, Color.White);
                         break;
 
                     default:

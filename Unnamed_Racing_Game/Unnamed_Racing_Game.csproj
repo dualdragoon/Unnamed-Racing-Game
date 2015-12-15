@@ -113,12 +113,12 @@
     <ToolkitTexture Include="Content\Test\Circular Button Base Un-Pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Test\HighScores.png" />
-    <Content Include="Content\Test\HighScoresPressed.png" />
-    <Content Include="Content\Test\Options.png" />
-    <Content Include="Content\Test\OptionsPressed.png" />
-    <Content Include="Content\Test\Start.png" />
-    <Content Include="Content\Test\StartPressed.png" />
+    <ToolkitTexture Include="Content\Test\High Scores.png" />
+    <ToolkitTexture Include="Content\Test\High Scores Pressed.png" />
+    <ToolkitTexture Include="Content\Test\Options.png" />
+    <ToolkitTexture Include="Content\Test\Options Pressed.png" />
+    <ToolkitTexture Include="Content\Test\Start.png" />
+    <ToolkitTexture Include="Content\Test\Start Pressed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
