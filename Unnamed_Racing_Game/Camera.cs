@@ -35,7 +35,7 @@ namespace Kross_Kart
 
         public void Update(GameTime gameTime)
         {
-            position = Level.Player.position - new Vector3(0, -7.5f, 15);
+            position = (Level.Player.position - (Level.Player.World.Backward * 15)) + new Vector3(0, 7.5f, 0);
             //transformedPos = Vector3.Transform(position, Level.Player.Rotation);
             //position = new Vector3(transformedPos.X, Level.Player.position.Y + transformedPos.Y, transformedPos.Z) - Level.Player.position;
 

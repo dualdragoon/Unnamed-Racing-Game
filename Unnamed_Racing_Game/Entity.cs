@@ -15,11 +15,11 @@ namespace Kross_Kart
     {
         private BasicEffect effect;
         private event EventHandler onCreated;
-        public float angle, frameTime;
+        public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
         private Matrix translation, view, projection, rotation;
         private Model model;
-        public Vector3 rotationInRadians, position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity, friction = new Vector3(0, 0, -(10.260796f / .44f) * 2f);
+        public Vector3 rotationInRadians, position;
 
         #region Properties
         public BasicEffect Effect
@@ -78,13 +78,13 @@ namespace Kross_Kart
 
         public KartEntity(Level level)
         {
+            acceleration = 0;
+            velocity = 0;
             angle = 0;
             World = Matrix.Zero;
             View = Matrix.Zero;
             Projection = Matrix.Zero;
             position = Vector3.Zero;
-            acceleration = Vector3.Zero;
-            velocity = Vector3.Zero;
             Level = level;
         }
 
