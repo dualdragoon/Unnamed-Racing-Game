@@ -37,6 +37,8 @@ namespace Kross_Kart
             Effect.DirectionalLight0.DiffuseColor = Color.BurlyWood.ToVector3();
             Effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
             Effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
+
+            Rotation = Matrix.Identity;
         }
 
         public void Update(GameTime gameTime, Matrix view, Matrix projection)
@@ -48,18 +50,20 @@ namespace Kross_Kart
 
             if (grounded)
             {
-                Velocity -= new Vector3(0, Velocity.Y, 0);
+                velocity -= new Vector3(0, velocity.Y, 0);
             }
             else
             {
                 ApplyGravity();
             }
 
-            temp = Vector3.Transform(Acceleration, Matrix.RotationAxis(new Vector3(Position.X, 1, Position.Z), angle));
-            Acceleration = new Vector3(temp.X, temp.Y, temp.Z);
+            Rotation = Matrix.RotationY(angle);
 
-            temp = Vector3.Transform(Friction, Matrix.RotationAxis(new Vector3(Position.X, 1, Position.Z), angle));
-            Friction = new Vector3(temp.X, temp.Y, temp.Z);
+            temp = Vector3.Transform(acceleration, Rotation);
+            acceleration = new Vector3(temp.X, temp.Y, temp.Z);
+
+            temp = Vector3.Transform(friction, Rotation);
+            friction = new Vector3(temp.X, temp.Y, temp.Z);
 
             if (!s.IsRunning)
             {
@@ -69,7 +73,7 @@ namespace Kross_Kart
             Input();
 
             //angle = MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f);
-            World = Matrix.RotationY(angle) * Matrix.Translation(Position);
+            World = Rotation * Matrix.Translation(position);
 
             if (s.ElapsedMilliseconds == 5625)
             {
@@ -78,17 +82,17 @@ namespace Kross_Kart
 
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.D1))
             {
-                Position = Vector3.Zero;
+                position = Vector3.Zero;
             }
         }
 
         public override void ApplyGravity()
         {
-            if (Velocity.Y > -19)
+            if (velocity.Y > -19)
             {
-                Velocity += GravitationalAcceleration * frameTime; 
+                velocity += gravitationalAcceleration * frameTime; 
             }
-            Position += Velocity * frameTime;
+            position += velocity * frameTime;
         }
 
         private void Input()
@@ -109,19 +113,19 @@ namespace Kross_Kart
 
             if (accel)
             {
-                Velocity += Acceleration * frameTime;
+                velocity += acceleration * frameTime;
             }
 
-            if (!accel && Velocity.Z > 0)
+            if (!accel && velocity.Z > 0)
             {
-                Velocity += Friction * frameTime;
-                if (Velocity.Z <= 0)
+                velocity += friction * frameTime;
+                if (velocity.Z <= 0)
                 {
-                    Velocity = new Vector3(Velocity.X, Velocity.Y, 0);
+                    velocity.Z = 0;
                 }
             }
 
-            Position += Velocity * frameTime;
+            position += velocity * frameTime;
         }
     }
 }

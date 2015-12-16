@@ -67,7 +67,7 @@ namespace Kross_Kart
 
             test.LoadContent();
 
-            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 480f, .1f, 100f);
+            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 600f, .1f, 100f);
         }
 
         public void Update(GameTime gameTime)

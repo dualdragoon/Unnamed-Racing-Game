@@ -17,9 +17,9 @@ namespace Kross_Kart
         private event EventHandler onCreated;
         public float angle, frameTime;
         private Level level;
-        private Matrix translation, view, projection;
+        private Matrix translation, view, projection, rotation;
         private Model model;
-        private Vector3 position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity, friction = new Vector3(0, 0, -(10.260796f / .44f) * 2f);
+        public Vector3 rotationInRadians, position, gravitationalAcceleration = new Vector3(0, -(10.260796f / .22f) * 2f, 0), acceleration = new Vector3(0, 0, (10.260796f / .22f) * 2f), velocity, friction = new Vector3(0, 0, -(10.260796f / .44f) * 2f);
 
         #region Properties
         public BasicEffect Effect
@@ -58,39 +58,16 @@ namespace Kross_Kart
             set { translation = value; }
         }
 
+        public Matrix Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
         public Model Model
         {
             get { return model; }
             set { model = value; }
-        }
-
-        public Vector3 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Vector3 GravitationalAcceleration
-        {
-            get { return gravitationalAcceleration; }
-        }
-
-        public Vector3 Acceleration
-        {
-            get { return acceleration; }
-            set { acceleration = value; }
-        }
-
-        public Vector3 Friction
-        {
-            get { return friction; }
-            set { friction = value; }
-        }
-
-        public Vector3 Velocity
-        {
-            get { return velocity; }
-            set { velocity = value; }
         }
         #endregion
 
@@ -105,9 +82,9 @@ namespace Kross_Kart
             World = Matrix.Zero;
             View = Matrix.Zero;
             Projection = Matrix.Zero;
-            Position = Vector3.Zero;
-            Acceleration = Vector3.Zero;
-            Velocity = Vector3.Zero;
+            position = Vector3.Zero;
+            acceleration = Vector3.Zero;
+            velocity = Vector3.Zero;
             Level = level;
         }
 
@@ -119,8 +96,8 @@ namespace Kross_Kart
 
         public virtual void ApplyGravity()
         {
-            Velocity += GravitationalAcceleration * frameTime;
-            Position += Velocity * frameTime;
+            velocity += gravitationalAcceleration * frameTime;
+            position += velocity * frameTime;
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
