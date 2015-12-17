@@ -142,8 +142,8 @@ namespace Kross_Kart
                     break;
                 case GameStates.Test:
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
-                    level.Draw(GraphicsDevice);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
+                    level.Draw(GraphicsDevice, spritebatch);
                     break;
                 //case 
                 default:

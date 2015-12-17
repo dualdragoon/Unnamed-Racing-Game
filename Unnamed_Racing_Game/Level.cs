@@ -14,6 +14,7 @@ namespace Kross_Kart
     {
         private BasicEffect effect;
         private Camera cam;
+        private SpriteFont font;
         public Matrix translation, view, projection;
         private Model model;
         private Test test;
@@ -57,6 +58,7 @@ namespace Kross_Kart
         public void LoadContent()
         {
             model = Main.GameContent.Load<Model>("Test/Test Room");
+            font = Main.GameContent.Load<SpriteFont>("Font/Font");
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
             /*effect.LightingEnabled = true;
@@ -80,10 +82,12 @@ namespace Kross_Kart
             view = Cam.View;
         }
 
-        public void Draw(GraphicsDevice graphicsDevice)
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             model.Draw(graphicsDevice, translation, view, projection, effect);
             test.Draw(graphicsDevice);
+
+            spriteBatch.DrawString(font, CollisionHelper.IsCollision(Player, this).ToString(), Vector2.Zero, Color.Black);
         }
 
         private void OnPlayerCreate(object sender, EventArgs args)

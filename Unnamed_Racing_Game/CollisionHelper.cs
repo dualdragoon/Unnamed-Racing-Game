@@ -25,6 +25,12 @@ namespace Kross_Kart
             return false;
         }
 
+        /// <summary>
+        /// Moves a BoundingSphere by a given world matrix.
+        /// </summary>
+        /// <param name="m">Matrix to translate BoundingSphere by.</param>
+        /// <param name="b">BoundingSphere to translate.</param>
+        /// <returns></returns>
         private static BoundingSphere TransformBoundingSphere(Matrix m, BoundingSphere b)
         {
             var worldCenter = Vector3.Transform(b.Center, m);
