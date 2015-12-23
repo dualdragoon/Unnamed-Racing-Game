@@ -113,6 +113,7 @@
     <ToolkitModel Include="Content\Test\Sphere.fbx" />
     <ToolkitModel Include="Content\Test\Test Room.fbx" />
     <ToolkitModel Include="Content\Test\Test Kart.fbx" />
+    <ToolkitModel Include="Content\Test\Test Room 2.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
