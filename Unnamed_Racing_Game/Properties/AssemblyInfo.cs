@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Kross_Kart")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Ingham ISD")]
+[assembly: AssemblyCompany("Ephemeral Studios LLC")]
 [assembly: AssemblyProduct("Kross_Kart")]
-[assembly: AssemblyCopyright("Copyright © Ingham ISD 2015")]
+[assembly: AssemblyCopyright("Copyright © LLC 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

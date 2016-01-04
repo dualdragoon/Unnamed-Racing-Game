@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using SharpDX.Toolkit.Graphics;
 
 namespace Kross_Kart
 {
@@ -13,16 +14,10 @@ namespace Kross_Kart
 
         public static bool IsCollision(KartEntity kart, Level level)
         {
-            BoundingSphere sphere1 = kart.Model.CalculateBounds(kart.World), sphere2;
-            for (int i = 0; i < level.WorldModel.Meshes.Count; i++)
-            {
-                sphere2 = TransformBoundingSphere(level.translation, level.WorldModel.Meshes[i].BoundingSphere);
-                if (Collision.SphereIntersectsSphere(ref sphere1, ref sphere2))
-                {
-                    return true;
-                }
-            }
-            return false;
+            BoundingSphere bs1 = CreateBoundingSphere(kart.Model, kart.World);
+            BoundingSphere bs2 = CreateBoundingSphere(level.WorldModel, level.translation);
+
+            return bs1.Intersects(bs2);
         }
 
         /// <summary>
@@ -36,6 +31,21 @@ namespace Kross_Kart
             var worldCenter = Vector3.Transform(b.Center, m);
 
             return new BoundingSphere(new Vector3(worldCenter.X, worldCenter.Y, worldCenter.Z), b.Radius);
+        }
+
+        private static BoundingSphere CreateBoundingSphere(Model model, Matrix world)
+        {
+            Matrix[] boneTransforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+
+            BoundingSphere meshSphere, boundingSphere = new BoundingSphere();
+
+            for (int i = 0; i < model.Meshes.Count; i++)
+            {
+                meshSphere = TransformBoundingSphere(boneTransforms[i], model.Meshes[i].BoundingSphere);
+                boundingSphere = BoundingSphere.Merge(boundingSphere, meshSphere);
+            }
+            return TransformBoundingSphere(world, boundingSphere);
         }
     }
 }
