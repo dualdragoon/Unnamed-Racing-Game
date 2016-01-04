@@ -57,7 +57,7 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
-            model = Main.GameContent.Load<Model>("Test/Test Room");
+            model = Main.GameContent.Load<Model>("Test/Test2");
             font = Main.GameContent.Load<SpriteFont>("Font/Font");
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
