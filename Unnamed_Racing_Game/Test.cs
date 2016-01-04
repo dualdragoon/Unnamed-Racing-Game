@@ -17,7 +17,7 @@ namespace Kross_Kart
     /// </summary>
     sealed class Test : KartEntity
     {
-        bool turnLeft, turnRight, grounded, accel;
+        bool turnLeft, turnRight, grounded, accel, backward;
         Stopwatch s = new Stopwatch();
 
         public Test(Level level)
@@ -94,28 +94,25 @@ namespace Kross_Kart
             turnLeft = Main.CurrentKeyboard.IsKeyDown(Keys.A);
             turnRight = Main.CurrentKeyboard.IsKeyDown(Keys.D);
             accel = Main.CurrentKeyboard.IsKeyDown(Keys.W);
+            backward = Main.CurrentKeyboard.IsKeyDown(Keys.S);
 
-            if (turnLeft && !turnRight)
-            {
-                angle -= MathUtil.DegreesToRadians(5);
-            }
-            else if (turnRight && ! turnLeft)
-            {
-                angle += MathUtil.DegreesToRadians(5);
-            }
+            if (turnLeft && !turnRight) angle -= MathUtil.DegreesToRadians(5);
+            else if (turnRight && ! turnLeft) angle += MathUtil.DegreesToRadians(5);
 
-            if (accel)
-            {
-                velocity += acceleration * frameTime;
-            }
+            if (accel) velocity += acceleration * frameTime;
+
+            if (backward) velocity -= acceleration * frameTime;
 
             if (!accel && velocity > 0)
             {
                 velocity += friction * frameTime;
-                if (velocity <= 0)
-                {
-                    velocity = 0;
-                }
+                if (velocity <= 0) velocity = 0;
+            }
+
+            if (!backward && velocity < 0)
+            {
+                velocity -= friction * frameTime;
+                if (velocity >= 0) velocity = 0;
             }
 
             position -= World.Forward * (velocity * frameTime);
