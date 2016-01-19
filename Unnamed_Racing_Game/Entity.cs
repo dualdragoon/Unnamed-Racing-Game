@@ -14,6 +14,7 @@ namespace Kross_Kart
     class KartEntity
     {
         private BasicEffect effect;
+        private byte[, ,] Weight;
         private event EventHandler onCreated;
         public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
@@ -92,6 +93,59 @@ namespace Kross_Kart
         {
             Effect = new BasicEffect(null);
             Model = null;
+        }
+
+        public List<Vector3> Pathfind(Vector3 start, Vector3 end)
+        {
+            var closedSet = new List<Vector3>();
+            var openSet = new List<Vector3> { start };
+            var cameFrom = new Dictionary<Vector3, Vector3>();
+            var currentDistance = new Dictionary<Vector3, int>();
+            var predictedDistance = new Dictionary<Vector3, float>();
+
+            currentDistance.Add(start, 0);
+            predictedDistance.Add(start, 0 + +Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y) + Math.Abs(start.Z - end.Z));
+
+            while (openSet.Count > 0)
+            {
+                var current = (from p in openSet orderby predictedDistance[p] ascending select p).First();
+
+                if (current.X == end.X && current.Y == end.Y && current.Z == end.Z) return ReconstructPath(cameFrom, end);
+
+                openSet.Remove(current);
+                closedSet.Add(current);
+
+                foreach (var neighbor in )
+            }
+        }
+
+        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node)
+        {
+            var nodes = new List<Vector3>();
+
+            // forward
+            if (Weight[(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
+
+            // right
+            if (Weight[(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
+
+            // backward
+            if (Weight[(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
+
+            // left
+            if (Weight[(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
+        }
+
+        private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
+        {
+            if (!cameFrom.Keys.Contains(current))
+            {
+                return new List<Vector3> { current };
+            }
+
+            var path = ReconstructPath(cameFrom, cameFrom[current]);
+            path.Add(current);
+            return path;
         }
 
         public virtual void ApplyGravity()
