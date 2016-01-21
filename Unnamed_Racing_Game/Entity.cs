@@ -74,7 +74,7 @@ namespace Kross_Kart
 
         public KartEntity()
         {
-
+            
         }
 
         public KartEntity(Level level)
@@ -115,8 +115,26 @@ namespace Kross_Kart
                 openSet.Remove(current);
                 closedSet.Add(current);
 
-                foreach (var neighbor in )
+                foreach (var neighbor in GetNeighborNodes(current))
+                {
+                    var tempCurrentDistance = currentDistance[current] + 1;
+
+                    if (closedSet.Contains(neighbor) && tempCurrentDistance >= currentDistance[neighbor]) continue;
+
+                    if (!closedSet.Contains(neighbor) || tempCurrentDistance < currentDistance[neighbor])
+                    {
+                        if (cameFrom.Keys.Contains(neighbor)) cameFrom[neighbor] = current;
+                        else cameFrom.Add(neighbor, current);
+
+                        currentDistance[neighbor] = tempCurrentDistance;
+                        predictedDistance[neighbor] = currentDistance[neighbor] + Math.Abs(neighbor.X - end.X) + Math.Abs(neighbor.Y - end.Y) + Math.Abs(neighbor.Z - end.Z);
+
+                        if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
+                    }
+                }
             }
+
+            throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", start.X, start.Y, start.Z, end.X, end.Y, end.Z));
         }
 
         private IEnumerable<Vector3> GetNeighborNodes(Vector3 node)
@@ -134,6 +152,8 @@ namespace Kross_Kart
 
             // left
             if (Weight[(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
+
+            return nodes;
         }
 
         private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
