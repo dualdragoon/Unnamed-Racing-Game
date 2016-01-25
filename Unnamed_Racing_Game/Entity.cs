@@ -14,10 +14,10 @@ namespace Kross_Kart
     class KartEntity
     {
         private BasicEffect effect;
-        private byte[, ,] Weight;
         private event EventHandler onCreated;
         public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
+        private List<byte[, ,]> Weight = new List<byte[, ,]>(8);
         private Matrix translation, view, projection, rotation;
         private Model model;
         public Vector3 rotationInRadians, position;

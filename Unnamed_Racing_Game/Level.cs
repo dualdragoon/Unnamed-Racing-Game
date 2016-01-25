@@ -14,11 +14,13 @@ namespace Kross_Kart
     {
         private BasicEffect effect;
         private Camera cam;
-        private SpriteFont font;
+        private List<byte[, ,]> weight = new List<byte[, ,]>(8);
+        private List<Model> walls;
         public Matrix translation, view, projection;
         private Model model;
+        private SpriteFont font;
         private Test test;
-        private Vector3 position = new Vector3(0, -10, 0);
+        private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound, upperWeightBound;
 
         #region Properties
 
@@ -94,6 +96,33 @@ namespace Kross_Kart
         {
             view = Cam.View;
             test.OnCreated -= OnPlayerCreate;
+        }
+
+        private void SetPosWeight()
+        {
+            for (int i = 0; i < walls.Count; i++)
+            {
+
+            }
+        }
+
+        private int CheckSector(Vector3 coord)
+        {
+            List<bool> sector = new List<bool>(8);
+            sector[0] = (coord.X > 0 && coord.Y > 0 && coord.Z > 0);
+            sector[1] = (coord.X < 0 && coord.Y > 0 && coord.Z > 0);
+            sector[2] = (coord.X < 0 && coord.Y > 0 && coord.Z < 0);
+            sector[3] = (coord.X > 0 && coord.Y > 0 && coord.Z < 0);
+            sector[4] = (coord.X > 0 && coord.Y < 0 && coord.Z > 0);
+            sector[5] = (coord.X < 0 && coord.Y < 0 && coord.Z > 0);
+            sector[6] = (coord.X < 0 && coord.Y < 0 && coord.Z < 0);
+            sector[7] = (coord.X > 0 && coord.Y < 0 && coord.Z < 0);
+
+            for (int i = 0; i < sector.Count; i++)
+            {
+                if (sector[i]) return i++;
+            }
+            return 0;
         }
     }
 }
