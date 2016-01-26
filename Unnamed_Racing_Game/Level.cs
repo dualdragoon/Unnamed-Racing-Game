@@ -20,7 +20,7 @@ namespace Kross_Kart
         private Model model;
         private SpriteFont font;
         private Test test;
-        private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound, upperWeightBound;
+        private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10);
 
         #region Properties
 
@@ -102,7 +102,21 @@ namespace Kross_Kart
         {
             for (int i = 0; i < walls.Count; i++)
             {
-
+                for (int l = 0; l < walls[i].Meshes.Count; l++)
+                {
+                    for (int k = (int)lowerWeightBound.Y; k < upperWeightBound.Y; k++)
+                    {
+                        for (int j = (int)lowerWeightBound.X; j <= upperWeightBound.X; j++)
+                        {
+                            for (int o = (int)lowerWeightBound.Z; o <= upperWeightBound.Z; o++)
+                            {
+                                BoundingSphere sphere = walls[i].Meshes[l].BoundingSphere;
+                                Vector3 point = new Vector3(j, k, o);
+                                if (weight[CheckSector(point)][j, k, o] != (byte)1) weight[CheckSector(point)][j, k, o] = (Collision.SphereContainsPoint(ref sphere, ref point) == ContainmentType.Contains) ? (byte)1 : (byte)0;
+                            }
+                        }
+                    }
+                }
             }
         }
 
