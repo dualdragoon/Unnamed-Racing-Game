@@ -17,7 +17,7 @@ namespace Kross_Kart
         private event EventHandler onCreated;
         public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
-        private List<byte[, ,]> Weight = new List<byte[, ,]>(8);
+        private List<byte[,,]> Weight = new List<byte[,,]>(8);
         private Matrix translation, view, projection, rotation;
         private Model model;
         public Vector3 rotationInRadians, position;
@@ -74,10 +74,10 @@ namespace Kross_Kart
 
         public KartEntity()
         {
-            
+
         }
 
-        public KartEntity(Level level)
+        public KartEntity(Level level, List<byte[,,]> weight)
         {
             acceleration = 0;
             velocity = 0;
@@ -87,6 +87,7 @@ namespace Kross_Kart
             Projection = Matrix.Zero;
             position = Vector3.Zero;
             Level = level;
+            Weight = weight;
         }
 
         public virtual void LoadContent()
@@ -137,21 +138,24 @@ namespace Kross_Kart
             throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", start.X, start.Y, start.Z, end.X, end.Y, end.Z));
         }
 
-        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node)
+        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node, int sector)
         {
+            int sectorF, sectorR, sectorB, sectorL;
             var nodes = new List<Vector3>();
+            
+            sectorF = ((node.Z - 1) < 0) ? 
 
             // forward
-            if (Weight[(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
+            if (Weight[sector][(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
 
             // right
-            if (Weight[(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
+            if (Weight[sector][(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
 
             // backward
-            if (Weight[(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
+            if (Weight[sector][(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
 
             // left
-            if (Weight[(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
+            if (Weight[sector][(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
 
             return nodes;
         }

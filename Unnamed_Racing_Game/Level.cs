@@ -15,9 +15,8 @@ namespace Kross_Kart
         private BasicEffect effect;
         private Camera cam;
         private List<byte[, ,]> weight = new List<byte[, ,]>(8);
-        private List<Model> walls;
-        public Matrix translation, view, projection;
-        private Model model;
+        private List<Room> rooms;
+        public Matrix view, projection;
         private SpriteFont font;
         private Test test;
         private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10);
@@ -34,12 +33,6 @@ namespace Kross_Kart
         {
             get { return cam; }
             set { cam = value; }
-        }
-
-        public Model WorldModel
-        {
-            get { return model; }
-            set { model = value; }
         }
 
         public Test Player
@@ -59,7 +52,6 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
-            model = Main.GameContent.Load<Model>("Test/Test2");
             font = Main.GameContent.Load<SpriteFont>("Font/Font");
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
@@ -76,8 +68,6 @@ namespace Kross_Kart
 
         public void Update(GameTime gameTime)
         {
-            translation = Matrix.Translation(position);
-
             Cam.Update(gameTime);
             Player.Update(gameTime, view, projection);
 
@@ -86,7 +76,11 @@ namespace Kross_Kart
 
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            model.Draw(graphicsDevice, translation, view, projection, effect);
+            foreach (Room r in rooms)
+            {
+                r.Draw(graphicsDevice);
+            }
+
             test.Draw(graphicsDevice);
 
             spriteBatch.DrawString(font, CollisionHelper.IsCollision(Player, this).ToString(), Vector2.Zero, Color.Black);
@@ -100,9 +94,9 @@ namespace Kross_Kart
 
         private void SetPosWeight()
         {
-            for (int i = 0; i < walls.Count; i++)
+            for (int i = 0; i < rooms.Count; i++)
             {
-                for (int l = 0; l < walls[i].Meshes.Count; l++)
+                for (int l = 0; l < rooms[i].Walls.Meshes.Count; l++)
                 {
                     for (int k = (int)lowerWeightBound.Y; k < upperWeightBound.Y; k++)
                     {
@@ -110,7 +104,7 @@ namespace Kross_Kart
                         {
                             for (int o = (int)lowerWeightBound.Z; o <= upperWeightBound.Z; o++)
                             {
-                                BoundingSphere sphere = walls[i].Meshes[l].BoundingSphere;
+                                BoundingSphere sphere = rooms[i].Walls.Meshes[l].BoundingSphere;
                                 Vector3 point = new Vector3(j, k, o);
                                 if (weight[CheckSector(point)][j, k, o] != (byte)1) weight[CheckSector(point)][j, k, o] = (Collision.SphereContainsPoint(ref sphere, ref point) == ContainmentType.Contains) ? (byte)1 : (byte)0;
                             }
@@ -120,7 +114,7 @@ namespace Kross_Kart
             }
         }
 
-        private int CheckSector(Vector3 coord)
+        public int CheckSector(Vector3 coord)
         {
             List<bool> sector = new List<bool>(8);
             sector[0] = (coord.X > 0 && coord.Y > 0 && coord.Z > 0);
