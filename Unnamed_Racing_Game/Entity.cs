@@ -138,9 +138,10 @@ namespace Kross_Kart
             throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", start.X, start.Y, start.Z, end.X, end.Y, end.Z));
         }
 
-        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node, int sector)
+        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node)
         {
-            int sectorF, sectorR, sectorB, sectorL;
+            int sector, sectorF, sectorR, sectorB, sectorL;
+            sector = Level.CheckSector(node);
             var nodes = new List<Vector3>();
             
             sectorF = ((node.Z - 1) < 0) ? 
@@ -158,6 +159,11 @@ namespace Kross_Kart
             if (Weight[sector][(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
 
             return nodes;
+        }
+
+        private int CheckNeighborNodeSector(Vector3 node)
+        {
+
         }
 
         private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)

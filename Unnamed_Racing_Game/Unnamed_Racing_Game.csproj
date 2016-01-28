@@ -116,6 +116,7 @@
     <ToolkitModel Include="Content\Test\Test Kart.fbx" />
     <ToolkitModel Include="Content\Test\Test Room 2.fbx" />
     <ToolkitModel Include="Content\Test\Test2.fbx" />
+    <ToolkitModel Include="Content\Test\Test Kart - Copy.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
