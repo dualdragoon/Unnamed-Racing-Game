@@ -113,24 +113,5 @@ namespace Kross_Kart
                 }
             }
         }
-
-        public int CheckSector(Vector3 coord)
-        {
-            List<bool> sector = new List<bool>(8);
-            sector[0] = (coord.X > 0 && coord.Y > 0 && coord.Z > 0);
-            sector[1] = (coord.X < 0 && coord.Y > 0 && coord.Z > 0);
-            sector[2] = (coord.X < 0 && coord.Y > 0 && coord.Z < 0);
-            sector[3] = (coord.X > 0 && coord.Y > 0 && coord.Z < 0);
-            sector[4] = (coord.X > 0 && coord.Y < 0 && coord.Z > 0);
-            sector[5] = (coord.X < 0 && coord.Y < 0 && coord.Z > 0);
-            sector[6] = (coord.X < 0 && coord.Y < 0 && coord.Z < 0);
-            sector[7] = (coord.X > 0 && coord.Y < 0 && coord.Z < 0);
-
-            for (int i = 0; i < sector.Count; i++)
-            {
-                if (sector[i]) return i++;
-            }
-            return 0;
-        }
     }
 }
