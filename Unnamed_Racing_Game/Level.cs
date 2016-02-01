@@ -35,6 +35,11 @@ namespace Kross_Kart
             set { cam = value; }
         }
 
+        public List<Room> Rooms
+        {
+            get { return rooms; }
+        }
+
         public Test Player
         {
             get { return test; }
@@ -52,6 +57,13 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
+            LoadRooms();
+
+            foreach (Room r in rooms)
+            {
+                r.LoadContent();
+            }
+
             font = Main.GameContent.Load<SpriteFont>("Font/Font");
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
@@ -64,6 +76,12 @@ namespace Kross_Kart
             test.LoadContent();
 
             projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 600f, .1f, 100f);
+        }
+
+        private void LoadRooms()
+        {
+            rooms = new List<Room>();
+            rooms.Add(new Room(this, "Test Room"));
         }
 
         public void Update(GameTime gameTime)
@@ -106,7 +124,7 @@ namespace Kross_Kart
                             {
                                 BoundingSphere sphere = rooms[i].Walls.Meshes[l].BoundingSphere;
                                 Vector3 point = new Vector3(j, k, o);
-                                if (weight[CheckSector(point)][j, k, o] != (byte)1) weight[CheckSector(point)][j, k, o] = (Collision.SphereContainsPoint(ref sphere, ref point) == ContainmentType.Contains) ? (byte)1 : (byte)0;
+                                if (weight[NodeHelper.CheckSector(point)][j, k, o] != (byte)1) weight[NodeHelper.CheckSector(point)][j, k, o] = (Collision.SphereContainsPoint(ref sphere, ref point) == ContainmentType.Contains) ? (byte)1 : (byte)0;
                             }
                         }
                     }

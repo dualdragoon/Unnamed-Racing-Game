@@ -10,7 +10,7 @@ namespace Kross_Kart
     static class NodeHelper
     {
 
-        public int CheckSector(Vector3 coord)
+        public static int CheckSector(Vector3 coord)
         {
             List<bool> sector = new List<bool>(8);
             sector[0] = (coord.X > 0 && coord.Y > 0 && coord.Z > 0);
@@ -29,25 +29,28 @@ namespace Kross_Kart
             return 0;
         }
 
-        private IEnumerable<Vector3> GetNeighborNodes(Vector3 node, List<byte[,,]> Weight)
+        public static IEnumerable<Vector3> GetNeighborNodes(Vector3 node, List<byte[,,]> Weight)
         {
             int sector, sectorF, sectorR, sectorB, sectorL;
             sector = CheckSector(node);
             var nodes = new List<Vector3>();
-            
-            sectorF = ((node.Z - 1) < 0) ? 
+
+            sectorF = CheckSector(new Vector3(node.X, node.Y, node.Z - 1));
+            sectorR = CheckSector(new Vector3(node.X + 1, node.Y, node.Z));
+            sectorB = CheckSector(new Vector3(node.X, node.Y, node.Z + 1));
+            sectorL = CheckSector(new Vector3(node.X - 1, node.Y, node.Z));
 
             // forward
-            if (Weight[sector][(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
+            if (Weight[sectorF][(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
 
             // right
-            if (Weight[sector][(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
+            if (Weight[sectorR][(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
 
             // backward
-            if (Weight[sector][(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
+            if (Weight[sectorB][(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
 
             // left
-            if (Weight[sector][(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
+            if (Weight[sectorL][(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
 
             return nodes;
         }

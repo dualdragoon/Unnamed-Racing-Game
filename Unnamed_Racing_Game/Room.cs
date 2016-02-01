@@ -11,10 +11,10 @@ namespace Kross_Kart
     class Room
     {
         private Level level;
-        private Matrix translation;
+        public Matrix translation;
         private Model walls, floor;
         private string room;
-        private Vector3 position;
+        private Vector3 position = new Vector3(0, -10, 0);
 
         public Model Walls
         {
@@ -30,14 +30,22 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
-            floor = Main.GameContent.Load<Model>("" + room + " floor");
-            walls = Main.GameContent.Load<Model>("" + room + " walls");
+            try
+            {
+                floor = Main.GameContent.Load<Model>("" + room + " floor");
+                walls = Main.GameContent.Load<Model>("" + room + " walls");
+            }
+            catch { walls = Main.GameContent.Load<Model>(string.Format("Test/{0}", room)); }
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
         {
-            Walls.Draw(graphicsDevice, translation, level.view, level.projection, level.Effect);
-            floor.Draw(graphicsDevice, translation, level.view, level.projection, level.Effect);
+            try
+            {
+                Walls.Draw(graphicsDevice, translation, level.view, level.projection, level.Effect);
+                floor.Draw(graphicsDevice, translation, level.view, level.projection, level.Effect);
+            }
+            catch {}
         }
     }
 }

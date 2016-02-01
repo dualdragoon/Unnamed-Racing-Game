@@ -17,13 +17,16 @@ namespace Kross_Kart
             BoundingSphere bs1 = CreateBoundingSphere(kart.Model, kart.World);
             //BoundingSphere bs2 = CreateBoundingSphere(level.WorldModel, level.translation);
 
-            for (int i = 0; i < level.WorldModel.Meshes.Count; i++)
+            for (int l = 0; l < level.Rooms.Count; l++)
+			{
+			for (int i = 0; i < level.Rooms[l].Walls.Meshes.Count; i++)
             {
-                if (bs1.Intersects(TransformBoundingSphere(level.translation, level.WorldModel.Meshes[i].BoundingSphere)))
+                if (bs1.Intersects(TransformBoundingSphere(level.Rooms[l].translation, level.Rooms[l].Walls.Meshes[i].BoundingSphere)))
                 {
                     return true;
                 }
-            }
+            } 
+			}
 
             return false;
         }

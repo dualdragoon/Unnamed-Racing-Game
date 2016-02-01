@@ -116,7 +116,7 @@ namespace Kross_Kart
                 openSet.Remove(current);
                 closedSet.Add(current);
 
-                foreach (var neighbor in GetNeighborNodes(current))
+                foreach (var neighbor in NodeHelper.GetNeighborNodes(current, Weight))
                 {
                     var tempCurrentDistance = currentDistance[current] + 1;
 
