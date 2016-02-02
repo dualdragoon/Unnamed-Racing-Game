@@ -118,6 +118,7 @@
     <ToolkitModel Include="Content\Test\Test Room 2.fbx" />
     <ToolkitModel Include="Content\Test\Test2.fbx" />
     <ToolkitModel Include="Content\Test\Test Kart - Copy.fbx" />
+    <ToolkitFont Include="Content\Font\Font1.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\Sound.png" />
+    <ToolkitTexture Include="Content\Menus\SoundPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\Off.png" />
+    <ToolkitTexture Include="Content\Menus\ON.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />

@@ -16,10 +16,13 @@ namespace Kross_Kart
     {
         enum MenuType { Main, Options, HighScores };
 
+        bool muted;
         Main main;
         MenuType type = MenuType.Main;
-        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless;
-        Button start, highScores, options, menu;
+        string soundOn;
+        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed;
+        SpriteFont font;
+        Button start, highScores, options, menu, sound;
 
         public Menu(Main main)
         {
@@ -28,6 +31,7 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
+            font = Main.GameContent.Load<SpriteFont>("Font/Font1");
             switch (type)
             {
                 case MenuType.Main:
@@ -41,6 +45,7 @@ namespace Kross_Kart
                     optionsPressed = Main.GameContent.Load<Texture2D>("Menus/Options Pressed");
                     menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
                     menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
+                    
 
                     start = new Button(new Vector2(500, 500), 173, 53, 1, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     highScores = new Button(new Vector2(200, 300), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
@@ -56,12 +61,17 @@ namespace Kross_Kart
                     highScoresPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores Pressed");
                     menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
                     menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
+                    soundUnPressed = Main.GameContent.Load<Texture2D>("Menus/Sound");
+                    soundPressed = Main.GameContent.Load<Texture2D>("Menus/SoundPressed");
+
 
                     highScores = new Button(new Vector2(470, 540), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    sound = new Button(new Vector2(100, 100), 164, 53, 4, Main.CurrentMouse, soundUnPressed, soundPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
                     menu.ButtonPressed += MainMenu;
                     highScores.ButtonPressed += HighScores;
+                    sound.ButtonPressed += Muted;
                     break;
 
                 case MenuType.HighScores:
@@ -96,6 +106,8 @@ namespace Kross_Kart
                 case MenuType.Options:
                     highScores.Update(Main.CurrentMouse);
                     menu.Update(Main.CurrentMouse);
+                    sound.Update(Main.CurrentMouse);
+                    soundOn = (muted) ? "Off" : "On";
                     break;
 
                 case MenuType.HighScores:
@@ -154,6 +166,11 @@ namespace Kross_Kart
             highScores.ButtonPressed -= HighScores;
         }
 
+        public void Muted(object sender, EventArgs args)
+        {
+            muted = !muted;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             try
@@ -170,6 +187,8 @@ namespace Kross_Kart
                     case MenuType.Options:
                         spriteBatch.Draw(highScores.Texture, highScores.Position, Color.White);
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
+                        spriteBatch.Draw(sound.Texture, sound.Position, Color.White);
+                        spriteBatch.DrawString(font, soundOn,new Vector2(400,105), Color.Black);
                         break;
 
                     case MenuType.HighScores:
