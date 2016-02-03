@@ -18,7 +18,9 @@ namespace Kross_Kart
     sealed class Test : KartEntity
     {
         bool turnLeft, turnRight, grounded, accel, backward;
+        int currentRoom;
         Stopwatch s = new Stopwatch();
+        Vector3 tempPos;
 
         public Test(Level level)
         {
@@ -45,6 +47,9 @@ namespace Kross_Kart
             this.View = view;
             this.Projection = projection;
 
+            tempPos = position;
+            currentRoom = CurrentRoom();
+
             frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
             if (grounded)
@@ -65,6 +70,12 @@ namespace Kross_Kart
 
             Input();
 
+            for (int i = 0; i < Level.Rooms[currentRoom].Walls.Meshes.Count; i++)
+            {
+                BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls, Level.Rooms[currentRoom].translation), s2 = Model.CalculateBounds();
+                if (Collision.SphereIntersectsSphere(ref s1, ref s2)) position = tempPos;
+            }
+
             //angle = MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f);
             World = Rotation * Matrix.Translation(position);
 
@@ -79,25 +90,16 @@ namespace Kross_Kart
             }
         }
 
-        public override void ApplyGravity()
-        {
-            if (yVelocity > -19)
-            {
-                yVelocity -= gravitationalAcceleration * frameTime; 
-            }
-            position += World.Down * (yVelocity * frameTime);
-        }
-
         private void Input()
         {
-            grounded = CollisionHelper.IsCollision(this, Level);
+            grounded = (position.Y <= Level.Rooms[currentRoom].YValue);
             turnLeft = Main.CurrentKeyboard.IsKeyDown(Keys.A);
             turnRight = Main.CurrentKeyboard.IsKeyDown(Keys.D);
             accel = Main.CurrentKeyboard.IsKeyDown(Keys.W);
             backward = Main.CurrentKeyboard.IsKeyDown(Keys.S);
 
             if (turnLeft && !turnRight) angle -= MathUtil.DegreesToRadians(5);
-            else if (turnRight && ! turnLeft) angle += MathUtil.DegreesToRadians(5);
+            else if (turnRight && !turnLeft) angle += MathUtil.DegreesToRadians(5);
 
             if (accel) velocity += acceleration * frameTime;
 

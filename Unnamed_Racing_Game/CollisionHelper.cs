@@ -37,14 +37,14 @@ namespace Kross_Kart
         /// <param name="m">Matrix to translate BoundingSphere by.</param>
         /// <param name="b">BoundingSphere to translate.</param>
         /// <returns></returns>
-        private static BoundingSphere TransformBoundingSphere(Matrix m, BoundingSphere b)
+        public static BoundingSphere TransformBoundingSphere(Matrix m, BoundingSphere b)
         {
             var worldCenter = Vector3.Transform(b.Center, m);
 
             return new BoundingSphere(new Vector3(worldCenter.X, worldCenter.Y, worldCenter.Z), b.Radius);
         }
 
-        private static BoundingSphere CreateBoundingSphere(Model model, Matrix world)
+        public static BoundingSphere CreateBoundingSphere(Model model, Matrix world)
         {
             Matrix[] boneTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(boneTransforms);
