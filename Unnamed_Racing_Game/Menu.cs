@@ -14,15 +14,16 @@ namespace Kross_Kart
 {
     class Menu
     {
-        enum MenuType { Main, Options, HighScores };
+        enum MenuType { MainMenu, Options, HighScores };
 
-        bool muted;
+        bool muted, screen, pauseMenu;
+ 
         Main main;
-        MenuType type = MenuType.Main;
-        string soundOn;
-        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, screenUnPressed , screenPressed;
+        MenuType type = MenuType.MainMenu;
+        string SoundOn, ScreenOn;
+        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed , fullscreenPressed;
         SpriteFont font;
-        Button start, highScores, options, menu, sound;
+        Button start, highScores, options, menu, sound, fullscreen;
 
         public Menu(Main main)
         {
@@ -34,7 +35,7 @@ namespace Kross_Kart
             font = Main.GameContent.Load<SpriteFont>("Font/Font1");
             switch (type)
             {
-                case MenuType.Main:
+                case MenuType.MainMenu:
                     title = Main.GameContent.Load<Texture2D>("Menus/Logo");
                     Worthless = Main.GameContent.Load<Texture2D>("Menus/Worthless");
                     startUnPressed = Main.GameContent.Load<Texture2D>("Menus/Start");
@@ -63,15 +64,18 @@ namespace Kross_Kart
                     menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
                     soundUnPressed = Main.GameContent.Load<Texture2D>("Menus/Sound");
                     soundPressed = Main.GameContent.Load<Texture2D>("Menus/SoundPressed");
-
+                    fullscreenUnPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreen");
+                    fullscreenPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreenPressed");
 
                     highScores = new Button(new Vector2(470, 540), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-                    menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    menu = new Button(new Vector2(100, 300), 168, 54, 3, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     sound = new Button(new Vector2(100, 100), 164, 53, 4, Main.CurrentMouse, soundUnPressed, soundPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-
+                    fullscreen = new Button(new Vector2(100, 200), 248, 45, 5, Main.CurrentMouse, fullscreenUnPressed, fullscreenPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    
                     menu.ButtonPressed += MainMenu;
                     highScores.ButtonPressed += HighScores;
                     sound.ButtonPressed += Muted;
+                    fullscreen.ButtonPressed += Screen;
                     break;
 
                 case MenuType.HighScores:
@@ -97,7 +101,7 @@ namespace Kross_Kart
         {
             switch (type)
             {
-                case MenuType.Main:
+                case MenuType.MainMenu:
                     start.Update(Main.CurrentMouse);
                     highScores.Update(Main.CurrentMouse);
                     options.Update(Main.CurrentMouse);
@@ -107,7 +111,9 @@ namespace Kross_Kart
                     highScores.Update(Main.CurrentMouse);
                     menu.Update(Main.CurrentMouse);
                     sound.Update(Main.CurrentMouse);
-                    soundOn = (muted) ? "Off" : "On";
+                    fullscreen.Update(Main.CurrentMouse);
+                    ScreenOn = (screen) ? "On" : "Off";
+                    SoundOn = (muted) ? "Off" : "On";
                     break;
 
                 case MenuType.HighScores:
@@ -153,7 +159,7 @@ namespace Kross_Kart
         }
         public void MainMenu(object sender, EventArgs args)
         {
-            type = MenuType.Main;
+            type = MenuType.MainMenu;
             //Dispose();
             LoadContent();
             menu.ButtonPressed -= MainMenu;
@@ -170,6 +176,13 @@ namespace Kross_Kart
         {
             muted = !muted;
         }
+        public void Screen(object sender, EventArgs args)
+        {
+            screen = !screen;
+            Main.Graphics.IsFullScreen = !Main.Graphics.IsFullScreen;
+            Main.Graphics.ApplyChanges();
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -177,7 +190,7 @@ namespace Kross_Kart
             {
                 switch (type)
                 {
-                    case MenuType.Main:
+                    case MenuType.MainMenu:
                         spriteBatch.Draw(title, new Vector2(200, 0), Color.White);
                         spriteBatch.Draw(start.Texture, start.Position, Color.White);
                         spriteBatch.Draw(highScores.Texture, highScores.Position, Color.White);
@@ -188,7 +201,9 @@ namespace Kross_Kart
                         spriteBatch.Draw(highScores.Texture, highScores.Position, Color.White);
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
                         spriteBatch.Draw(sound.Texture, sound.Position, Color.White);
-                        spriteBatch.DrawString(font, soundOn,new Vector2(500,106), Color.Black);
+                        spriteBatch.Draw(fullscreen.Texture, fullscreen.Position, Color.White);
+                        spriteBatch.DrawString(font, SoundOn,new Vector2(500, 106), Color.Black);
+                        spriteBatch.DrawString(font, ScreenOn, new Vector2(500, 206), Color.Black);
                         break;
 
                     case MenuType.HighScores:
