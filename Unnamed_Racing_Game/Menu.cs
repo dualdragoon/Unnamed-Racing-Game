@@ -20,7 +20,7 @@ namespace Kross_Kart
         Main main;
         MenuType type = MenuType.Main;
         string soundOn;
-        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed;
+        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, screenUnPressed , screenPressed;
         SpriteFont font;
         Button start, highScores, options, menu, sound;
 
@@ -188,7 +188,7 @@ namespace Kross_Kart
                         spriteBatch.Draw(highScores.Texture, highScores.Position, Color.White);
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
                         spriteBatch.Draw(sound.Texture, sound.Position, Color.White);
-                        spriteBatch.DrawString(font, soundOn,new Vector2(400,105), Color.Black);
+                        spriteBatch.DrawString(font, soundOn,new Vector2(500,106), Color.Black);
                         break;
 
                     case MenuType.HighScores:
