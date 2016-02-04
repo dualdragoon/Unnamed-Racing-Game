@@ -17,7 +17,7 @@ namespace Kross_Kart
         private event EventHandler onCreated;
         public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
-        private List<byte[,,]> Weight = new List<byte[,,]>(8);
+        private List<byte[, ,]> Weight = new List<byte[, ,]>(8);
         private Matrix translation, view, projection, rotation;
         private Model model;
         public Vector3 rotationInRadians, position;
@@ -77,7 +77,7 @@ namespace Kross_Kart
 
         }
 
-        public KartEntity(Level level, List<byte[,,]> weight)
+        public KartEntity(Level level, List<byte[, ,]> weight)
         {
             acceleration = 0;
             velocity = 0;
@@ -150,10 +150,31 @@ namespace Kross_Kart
             return path;
         }
 
+        public int CurrentRoom()
+        {
+            for (int i = 0; i < Level.Rooms.Count; i++)
+            {
+                BoundingSphere s1 = Model.CalculateBounds(), s2 = Level.Rooms[i].Walls.CalculateBounds(), s3;
+                if ((i + 1) != Level.Rooms.Count)
+                {
+                    s3 = Level.Rooms[i + 1].Walls.CalculateBounds();
+
+                    if (Collision.SphereIntersectsSphere(ref s1, ref s2) && !Collision.SphereIntersectsSphere(ref s1, ref s3))
+                    {
+                        return i;
+                    }
+                }
+            }
+            return Level.Rooms.Count - 1;
+        }
+
         public virtual void ApplyGravity()
         {
-            velocity += gravitationalAcceleration * frameTime;
-            position += velocity * frameTime;
+            if (yVelocity > -19)
+            {
+                yVelocity -= gravitationalAcceleration * frameTime;
+            }
+            position += World.Down * (yVelocity * frameTime);
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
