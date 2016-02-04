@@ -101,7 +101,7 @@ namespace Kross_Kart
 
             test.Draw(graphicsDevice);
 
-            spriteBatch.DrawString(font, CollisionHelper.IsCollision(Player, this).ToString(), Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(font, Player.colliding.ToString(), Vector2.Zero, Color.Black);
         }
 
         private void OnPlayerCreate(object sender, EventArgs args)

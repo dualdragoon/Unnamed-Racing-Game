@@ -17,7 +17,8 @@ namespace Kross_Kart
     /// </summary>
     sealed class Test : KartEntity
     {
-        bool turnLeft, turnRight, grounded, accel, backward;
+        private bool turnLeft, turnRight, grounded, accel, backward;
+        public bool colliding;
         int currentRoom;
         Stopwatch s = new Stopwatch();
         Vector3 tempPos;
@@ -47,7 +48,6 @@ namespace Kross_Kart
             this.View = view;
             this.Projection = projection;
 
-            tempPos = position;
             currentRoom = CurrentRoom();
 
             frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
@@ -72,8 +72,10 @@ namespace Kross_Kart
 
             for (int i = 0; i < Level.Rooms[currentRoom].Walls.Meshes.Count; i++)
             {
-                BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls, Level.Rooms[currentRoom].translation), s2 = Model.CalculateBounds();
-                if (Collision.SphereIntersectsSphere(ref s1, ref s2)) position = tempPos;
+                BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls, Level.Rooms[currentRoom].wallTrans), s2 = CollisionHelper.CreateBoundingSphere(Model, World);
+                colliding = Collision.SphereIntersectsSphere(ref s1, ref s2);
+                if (colliding) position = tempPos;
+                else tempPos = position;
             }
 
             //angle = MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f);
@@ -84,10 +86,9 @@ namespace Kross_Kart
                 s.Restart();
             }
 
-            if (Main.CurrentKeyboard.IsKeyPressed(Keys.D1))
-            {
-                position = Vector3.Zero;
-            }
+            if (Main.CurrentKeyboard.IsKeyPressed(Keys.D1)) position = Vector3.Zero;
+
+            if (Main.CurrentKeyboard.IsKeyPressed(Keys.D2)) position = new Vector3(-10, 0, 0);
         }
 
         private void Input()
