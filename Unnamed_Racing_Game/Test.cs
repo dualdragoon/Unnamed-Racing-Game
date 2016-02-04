@@ -19,8 +19,7 @@ namespace Kross_Kart
     {
         private bool turnLeft, turnRight, grounded, accel, backward;
         public bool colliding;
-        int currentRoom;
-        Stopwatch s = new Stopwatch();
+        int currentRoom, collideFactor;
         Vector3 tempPos;
 
         public Test(Level level)
@@ -63,28 +62,22 @@ namespace Kross_Kart
 
             Rotation = Matrix.RotationY(angle);
 
-            if (!s.IsRunning)
-            {
-                s.Start();
-            }
-
             Input();
 
             for (int i = 0; i < Level.Rooms[currentRoom].Walls.Meshes.Count; i++)
             {
                 BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls, Level.Rooms[currentRoom].wallTrans), s2 = CollisionHelper.CreateBoundingSphere(Model, World);
                 colliding = Collision.SphereIntersectsSphere(ref s1, ref s2);
-                if (colliding) position = tempPos;
-                else tempPos = position;
+                if (!colliding) tempPos = position - World.Backward * collideFactor;
+                else
+                {
+                    position = tempPos;
+                    velocity = .5f;
+                }
             }
 
             //angle = MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f);
             World = Rotation * Matrix.Translation(position);
-
-            if (s.ElapsedMilliseconds == 5625)
-            {
-                s.Restart();
-            }
 
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.D1)) position = Vector3.Zero;
 
@@ -98,13 +91,14 @@ namespace Kross_Kart
             turnRight = Main.CurrentKeyboard.IsKeyDown(Keys.D);
             accel = Main.CurrentKeyboard.IsKeyDown(Keys.W);
             backward = Main.CurrentKeyboard.IsKeyDown(Keys.S);
+            collideFactor = (velocity > 0) ? 2 : -2;
 
             if (turnLeft && !turnRight) angle -= MathUtil.DegreesToRadians(5);
             else if (turnRight && !turnLeft) angle += MathUtil.DegreesToRadians(5);
 
-            if (accel) velocity += acceleration * frameTime;
+            if (accel && velocity < 75) velocity += acceleration * frameTime;
 
-            if (backward) velocity -= acceleration * frameTime;
+            if (backward && velocity > -37.5) velocity -= acceleration * frameTime;
 
             if (!accel && velocity > 0)
             {

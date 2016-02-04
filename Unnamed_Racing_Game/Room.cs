@@ -15,7 +15,7 @@ namespace Kross_Kart
         public Matrix floorTrans, wallTrans;
         private Model walls, floor;
         private string room;
-        private Vector3 floorPos = new Vector3(0, -10, 0), wallPos = new Vector3(-10, -10, 0);
+        private Vector3 floorPos = new Vector3(0, -10, 0), wallPos = new Vector3(-29, -10, 0);
 
         #region Properties
         public float YValue
