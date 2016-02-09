@@ -45,10 +45,10 @@ namespace Kross_Kart
         {
             try
             {
-                floor = Main.GameContent.Load<Model>(string.Format("Test/{0} floor", room));
-                walls = Main.GameContent.Load<Model>(string.Format("Test/{0} walls", room));
+                floor = Main.GameContent.Load<Model>(string.Format("Models/{0} floor", room));
+                walls = Main.GameContent.Load<Model>(string.Format("Models/{0} walls", room));
             }
-            catch { walls = Main.GameContent.Load<Model>(string.Format("Test/{0}", room)); }
+            catch { walls = Main.GameContent.Load<Model>(string.Format("Models/{0}", room)); }
         }
 
         public void Draw(GraphicsDevice graphicsDevice)

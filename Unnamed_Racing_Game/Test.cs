@@ -29,7 +29,7 @@ namespace Kross_Kart
 
         public override void LoadContent()
         {
-            Model = Main.GameContent.Load<Model>("Test/Test Kart");
+            Model = Main.GameContent.Load<Model>("Models/Test2");
 
             //BasicEffect.EnableDefaultLighting(model);
 
@@ -91,7 +91,7 @@ namespace Kross_Kart
             turnRight = Main.CurrentKeyboard.IsKeyDown(Keys.D);
             accel = Main.CurrentKeyboard.IsKeyDown(Keys.W);
             backward = Main.CurrentKeyboard.IsKeyDown(Keys.S);
-            collideFactor = (velocity > 0) ? 2 : -2;
+            collideFactor = (velocity >= 0) ? 2 : -2;
 
             if (turnLeft && !turnRight) angle -= MathUtil.DegreesToRadians(5);
             else if (turnRight && !turnLeft) angle += MathUtil.DegreesToRadians(5);
