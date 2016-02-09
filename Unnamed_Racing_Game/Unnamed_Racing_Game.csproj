@@ -112,13 +112,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <ToolkitFont Include="Content\Font\Font.spritefont" />
-    <ToolkitModel Include="Content\Test\Sphere.fbx" />
-    <ToolkitModel Include="Content\Test\Test Room floor.fbx" />
-    <ToolkitModel Include="Content\Test\Test Kart.fbx" />
-    <ToolkitModel Include="Content\Test\Test2.fbx" />
-    <ToolkitModel Include="Content\Test\Test Kart - Copy.fbx" />
+    <ToolkitModel Include="Content\Models\Sphere.fbx" />
+    <ToolkitModel Include="Content\Models\Test Room floor.fbx" />
+    <ToolkitModel Include="Content\Models\Test Kart.fbx" />
+    <ToolkitModel Include="Content\Models\Test2.fbx" />
+    <ToolkitModel Include="Content\Models\Test Kart - Copy.fbx" />
     <ToolkitFont Include="Content\Font\Font1.spritefont" />
-    <ToolkitModel Include="Content\Test\Test Room walls.fbx" />
+    <ToolkitModel Include="Content\Models\Test Room walls.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
