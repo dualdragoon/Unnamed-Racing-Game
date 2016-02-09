@@ -12,7 +12,7 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
-    public enum GameStates { MainMenu, Test };
+    public enum GameStates { MainMenu, Play, Pause };
 
     class Main : Game
     {
@@ -118,8 +118,11 @@ namespace Kross_Kart
                 case GameStates.MainMenu:
                     menu.Update(gameTime);
                     break;
-                case GameStates.Test:
+                case GameStates.Play:
                     level.Update(gameTime);
+                    break;
+                case GameStates.Pause:
+                    menu.Update(gameTime);
                     break;
                 default:
                     break;
@@ -140,12 +143,17 @@ namespace Kross_Kart
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     menu.Draw(spritebatch);
                     break;
-                case GameStates.Test:
+                case GameStates.Play:
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     level.Draw(GraphicsDevice, spritebatch);
                     break;
-                //case 
+                case GameStates.Pause:
+                    GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
+                    spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
+                    level.Draw(GraphicsDevice, spritebatch);
+                    menu.Draw(spritebatch);
+                    break;
                 default:
                     break;
             }
@@ -162,10 +170,18 @@ namespace Kross_Kart
                 case GameStates.MainMenu:
                     menu = new Menu(this);
                     menu.LoadContent();
+                    level = null;
                     break;
-                case GameStates.Test:
-                    level = new Level();
-                    level.LoadContent();
+                case GameStates.Play:
+                    if (level == null)
+                    {
+                        level = new Level(this);
+                        level.LoadContent();
+                    }
+                    break;
+                case GameStates.Pause:
+                    menu.type = MenuType.Pause;
+                    menu.LoadContent();
                     break;
                 default:
                     break;

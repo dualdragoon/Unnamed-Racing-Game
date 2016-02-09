@@ -181,6 +181,13 @@
     <ToolkitTexture Include="Content\Menus\FullScreen.png" />
     <ToolkitTexture Include="Content\Menus\FullScreenPressed.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\Exit.png" />
+    <ToolkitTexture Include="Content\Menus\ExitHighlight.png" />
+    <ToolkitTexture Include="Content\Menus\InGameMenu.png" />
+    <ToolkitTexture Include="Content\Menus\Resume.png" />
+    <ToolkitTexture Include="Content\Menus\ResumeHighlight.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

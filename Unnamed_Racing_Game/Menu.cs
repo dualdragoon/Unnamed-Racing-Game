@@ -12,18 +12,18 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
+    enum MenuType { MainMenu, Options, HighScores, Pause };
+
     class Menu
     {
-        enum MenuType { MainMenu, Options, HighScores };
-
         bool muted, screen, pauseMenu;
  
         Main main;
-        MenuType type = MenuType.MainMenu;
+        public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed , fullscreenPressed;
+        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed , fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu;
         SpriteFont font;
-        Button start, highScores, options, menu, sound, fullscreen;
+        Button start, highScores, options, menu, sound, fullscreen, exit, resume;
 
         public Menu(Main main)
         {
@@ -84,14 +84,26 @@ namespace Kross_Kart
                     optionsUnPressed = Main.GameContent.Load<Texture2D>("Menus/Options");
                     optionsPressed = Main.GameContent.Load<Texture2D>("Menus/Options Pressed");
 
-                    options = new Button(new Vector2(100, 500), 233, 42, 3, Main.CurrentMouse, optionsUnPressed, optionsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-                    menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    options = new Button(new Vector2(100, 500), 233, 42, 6, Main.CurrentMouse, optionsUnPressed, optionsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    menu = new Button(new Vector2(100, 300), 168, 54, 7, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
                     menu.ButtonPressed += MainMenu;
                     highScores.ButtonPressed += HighScores;
                     break;
 
+                case MenuType.Pause:
+                    InGameMenu = Main.GameContent.Load<Texture2D>("Menus/InGameMenu");
+                    ExitUnHighLighted = Main.GameContent.Load<Texture2D>("Menus/Exit");
+                    ExitHighLighted = Main.GameContent.Load<Texture2D>("Menus/ExitHighlight");
+                    ResumeHighlighted = Main.GameContent.Load<Texture2D>("Menus/ResumeHighlight");
+                    ResumeUnHighlighted = Main.GameContent.Load<Texture2D>("Menus/Resume");
 
+                    resume = new Button(new Vector2(325, 200), 123, 38, 8, Main.CurrentMouse, ResumeUnHighlighted, ResumeHighlighted, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    exit = new Button(new Vector2(350, 300), 79, 29, 9, Main.CurrentMouse, ExitUnHighLighted, ExitHighLighted, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+
+                    resume.ButtonPressed += Resume;
+                    exit.ButtonPressed += Exit;
+                    break;
                 default:
                     break;
             }
@@ -118,7 +130,11 @@ namespace Kross_Kart
 
                 case MenuType.HighScores:
                     menu.Update(Main.CurrentMouse);
+                    break;
 
+                case MenuType.Pause:
+                    exit.Update(Main.CurrentMouse);
+                    resume.Update(Main.CurrentMouse);
                     break;
 
                 default:
@@ -146,7 +162,7 @@ namespace Kross_Kart
 
         public void StartGame(object sender, EventArgs args)
         {
-            main.GameState = GameStates.Test;
+            main.GameState = GameStates.Play;
             //Dispose();
             start.ButtonPressed -= StartGame;
         }
@@ -172,6 +188,16 @@ namespace Kross_Kart
             highScores.ButtonPressed -= HighScores;
         }
 
+        public void Resume(object sender, EventArgs args)
+        {
+            main.GameState = GameStates.Play;
+            resume.ButtonPressed -= Resume;
+        }
+        public void Exit(object sender, EventArgs args)
+        {
+            main.GameState = GameStates.MainMenu;
+            exit.ButtonPressed -= Exit;
+        }
         public void Muted(object sender, EventArgs args)
         {
             muted = !muted;
@@ -211,7 +237,13 @@ namespace Kross_Kart
                         spriteBatch.Draw(Worthless, new Vector2(100, 0), Color.White);
                         break;
 
-                    default:
+                    case MenuType.Pause:
+                        spriteBatch.Draw(InGameMenu, new Vector2(250, 150), Color.White);
+                        spriteBatch.Draw(exit.Texture, exit.Position, Color.White);
+                        spriteBatch.Draw(resume.Texture, resume.Position, Color.White);
+                        break;
+                    
+                        default:
                         break;
                 }
             }

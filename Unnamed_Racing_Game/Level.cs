@@ -7,6 +7,7 @@ using SharpDX;
 using SharpDX.Toolkit;
 using SharpDX.Toolkit.Content;
 using SharpDX.Toolkit.Graphics;
+using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
@@ -16,6 +17,7 @@ namespace Kross_Kart
         private Camera cam;
         private List<byte[, ,]> weight = new List<byte[, ,]>(8);
         private List<Room> rooms;
+        private Main main;
         public Matrix view, projection;
         private SpriteFont font;
         private Test test;
@@ -48,11 +50,12 @@ namespace Kross_Kart
 
         #endregion
 
-        public Level()
+        public Level(Main main)
         {
             Cam = new Camera(this);
             Player = new Test(this);
             test.OnCreated += OnPlayerCreate;
+            this.main = main;
         }
 
         public void LoadContent()
@@ -90,6 +93,11 @@ namespace Kross_Kart
             Player.Update(gameTime, view, projection);
 
             view = Cam.View;
+
+            if (Main.CurrentKeyboard.IsKeyPressed(Keys.Escape))
+            {
+                main.GameState = GameStates.Pause;
+            }
         }
 
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
