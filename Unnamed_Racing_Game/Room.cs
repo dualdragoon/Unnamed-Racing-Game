@@ -12,10 +12,10 @@ namespace Kross_Kart
     {
         private float yValue;
         private Level level;
-        public Matrix floorTrans, wallTrans;
+        public Matrix trans;
         private Model walls, floor;
         private string room;
-        private Vector3 floorPos = new Vector3(0, -10, 0), wallPos = new Vector3(-29, -10, 0);
+        private Vector3 floorPos = new Vector3(0, -10, 0);
 
         #region Properties
         public float YValue
@@ -37,8 +37,7 @@ namespace Kross_Kart
         {
             this.level = level; 
             room = roomTitle;
-            floorTrans = Matrix.Translation(floorPos);
-            wallTrans = Matrix.Translation(wallPos);
+            trans = Matrix.Translation(floorPos);
         }
 
         public void LoadContent()
@@ -55,8 +54,8 @@ namespace Kross_Kart
         {
             try
             {
-                Walls.Draw(graphicsDevice, wallTrans, level.view, level.projection, level.Effect);
-                floor.Draw(graphicsDevice, floorTrans, level.view, level.projection, level.Effect);
+                Walls.Draw(graphicsDevice, trans, level.view, level.projection, level.Effect);
+                floor.Draw(graphicsDevice, trans, level.view, level.projection, level.Effect);
             }
             catch {}
         }
