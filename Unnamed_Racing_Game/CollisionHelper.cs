@@ -15,18 +15,18 @@ namespace Kross_Kart
         public static bool IsCollision(KartEntity kart, Level level)
         {
             BoundingSphere bs1 = CreateBoundingSphere(kart.Model, kart.World);
-            //BoundingSphere bs2 = CreateBoundingSphere(level.WorldModel, level.floorTrans);
+            //BoundingSphere bs2 = CreateBoundingSphere(level.WorldModel, level.trans);
 
             for (int l = 0; l < level.Rooms.Count; l++)
-			{
-			for (int i = 0; i < level.Rooms[l].Walls.Meshes.Count; i++)
             {
-                if (bs1.Intersects(TransformBoundingSphere(level.Rooms[l].floorTrans, level.Rooms[l].Walls.Meshes[i].BoundingSphere)))
+                for (int i = 0; i < level.Rooms[l].Walls.Meshes.Count; i++)
                 {
-                    return true;
+                    if (bs1.Intersects(TransformBoundingSphere(level.Rooms[l].trans, level.Rooms[l].Walls.Meshes[i].BoundingSphere)))
+                    {
+                        return true;
+                    }
                 }
-            } 
-			}
+            }
 
             return false;
         }
