@@ -190,6 +190,12 @@
     <ToolkitTexture Include="Content\Menus\Resume.png" />
     <ToolkitTexture Include="Content\Menus\ResumeHighlight.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\CreditsPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\CreditsUnPressed.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

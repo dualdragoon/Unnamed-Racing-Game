@@ -12,18 +12,18 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
-    enum MenuType { MainMenu, Options, HighScores, Pause };
+    enum MenuType { MainMenu, Options, HighScores, Pause, Credits};
 
     class Menu
     {
-        bool muted, screen, pauseMenu;
+        bool muted, screen;
  
         Main main;
         public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed , fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu;
+        Texture2D startUnPressed, startPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed , fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed;
         SpriteFont font;
-        Button start, highScores, options, menu, sound, fullscreen, exit, resume;
+        Button start, highScores, options, menu, sound, fullscreen, exit, resume, credits;
 
         public Menu(Main main)
         {
@@ -46,12 +46,16 @@ namespace Kross_Kart
                     optionsPressed = Main.GameContent.Load<Texture2D>("Menus/Options Pressed");
                     menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
                     menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
-                    
+                    creditsUnPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsUnPressed");
+                    creditsPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsPressed");
+
 
                     start = new Button(new Vector2(500, 500), 173, 53, 1, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     highScores = new Button(new Vector2(200, 300), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     options = new Button(new Vector2(100, 500), 233, 42, 3, Main.CurrentMouse, optionsUnPressed, optionsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-                   
+                    credits = new Button(new Vector2(200, 400), 191, 47, 10, Main.CurrentMouse, creditsUnPressed, creditsPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+
+                    credits.ButtonPressed += Credits;
                     start.ButtonPressed += StartGame;
                     options.ButtonPressed += Options;
                     highScores.ButtonPressed += HighScores;
@@ -117,6 +121,7 @@ namespace Kross_Kart
                     start.Update(Main.CurrentMouse);
                     highScores.Update(Main.CurrentMouse);
                     options.Update(Main.CurrentMouse);
+                    credits.Update(Main.CurrentMouse);
                     break;
 
                 case MenuType.Options:
@@ -135,6 +140,8 @@ namespace Kross_Kart
                 case MenuType.Pause:
                     exit.Update(Main.CurrentMouse);
                     resume.Update(Main.CurrentMouse);
+                    break;
+                case MenuType.Credits:
                     break;
 
                 default:
@@ -208,6 +215,10 @@ namespace Kross_Kart
             Main.Graphics.IsFullScreen = !Main.Graphics.IsFullScreen;
             Main.Graphics.ApplyChanges();
         }
+        public void Credits(object sender, EventArgs args)
+        {
+
+        }
 
 
         public void Draw(SpriteBatch spriteBatch)
@@ -221,6 +232,7 @@ namespace Kross_Kart
                         spriteBatch.Draw(start.Texture, start.Position, Color.White);
                         spriteBatch.Draw(highScores.Texture, highScores.Position, Color.White);
                         spriteBatch.Draw(options.Texture, options.Position, Color.White);
+                        spriteBatch.Draw(credits.Texture, credits.Position, Color.White);
                         break;
 
                     case MenuType.Options:
