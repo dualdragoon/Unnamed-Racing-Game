@@ -117,11 +117,13 @@
     <ToolkitModel Include="Content\Models\Test Kart.fbx" />
     <ToolkitModel Include="Content\Models\Test2.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart - Copy.fbx" />
-    <ToolkitFont Include="Content\Font\Font1.spritefont" />
+    <ToolkitFont Include="Content\Font\Font1.spritefont">
+      <SubType>Designer</SubType>
+    </ToolkitFont>
     <ToolkitModel Include="Content\Models\Rooms\Test Room walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\0 walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\0 floor.fbx" />
-    <None Include="Content\Models\ShoppingCart.fbx" />
+    <ToolkitModel Include="Content\Models\ShoppingCart.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
