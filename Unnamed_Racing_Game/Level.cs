@@ -20,7 +20,7 @@ namespace Kross_Kart
         private Main main;
         public Matrix view, projection;
         private SpriteFont font;
-        private Test test;
+        private Player test;
         private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10);
 
         #region Properties
@@ -42,7 +42,7 @@ namespace Kross_Kart
             get { return rooms; }
         }
 
-        public Test Player
+        public Player Player
         {
             get { return test; }
             set { test = value; }
@@ -50,10 +50,10 @@ namespace Kross_Kart
 
         #endregion
 
-        public Level(Main main)
+        public Level(Main main, string kart)
         {
             Cam = new Camera(this);
-            Player = new Test(this);
+            Player = new Player(this, kart);
             test.OnCreated += OnPlayerCreate;
             this.main = main;
         }
