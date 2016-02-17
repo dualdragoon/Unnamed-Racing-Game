@@ -21,7 +21,7 @@ namespace Kross_Kart
         Main main;
         public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed;
+        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed;
         SpriteFont font;
         Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect;
 
@@ -32,6 +32,7 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
+            background = Main.GameContent.Load<Texture2D>("Menus/Background 2");
             font = Main.GameContent.Load<SpriteFont>("Font/Font1");
             switch (type)
             {
@@ -238,6 +239,7 @@ namespace Kross_Kart
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             try
             {
                 switch (type)
