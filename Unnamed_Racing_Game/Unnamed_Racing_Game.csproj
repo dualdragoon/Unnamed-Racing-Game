@@ -203,6 +203,8 @@
     <ToolkitAudio Include="Content\Music and Sounds\Menu.wav" />
   </ItemGroup>
   <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\Background.png" />
+    <ToolkitTexture Include="Content\Menus\Background 2.png" />
     <Content Include="Content\Menus\Things and Stuff.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
