@@ -216,6 +216,7 @@ namespace Kross_Kart
 
                 case 4:
                     type = MenuType.MainMenu;
+                    if (main.GameState == GameStates.Pause) main.GameState = GameStates.MainMenu;
                     //Dispose();
                     LoadContent();
                     break;
