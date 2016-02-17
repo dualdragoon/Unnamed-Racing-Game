@@ -167,6 +167,9 @@ namespace Kross_Kart
 
                 case MenuType.KartSelect:
                     start.Update(Main.CurrentMouse);
+                    testKart.Update(Main.CurrentMouse);
+                    tifighter.Update(Main.CurrentMouse);
+                    shoppingCart.Update(Main.CurrentMouse);
                     break;
                 default:
                     break;
@@ -284,6 +287,9 @@ namespace Kross_Kart
 
                     case MenuType.KartSelect:
                         spriteBatch.Draw(start.Texture, start.Position, Color.White);
+                        spriteBatch.Draw(testKart.Texture, testKart.Position, Color.White);
+                        spriteBatch.Draw(tifighter.Texture, tifighter.Position, Color.White);
+                        spriteBatch.Draw(shoppingCart.Texture, shoppingCart.Position, Color.White);
                         break;
 
                     default:
