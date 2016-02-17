@@ -205,7 +205,13 @@
   <ItemGroup>
     <ToolkitTexture Include="Content\Menus\Background.png" />
     <ToolkitTexture Include="Content\Menus\Background 2.png" />
+    <ToolkitTexture Include="Content\Menus\ShoppingCart.png" />
+    <ToolkitTexture Include="Content\Menus\ShoppingCartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartUnpressed.png" />
     <Content Include="Content\Menus\Things and Stuff.png" />
+    <ToolkitTexture Include="Content\Menus\TiFighter.png" />
+    <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
     <Content Include="Content\Music and Sounds\Track C810.wav" />
     <Content Include="Content\Music and Sounds\Track echk.wav" />
   </ItemGroup>
