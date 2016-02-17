@@ -200,6 +200,7 @@
     <ToolkitTexture Include="Content\Menus\CreditsUnPressed.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Menus\Things and Stuff.png" />
     <Content Include="Content\Music and Sounds\Menu.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
