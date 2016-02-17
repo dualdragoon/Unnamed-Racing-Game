@@ -155,6 +155,9 @@ namespace Kross_Kart
                 case MenuType.Credits:
                     break;
 
+                case MenuType.KartSelect:
+                    start.Update(Main.CurrentMouse);
+                    break;
                 default:
                     break;
             }
@@ -268,6 +271,7 @@ namespace Kross_Kart
                         break;
 
                     case MenuType.KartSelect:
+                        spriteBatch.Draw(start.Texture, start.Position, Color.White);
                         break;
 
                     default:
