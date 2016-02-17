@@ -29,7 +29,7 @@ namespace Kross_Kart
 
         public override void LoadContent()
         {
-            Model = Main.GameContent.Load<Model>("Models/ShoppingCart");
+            Model = Main.GameContent.Load<Model>(string.Format("Models/{0}", stringT));
 
             //BasicEffect.EnableDefaultLighting(model);
 

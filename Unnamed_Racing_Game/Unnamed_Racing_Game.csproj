@@ -203,7 +203,13 @@
     <ToolkitAudio Include="Content\Music and Sounds\Menu.wav" />
   </ItemGroup>
   <ItemGroup>
+    <ToolkitTexture Include="Content\Menus\ShoppingCart.png" />
+    <ToolkitTexture Include="Content\Menus\ShoppingCartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartUnpressed.png" />
     <Content Include="Content\Menus\Things and Stuff.png" />
+    <ToolkitTexture Include="Content\Menus\TiFighter.png" />
+    <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
