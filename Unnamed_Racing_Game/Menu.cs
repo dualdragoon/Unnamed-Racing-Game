@@ -102,7 +102,7 @@ namespace Kross_Kart
                     ResumeHighlighted = Main.GameContent.Load<Texture2D>("Menus/ResumeHighlight");
                     ResumeUnHighlighted = Main.GameContent.Load<Texture2D>("Menus/Resume");
 
-                    start = new Button(new Vector2(325, 200), 123, 38, 9, Main.CurrentMouse, ResumeUnHighlighted, ResumeHighlighted, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    start = new Button(new Vector2(325, 200), 123, 38, 8, Main.CurrentMouse, ResumeUnHighlighted, ResumeHighlighted, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     menu = new Button(new Vector2(350, 300), 79, 29, 4, Main.CurrentMouse, ExitUnHighLighted, ExitHighLighted, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
                     start.ButtonPressed += ButtonPressed;
