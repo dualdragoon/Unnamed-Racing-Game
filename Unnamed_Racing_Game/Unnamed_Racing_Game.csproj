@@ -210,6 +210,8 @@
     <ToolkitTexture Include="Content\Menus\ShoppingCartPressed.png" />
     <ToolkitTexture Include="Content\Menus\TestKartPressed.png" />
     <ToolkitTexture Include="Content\Menus\TestKartUnpressed.png" />
+    <ToolkitTexture Include="Content\Menus\Start 2.png" />
+    <ToolkitTexture Include="Content\Menus\Start Pressed 2.png" />
     <Content Include="Content\Menus\Things and Stuff.png" />
     <ToolkitTexture Include="Content\Menus\TiFighter.png" />
     <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
