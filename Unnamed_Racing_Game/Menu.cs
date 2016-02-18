@@ -70,6 +70,8 @@ namespace Kross_Kart
                     soundPressed = Main.GameContent.Load<Texture2D>("Menus/SoundPressed");
                     fullscreenUnPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreen");
                     fullscreenPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreenPressed");
+                    creditsUnPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsUnPressed");
+                    creditsPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsPressed");
 
                     highScores = new Button(new Vector2(470, 540), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
@@ -120,13 +122,17 @@ namespace Kross_Kart
                     shoppingCartPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCartPressed");
                     guminKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKart");
                     guminKartPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKartPressed");
+                    menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
+                    menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
 
                     start = new Button(new Vector2(500, 500), 173, 53, 8, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     testKart = new Button(new Vector2(100, 100), 165, 23, 10, Main.CurrentMouse, testKartUnPressed, testKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     tifighter = new Button(new Vector2(100, 200), 173, 26, 11, Main.CurrentMouse, tifighterUnPressed, tifighterPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     shoppingCart = new Button(new Vector2(100, 300), 200, 32, 12, Main.CurrentMouse, shoppingCartUnPressed, shoppingCartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     guminKart = new Button(new Vector2(100, 400), 205, 25, 13, Main.CurrentMouse, guminKartUnPressed, guminKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-
+                    menu = new Button(new Vector2(100, 500), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    
+                    menu.ButtonPressed += ButtonPressed;
                     start.ButtonPressed += ButtonPressed;
                     break;
 
@@ -173,6 +179,7 @@ namespace Kross_Kart
                     tifighter.Update(Main.CurrentMouse);
                     shoppingCart.Update(Main.CurrentMouse);
                     guminKart.Update(Main.CurrentMouse);
+                    menu.Update(Main.CurrentMouse);
                     break;
                 default:
                     break;
@@ -293,6 +300,7 @@ namespace Kross_Kart
                         spriteBatch.Draw(tifighter.Texture, tifighter.Position, Color.White);
                         spriteBatch.Draw(shoppingCart.Texture, shoppingCart.Position, Color.White);
                         spriteBatch.Draw(guminKart.Texture, guminKart.Position, Color.White);
+                        spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
                         break;
 
                     default:
