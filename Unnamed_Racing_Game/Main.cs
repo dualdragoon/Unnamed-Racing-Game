@@ -177,7 +177,7 @@ namespace Kross_Kart
                 case GameStates.Play:
                     if (level == null)
                     {
-                        level = new Level(this, "Gumin");
+                        level = new Level(this, "Test Kart");
                         level.LoadContent();
                     }
                     break;
