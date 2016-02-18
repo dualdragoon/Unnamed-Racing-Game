@@ -21,7 +21,7 @@ namespace Kross_Kart
         Main main;
         public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed, testKartUnPressed, testKartPressed, tifighterUnPressed, tifighterPressed, shoppingCartUnPressed, shoppingCartPressed, guminKartUnPressed, guminKartPressed;
+        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed, testKartUnPressed, testKartPressed, tifighterUnPressed, tifighterPressed, shoppingCartUnPressed, shoppingCartPressed, guminKartUnPressed, guminKartPressed;
         SpriteFont font;
         Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect, tifighter, testKart, shoppingCart, guminKart;
 
@@ -38,7 +38,6 @@ namespace Kross_Kart
             {
                 case MenuType.MainMenu:
                     title = Main.GameContent.Load<Texture2D>("Menus/Logo");
-                    Worthless = Main.GameContent.Load<Texture2D>("Menus/Worthless");
                     kartSelectUnPressed = Main.GameContent.Load<Texture2D>("Menus/Start");
                     kartSelectPressed = Main.GameContent.Load<Texture2D>("Menus/Start Pressed");
                     highScoresUnPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores");
@@ -280,7 +279,6 @@ namespace Kross_Kart
 
                     case MenuType.HighScores:
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
-                        spriteBatch.Draw(Worthless, new Vector2(100, 0), Color.White);
                         break;
 
                     case MenuType.Pause:
