@@ -207,11 +207,13 @@
     <ToolkitTexture Include="Content\Menus\Background.png" />
     <ToolkitTexture Include="Content\Menus\Background 2.png" />
     <ToolkitTexture Include="Content\Menus\ShoppingCart.png" />
-    <ToolkitTexture Include="Content\Menus\ShoppingCartPressed.png" />
-    <ToolkitTexture Include="Content\Menus\TestKartPressed.png" />
-    <ToolkitTexture Include="Content\Menus\TestKartUnpressed.png" />
     <ToolkitTexture Include="Content\Menus\Start 2.png" />
     <ToolkitTexture Include="Content\Menus\Start Pressed 2.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\TestKartUnPressed.png" />
+    <ToolkitTexture Include="Content\Menus\ShoppingCartPressed.png" />
+    <ToolkitTexture Include="Content\Menus\GuminKart.png" />
+    <ToolkitTexture Include="Content\Menus\GuminKartPressed.png" />
     <Content Include="Content\Menus\Things and Stuff.png" />
     <ToolkitTexture Include="Content\Menus\TiFighter.png" />
     <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
