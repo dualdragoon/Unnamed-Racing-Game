@@ -21,9 +21,9 @@ namespace Kross_Kart
         Main main;
         public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed, testKartUnPressed, testKartPressed, tifighterUnPressed, tifighterPressed, shoppingCartUnPressed, shoppingCartPressed;
+        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed, testKartUnPressed, testKartPressed, tifighterUnPressed, tifighterPressed, shoppingCartUnPressed, shoppingCartPressed, guminKartUnPressed, guminKartPressed;
         SpriteFont font;
-        Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect, tifighter, testKart, shoppingCart;
+        Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect, tifighter, testKart, shoppingCart, guminKart;
 
         public Menu(Main main)
         {
@@ -119,11 +119,14 @@ namespace Kross_Kart
                     tifighterPressed = Main.GameContent.Load<Texture2D>("Menus/TiFighterPressed");
                     shoppingCartUnPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCart");
                     shoppingCartPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCartPressed");
+                    guminKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKart");
+                    guminKartPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKartPressed");
 
                     start = new Button(new Vector2(500, 500), 173, 53, 8, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     testKart = new Button(new Vector2(100, 100), 165, 23, 10, Main.CurrentMouse, testKartUnPressed, testKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     tifighter = new Button(new Vector2(100, 200), 173, 26, 11, Main.CurrentMouse, tifighterUnPressed, tifighterPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     shoppingCart = new Button(new Vector2(100, 300), 200, 32, 12, Main.CurrentMouse, shoppingCartUnPressed, shoppingCartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    guminKart = new Button(new Vector2(100, 400), 205, 25, 13, Main.CurrentMouse, guminKartUnPressed, guminKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
 
                     start.ButtonPressed += ButtonPressed;
                     break;
@@ -170,6 +173,7 @@ namespace Kross_Kart
                     testKart.Update(Main.CurrentMouse);
                     tifighter.Update(Main.CurrentMouse);
                     shoppingCart.Update(Main.CurrentMouse);
+                    guminKart.Update(Main.CurrentMouse);
                     break;
                 default:
                     break;
@@ -290,6 +294,7 @@ namespace Kross_Kart
                         spriteBatch.Draw(testKart.Texture, testKart.Position, Color.White);
                         spriteBatch.Draw(tifighter.Texture, tifighter.Position, Color.White);
                         spriteBatch.Draw(shoppingCart.Texture, shoppingCart.Position, Color.White);
+                        spriteBatch.Draw(guminKart.Texture, guminKart.Position, Color.White);
                         break;
 
                     default:
