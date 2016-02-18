@@ -31,6 +31,11 @@ namespace Kross_Kart
         {
             get { return walls; }
         }
+
+        public Model Floor
+        {
+            get { return floor; }
+        }
         #endregion
 
         public Room(Level level, string roomTitle, Vector3 pos)
