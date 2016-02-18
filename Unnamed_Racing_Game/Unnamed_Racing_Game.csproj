@@ -212,8 +212,8 @@
     <Content Include="Content\Menus\Things and Stuff.png" />
     <ToolkitTexture Include="Content\Menus\TiFighter.png" />
     <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
-    <Content Include="Content\Music and Sounds\Track C810.wav" />
-    <Content Include="Content\Music and Sounds\Track echk.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Track C810.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Track echk.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />

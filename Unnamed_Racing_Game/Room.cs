@@ -15,7 +15,7 @@ namespace Kross_Kart
         public Matrix trans;
         private Model walls, floor;
         private string room;
-        private Vector3 floorPos = new Vector3(0, -10, 0);
+        private Vector3 floorPos;
 
         #region Properties
         public float YValue
@@ -33,10 +33,11 @@ namespace Kross_Kart
         }
         #endregion
 
-        public Room(Level level, string roomTitle)
+        public Room(Level level, string roomTitle, Vector3 pos)
         {
             this.level = level; 
             room = roomTitle;
+            floorPos = pos;
             trans = Matrix.Translation(floorPos);
         }
 

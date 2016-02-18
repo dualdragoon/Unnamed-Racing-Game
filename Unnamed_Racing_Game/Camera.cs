@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Toolkit;
-using SharpDX.Toolkit.Graphics;
+using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
@@ -13,7 +13,7 @@ namespace Kross_Kart
     {
         private Level level;
         private Matrix view;
-        private Vector3 position;
+        private Vector3 position, yPos = new Vector3(0, 7.5f, 0);
         private Vector4 transformedPos;
 
         public Matrix View
@@ -35,7 +35,10 @@ namespace Kross_Kart
 
         public void Update(GameTime gameTime)
         {
-            position = (Level.Player.position - (Level.Player.World.Backward * 15)) + new Vector3(0, 7.5f, 0);
+            if (Main.CurrentKeyboard.IsKeyDown(Keys.Up)) yPos.Y += .2f;
+            if (Main.CurrentKeyboard.IsKeyDown(Keys.Down)) yPos.Y -= .2f;
+
+            position = (Level.Player.position - (Level.Player.World.Backward * 15)) + yPos;
             //transformedPos = Vector3.Transform(floorPos, Level.Player.Rotation);
             //floorPos = new Vector3(transformedPos.X, Level.Player.floorPos.Y + transformedPos.Y, transformedPos.Z) - Level.Player.floorPos;
 

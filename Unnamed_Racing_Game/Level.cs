@@ -15,13 +15,15 @@ namespace Kross_Kart
     {
         private BasicEffect effect;
         private Camera cam;
+        private int trackLength, trackWidth, cells;
         private List<byte[, ,]> weight = new List<byte[, ,]>(8);
         private List<Room> rooms;
         private Main main;
         public Matrix view, projection;
+        private Random rand = new Random();
         private SpriteFont font;
         private Player test;
-        private Vector3 position = new Vector3(0, -10, 0), lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10);
+        private Vector3 lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10), roomPos, roomPlacementX = new Vector3(10, 0, 0), roomPlacementZ = new Vector3(0, 0, 10);
 
         #region Properties
 
@@ -62,11 +64,6 @@ namespace Kross_Kart
         {
             LoadRooms();
 
-            foreach (Room r in rooms)
-            {
-                r.LoadContent();
-            }
-
             font = Main.GameContent.Load<SpriteFont>("Font/Font");
 
             effect = new BasicEffect(Main.Graphics.GraphicsDevice);
@@ -78,13 +75,52 @@ namespace Kross_Kart
 
             test.LoadContent();
 
-            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 600f, .1f, 100f);
+            projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 600f, .1f, 1000f);
         }
 
         private void LoadRooms()
         {
+            trackLength = rand.Next(5, 10);
+            trackWidth = rand.Next(3, 5);
+            cells = (2 * trackLength) + (2 * (trackWidth - 2));
+            roomPos = new Vector3(0, -10, 0);
+
             rooms = new List<Room>();
-            rooms.Add(new Room(this, "Test Room"));
+
+            for (int i = 0; i < trackLength; i++)
+            {
+                rooms.Add(new Room(this, "Test Room", roomPos));
+                roomPos += i * roomPlacementX;
+            }
+
+            roomPos += roomPlacementZ;
+            
+            for (int i = 0; i < trackWidth - 1; i++)
+            {
+                rooms.Add(new Room(this, "Test Room", roomPos));
+                roomPos += i * roomPlacementZ;
+            }
+
+            roomPos -= roomPlacementX;
+
+            for (int i = 0; i < trackLength - 1; i++)
+            {
+                rooms.Add(new Room(this, "Test Room", roomPos));
+                roomPos -= i * roomPlacementX;
+            }
+
+            roomPos -= roomPlacementZ;
+
+            for (int i = 0; i < trackWidth - 2; i++)
+            {
+                rooms.Add(new Room(this, "Test Room", roomPos));
+                roomPos -= i * roomPlacementZ;
+            }
+
+            foreach (Room r in rooms)
+            {
+                r.LoadContent();
+            }
         }
 
         public void Update(GameTime gameTime)
