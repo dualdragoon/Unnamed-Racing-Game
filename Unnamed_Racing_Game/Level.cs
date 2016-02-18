@@ -23,7 +23,7 @@ namespace Kross_Kart
         private Random rand = new Random();
         private SpriteFont font;
         private Player test;
-        private Vector3 lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10), roomPos, roomPlacementX = new Vector3(10, 0, 0), roomPlacementZ = new Vector3(0, 0, 10);
+        private Vector3 lowerWeightBound = new Vector3(-10), upperWeightBound = new Vector3(10), roomPos, roomPlacementX = new Vector3(79.68f, 0, 0), roomPlacementZ = new Vector3(0, 0, 79.68f);
 
         #region Properties
 
@@ -90,31 +90,27 @@ namespace Kross_Kart
             for (int i = 0; i < trackLength; i++)
             {
                 rooms.Add(new Room(this, "Test Room", roomPos));
-                roomPos += i * roomPlacementX;
+                roomPos += roomPlacementX;
             }
-
-            roomPos += roomPlacementZ;
             
             for (int i = 0; i < trackWidth - 1; i++)
             {
                 rooms.Add(new Room(this, "Test Room", roomPos));
-                roomPos += i * roomPlacementZ;
+                roomPos += roomPlacementZ;
             }
 
-            roomPos -= roomPlacementX;
-
-            for (int i = 0; i < trackLength - 1; i++)
+            for (int i = 0; i < trackLength + 1; i++)
             {
                 rooms.Add(new Room(this, "Test Room", roomPos));
-                roomPos -= i * roomPlacementX;
+                roomPos -= roomPlacementX;
             }
 
-            roomPos -= roomPlacementZ;
+            roomPos += roomPlacementX;
 
             for (int i = 0; i < trackWidth - 2; i++)
             {
+                roomPos -= roomPlacementZ;
                 rooms.Add(new Room(this, "Test Room", roomPos));
-                roomPos -= i * roomPlacementZ;
             }
 
             foreach (Room r in rooms)
