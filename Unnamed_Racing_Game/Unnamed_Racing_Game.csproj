@@ -206,6 +206,7 @@
     <Content Include="Content\Menus\Things and Stuff.png" />
     <Content Include="Content\Music and Sounds\Broadcastianite.wav" />
     <Content Include="Content\Music and Sounds\Creids.wav" />
+    <Content Include="Content\Music and Sounds\dod dod dod dod dod       dod.wav" />
     <Content Include="Content\Music and Sounds\Track C810.wav" />
     <Content Include="Content\Music and Sounds\Track echk.wav" />
   </ItemGroup>

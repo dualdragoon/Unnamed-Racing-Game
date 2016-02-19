@@ -133,7 +133,7 @@ namespace Kross_Kart
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             Window.AllowUserResizing = false;
 
@@ -144,11 +144,13 @@ namespace Kross_Kart
                     menu.Draw(spritebatch);
                     break;
                 case GameStates.Play:
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     level.Draw(GraphicsDevice, spritebatch);
                     break;
                 case GameStates.Pause:
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     level.Draw(GraphicsDevice, spritebatch);
@@ -175,7 +177,7 @@ namespace Kross_Kart
                 case GameStates.Play:
                     if (level == null)
                     {
-                        level = new Level(this);
+                        level = new Level(this, "Test Kart");
                         level.LoadContent();
                     }
                     break;

@@ -1,0 +1,17 @@
+Clouds:26:.6
+Fire!
+Crystalize
+Text
+
+Color:
+R:255
+S:100
+V:100
+
+Clouds on Text:Difference:26:.6
+Relief:45
+Border's N' Shapes:Rect:1:
+R:160
+
+Hovered:
+Glow:6:10:10

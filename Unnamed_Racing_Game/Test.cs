@@ -15,21 +15,23 @@ namespace Kross_Kart
     /// <summary>
     /// Player Kart class.
     /// </summary>
-    sealed class Test : KartEntity
+    sealed class Player : KartEntity
     {
         private bool turnLeft, turnRight, grounded, accel, backward;
         public bool colliding;
         int currentRoom, collideFactor;
+        string kart;
         Vector3 tempPos;
 
-        public Test(Level level)
+        public Player(Level level, string kart)
         {
+            this.kart = kart;
             Level = level;
         }
 
         public override void LoadContent()
         {
-            Model = Main.GameContent.Load<Model>("Models/ShoppingCart");
+            Model = Main.GameContent.Load<Model>(string.Format("Models/{0}", kart));
 
             //BasicEffect.EnableDefaultLighting(model);
 

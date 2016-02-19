@@ -21,9 +21,9 @@ namespace Kross_Kart
         Main main;
         public MenuType type = MenuType.MainMenu;
         string SoundOn, ScreenOn;
-        Texture2D startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, Worthless, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed;
+        Texture2D background, startUnPressed, startPressed, kartSelectUnPressed, kartSelectPressed, highScoresUnPressed, highScoresPressed, optionsUnPressed, optionsPressed, title, menuPressed, menuUnPressed, soundUnPressed, soundPressed, fullscreenUnPressed, fullscreenPressed, ExitUnHighLighted, ExitHighLighted, ResumeUnHighlighted, ResumeHighlighted, InGameMenu, creditsUnPressed, creditsPressed, testKartUnPressed, testKartPressed, tifighterUnPressed, tifighterPressed, shoppingCartUnPressed, shoppingCartPressed, guminKartUnPressed, guminKartPressed;
         SpriteFont font;
-        Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect;
+        Button start, highScores, options, menu, sound, fullscreen, credits, kartSelect, tifighter, testKart, shoppingCart, guminKart;
 
         public Menu(Main main)
         {
@@ -32,12 +32,12 @@ namespace Kross_Kart
 
         public void LoadContent()
         {
+            background = Main.GameContent.Load<Texture2D>("Menus/Background 2");
             font = Main.GameContent.Load<SpriteFont>("Font/Font1");
             switch (type)
             {
                 case MenuType.MainMenu:
                     title = Main.GameContent.Load<Texture2D>("Menus/Logo");
-                    Worthless = Main.GameContent.Load<Texture2D>("Menus/Worthless");
                     kartSelectUnPressed = Main.GameContent.Load<Texture2D>("Menus/Start");
                     kartSelectPressed = Main.GameContent.Load<Texture2D>("Menus/Start Pressed");
                     highScoresUnPressed = Main.GameContent.Load<Texture2D>("Menus/High Scores");
@@ -70,6 +70,8 @@ namespace Kross_Kart
                     soundPressed = Main.GameContent.Load<Texture2D>("Menus/SoundPressed");
                     fullscreenUnPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreen");
                     fullscreenPressed = Main.GameContent.Load<Texture2D>("Menus/FullScreenPressed");
+                    creditsUnPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsUnPressed");
+                    creditsPressed = Main.GameContent.Load<Texture2D>("Menus/CreditsPressed");
 
                     highScores = new Button(new Vector2(470, 540), 324, 55, 2, Main.CurrentMouse, highScoresUnPressed, highScoresPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
                     menu = new Button(new Vector2(100, 300), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
@@ -112,9 +114,25 @@ namespace Kross_Kart
                 case MenuType.KartSelect:
                     startUnPressed = Main.GameContent.Load<Texture2D>("Menus/Start");
                     startPressed = Main.GameContent.Load<Texture2D>("Menus/Start Pressed");
+                    testKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/TestKartUnPressed");
+                    testKartPressed = Main.GameContent.Load<Texture2D>("Menus/TestKartPressed");
+                    tifighterUnPressed = Main.GameContent.Load<Texture2D>("Menus/TiFighter");
+                    tifighterPressed = Main.GameContent.Load<Texture2D>("Menus/TiFighterPressed");
+                    shoppingCartUnPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCart");
+                    shoppingCartPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCartPressed");
+                    guminKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKart");
+                    guminKartPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKartPressed");
+                    menuUnPressed = Main.GameContent.Load<Texture2D>("Menus/Menu");
+                    menuPressed = Main.GameContent.Load<Texture2D>("Menus/Menu Pressed");
 
                     start = new Button(new Vector2(500, 500), 173, 53, 8, Main.CurrentMouse, startUnPressed, startPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
-
+                    testKart = new Button(new Vector2(100, 100), 165, 23, 10, Main.CurrentMouse, testKartUnPressed, testKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    tifighter = new Button(new Vector2(100, 200), 173, 26, 11, Main.CurrentMouse, tifighterUnPressed, tifighterPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    shoppingCart = new Button(new Vector2(100, 300), 200, 32, 12, Main.CurrentMouse, shoppingCartUnPressed, shoppingCartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    guminKart = new Button(new Vector2(100, 400), 205, 25, 13, Main.CurrentMouse, guminKartUnPressed, guminKartPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    menu = new Button(new Vector2(100, 500), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+                    
+                    menu.ButtonPressed += ButtonPressed;
                     start.ButtonPressed += ButtonPressed;
                     break;
 
@@ -157,6 +175,11 @@ namespace Kross_Kart
 
                 case MenuType.KartSelect:
                     start.Update(Main.CurrentMouse);
+                    testKart.Update(Main.CurrentMouse);
+                    tifighter.Update(Main.CurrentMouse);
+                    shoppingCart.Update(Main.CurrentMouse);
+                    guminKart.Update(Main.CurrentMouse);
+                    menu.Update(Main.CurrentMouse);
                     break;
                 default:
                     break;
@@ -206,6 +229,7 @@ namespace Kross_Kart
 
                 case 4:
                     type = MenuType.MainMenu;
+                    if (main.GameState == GameStates.Pause) main.GameState = GameStates.MainMenu;
                     //Dispose();
                     LoadContent();
                     break;
@@ -238,6 +262,7 @@ namespace Kross_Kart
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             try
             {
                 switch (type)
@@ -261,7 +286,6 @@ namespace Kross_Kart
 
                     case MenuType.HighScores:
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
-                        spriteBatch.Draw(Worthless, new Vector2(100, 0), Color.White);
                         break;
 
                     case MenuType.Pause:
@@ -272,6 +296,11 @@ namespace Kross_Kart
 
                     case MenuType.KartSelect:
                         spriteBatch.Draw(start.Texture, start.Position, Color.White);
+                        spriteBatch.Draw(testKart.Texture, testKart.Position, Color.White);
+                        spriteBatch.Draw(tifighter.Texture, tifighter.Position, Color.White);
+                        spriteBatch.Draw(shoppingCart.Texture, shoppingCart.Position, Color.White);
+                        spriteBatch.Draw(guminKart.Texture, guminKart.Position, Color.White);
+                        spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
                         break;
 
                     default:
