@@ -154,10 +154,10 @@ namespace Kross_Kart
         {
             for (int i = 0; i < Level.Rooms.Count; i++)
             {
-                BoundingSphere s1 = Model.CalculateBounds(), s2 = Level.Rooms[i].Walls.CalculateBounds(), s3;
+                BoundingSphere s1 = Model.CalculateBounds(), s2 = Level.Rooms[i].Floor.CalculateBounds(), s3;
                 if ((i + 1) != Level.Rooms.Count)
                 {
-                    s3 = Level.Rooms[i + 1].Walls.CalculateBounds();
+                    s3 = Level.Rooms[i + 1].Floor.CalculateBounds();
 
                     if (Collision.SphereIntersectsSphere(ref s1, ref s2) && !Collision.SphereIntersectsSphere(ref s1, ref s3))
                     {
