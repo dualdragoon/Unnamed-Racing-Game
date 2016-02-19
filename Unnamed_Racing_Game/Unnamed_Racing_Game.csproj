@@ -113,7 +113,6 @@
     <None Include="App.config" />
     <ToolkitFont Include="Content\Font\Font.spritefont" />
     <ToolkitModel Include="Content\Models\Sphere.fbx" />
-    <ToolkitModel Include="Content\Models\Rooms\Test Room floor.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart.fbx" />
     <ToolkitModel Include="Content\Models\Test2.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart - Copy.fbx" />
@@ -122,7 +121,7 @@
     </ToolkitFont>
     <ToolkitModel Include="Content\Models\Rooms\Test Room walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\0 walls.fbx" />
-    <ToolkitModel Include="Content\Models\Rooms\0 floor.fbx" />
+    <ToolkitModel Include="Content\Models\Rooms\Floor.fbx" />
     <ToolkitModel Include="Content\Models\ShoppingCart.fbx" />
     <ToolkitModel Include="Content\Models\Gumin.fbx" />
     <None Include="packages.config" />
@@ -204,6 +203,8 @@
     <ToolkitAudio Include="Content\Music and Sounds\Menu.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Models\Rooms\XML\0.xml" />
+    <Content Include="Content\Room Ratio.txt" />
     <ToolkitTexture Include="Content\Menus\Background.png" />
     <ToolkitTexture Include="Content\Menus\Background 2.png" />
     <ToolkitTexture Include="Content\Menus\ShoppingCart.png" />
