@@ -125,6 +125,8 @@
     <ToolkitModel Include="Content\Models\Rooms\0 floor.fbx" />
     <ToolkitModel Include="Content\Models\ShoppingCart.fbx" />
     <ToolkitModel Include="Content\Models\Gumin.fbx" />
+    <ToolkitModel Include="Content\Models\Rooms\1 walls.fbx" />
+    <ToolkitModel Include="Content\Models\Rooms\1 floor.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

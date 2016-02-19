@@ -89,7 +89,7 @@ namespace Kross_Kart
 
             for (int i = 0; i < trackLength; i++)
             {
-                rooms.Add(new Room(this, "Test Room", roomPos));
+                rooms.Add(new Room(this, "1", roomPos));
                 roomPos += roomPlacementX;
             }
             
