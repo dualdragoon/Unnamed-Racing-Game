@@ -68,7 +68,7 @@ namespace Kross_Kart
 
             for (int i = 0; i < Level.Rooms[currentRoom].Walls.Meshes.Count; i++)
             {
-                BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls, Level.Rooms[currentRoom].trans), s2 = CollisionHelper.CreateBoundingSphere(Model, World);
+                BoundingSphere s1 = CollisionHelper.CreateBoundingSphere(Level.Rooms[currentRoom].Walls.Meshes[i], Level.Rooms[currentRoom].room), s2 = CollisionHelper.CreateBoundingSphere(Model, World);
                 colliding = Collision.SphereIntersectsSphere(ref s1, ref s2);
                 if (!colliding) tempPos = position - World.Backward * collideFactor;
                 else

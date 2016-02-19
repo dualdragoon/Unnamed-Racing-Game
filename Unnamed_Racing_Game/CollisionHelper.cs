@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using System.Xml;
+using SharpDX;
 using SharpDX.Toolkit.Graphics;
 
 namespace Kross_Kart
@@ -56,6 +57,27 @@ namespace Kross_Kart
                 meshSphere = TransformBoundingSphere(boneTransforms[i], model.Meshes[i].BoundingSphere);
                 boundingSphere = BoundingSphere.Merge(boundingSphere, meshSphere);
             }
+            return TransformBoundingSphere(world, boundingSphere);
+        }
+
+        public static BoundingSphere CreateBoundingSphere(ModelMesh mesh, string roomNum)
+        {
+            XmlDocument read = new XmlDocument();
+            Matrix world;
+            /*Matrix[] boneTransforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);*/
+
+            read.Load(string.Format("Content/Models/Rooms/XML/{0}.xml", roomNum));
+
+            BoundingSphere meshSphere, boundingSphere = new BoundingSphere();
+
+            world = Matrix.Translation(new Vector3(read.SelectSingleNode("{0}")))
+
+            /*for (int i = 0; i < model.Meshes.Count; i++)
+            {
+                meshSphere = TransformBoundingSphere(boneTransforms[i], model.Meshes[i].BoundingSphere);
+                boundingSphere = BoundingSphere.Merge(boundingSphere, meshSphere);
+            }*/
             return TransformBoundingSphere(world, boundingSphere);
         }
     }

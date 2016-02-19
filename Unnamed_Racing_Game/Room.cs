@@ -14,7 +14,7 @@ namespace Kross_Kart
         private Level level;
         public Matrix trans;
         private Model walls, floor;
-        private string room;
+        public string room;
         private Vector3 floorPos;
 
         #region Properties
@@ -50,7 +50,7 @@ namespace Kross_Kart
         {
             try
             {
-                floor = Main.GameContent.Load<Model>(string.Format("Models/Rooms/{0} floor", room));
+                floor = Main.GameContent.Load<Model>("Models/Rooms/Floor");
                 walls = Main.GameContent.Load<Model>(string.Format("Models/Rooms/{0} walls", room));
             }
             catch { walls = Main.GameContent.Load<Model>(string.Format("Models/Rooms/{0}", room)); }
