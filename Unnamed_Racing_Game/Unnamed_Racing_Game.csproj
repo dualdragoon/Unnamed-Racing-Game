@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CollisionHelper.cs" />
     <Compile Include="Entity.cs" />
@@ -114,7 +115,7 @@
     <ToolkitFont Include="Content\Font\Font.spritefont" />
     <ToolkitModel Include="Content\Models\Sphere.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart.fbx" />
-    <ToolkitModel Include="Content\Models\Test2.fbx" />
+    <ToolkitModel Include="Content\Models\TIE.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart - Copy.fbx" />
     <ToolkitFont Include="Content\Font\Font1.spritefont">
       <SubType>Designer</SubType>
@@ -122,10 +123,10 @@
     <ToolkitModel Include="Content\Models\Rooms\Test Room walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\0 walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\Floor.fbx" />
-    <ToolkitModel Include="Content\Models\ShoppingCart.fbx" />
+    <ToolkitModel Include="Content\Models\Shopping Cart.fbx" />
     <ToolkitModel Include="Content\Models\Gumin.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\1 walls.fbx" />
-    <ToolkitModel Include="Content\Models\Rooms\1 floor.fbx" />
+    <ToolkitModel Include="Content\Models\Rooms\1 corner walls.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -202,11 +203,31 @@
     <ToolkitTexture Include="Content\Menus\CreditsUnPressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitAudio Include="Content\Music and Sounds\Menu.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Credits.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Models\Rooms\XML\0.xml" />
+    <ToolkitTexture Include="Content\Menus\Load Bar.png" />
+    <ToolkitTexture Include="Content\Menus\Load Bar Back.png" />
+    <Content Include="Content\Models\Rooms\XML\0.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Rooms\XML\1 corner.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Rooms\XML\4 corner.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Rooms\XML\Test Room.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Rooms\XML\1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Room Ratio.txt" />
+    <ToolkitTexture Include="Content\Menus\Gumin Preview.png" />
+    <ToolkitTexture Include="Content\Menus\Shopping Cart Preview.png" />
+    <ToolkitTexture Include="Content\Menus\Test Kart Preview.png" />
+    <ToolkitTexture Include="Content\Menus\TIE Preview.png" />
     <ToolkitTexture Include="Content\Menus\Background.png" />
     <ToolkitTexture Include="Content\Menus\Background 2.png" />
     <ToolkitTexture Include="Content\Menus\ShoppingCart.png" />
@@ -220,7 +241,7 @@
     <Content Include="Content\Menus\Things and Stuff.png" />
     <ToolkitTexture Include="Content\Menus\TiFighter.png" />
     <ToolkitTexture Include="Content\Menus\TiFighterPressed.png" />
-    <ToolkitAudio Include="Content\Music and Sounds\Track C810.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Menus.wav" />
     <ToolkitAudio Include="Content\Music and Sounds\Track echk.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

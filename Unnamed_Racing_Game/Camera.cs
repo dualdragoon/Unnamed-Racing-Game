@@ -13,7 +13,7 @@ namespace Kross_Kart
     {
         private Level level;
         private Matrix view;
-        private Vector3 position, yPos = new Vector3(0, 7.5f, 0);
+        private Vector3 position, yPos = new Vector3(0, 4.9f, 0);
         private Vector4 transformedPos;
 
         public Matrix View

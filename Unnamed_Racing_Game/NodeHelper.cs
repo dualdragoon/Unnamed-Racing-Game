@@ -9,10 +9,14 @@ namespace Kross_Kart
 {
     static class NodeHelper
     {
-
+        /// <summary>
+        /// Returns the sector of a coordinate in a 3-Dimensional Grid.
+        /// </summary>
+        /// <param name="coord">Coordinate to check.</param>
+        /// <returns></returns>
         public static int CheckSector(Vector3 coord)
         {
-            List<bool> sector = new List<bool>(8);
+            bool[] sector = new bool[8];
             sector[0] = (coord.X > 0 && coord.Y > 0 && coord.Z > 0);
             sector[1] = (coord.X < 0 && coord.Y > 0 && coord.Z > 0);
             sector[2] = (coord.X < 0 && coord.Y > 0 && coord.Z < 0);
@@ -22,35 +26,41 @@ namespace Kross_Kart
             sector[6] = (coord.X < 0 && coord.Y < 0 && coord.Z < 0);
             sector[7] = (coord.X > 0 && coord.Y < 0 && coord.Z < 0);
 
-            for (int i = 0; i < sector.Count; i++)
+            for (int i = 0; i < sector.Length; i++)
             {
                 if (sector[i]) return i++;
             }
             return 0;
         }
 
-        public static IEnumerable<Vector3> GetNeighborNodes(Vector3 node, List<byte[,,]> Weight)
+        /// <summary>
+        /// Gets neighboring nodes to a coordinate.
+        /// </summary>
+        /// <param name="node">Coordinate to check neighbors.</param>
+        /// <param name="Weight">List with info on whether a node in passable.</param>
+        /// <returns></returns>
+        public static IEnumerable<Vector3> GetNeighborNodes(Vector3 node, byte[][,] Weight)
         {
             int sector, sectorF, sectorR, sectorB, sectorL;
             sector = CheckSector(node);
             var nodes = new List<Vector3>();
 
-            sectorF = CheckSector(new Vector3(node.X, node.Y, node.Z - 1));
-            sectorR = CheckSector(new Vector3(node.X + 1, node.Y, node.Z));
-            sectorB = CheckSector(new Vector3(node.X, node.Y, node.Z + 1));
-            sectorL = CheckSector(new Vector3(node.X - 1, node.Y, node.Z));
+            sectorF = CheckSector(new Vector3(node.X, -8.2f, node.Z - 1));
+            sectorR = CheckSector(new Vector3(node.X + 1, -8.2f, node.Z));
+            sectorB = CheckSector(new Vector3(node.X, -8.2f, node.Z + 1));
+            sectorL = CheckSector(new Vector3(node.X - 1, -8.2f, node.Z));
 
             // forward
-            if (Weight[sectorF][(int)node.X, (int)node.Y, (int)node.Z - 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z - 1));
+            if (Weight[sectorF][Math.Abs((int)node.X), Math.Abs((int)node.Z - 1)] > 0) nodes.Add(new Vector3(node.X, -8.2f, node.Z - 1));
 
             // right
-            if (Weight[sectorR][(int)node.X + 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X + 1, node.Y, node.Z));
+            if (Weight[sectorR][Math.Abs((int)node.X + 1), Math.Abs((int)node.Z)] > 0) nodes.Add(new Vector3(node.X + 1, -8.2f, node.Z));
 
             // backward
-            if (Weight[sectorB][(int)node.X, (int)node.Y, (int)node.Z + 1] > 0) nodes.Add(new Vector3(node.X, node.Y, node.Z + 1));
+            if (Weight[sectorB][Math.Abs((int)node.X), Math.Abs((int)node.Z + 1)] > 0) nodes.Add(new Vector3(node.X, -8.2f, node.Z + 1));
 
             // left
-            if (Weight[sectorL][(int)node.X - 1, (int)node.Y, (int)node.Z] > 0) nodes.Add(new Vector3(node.X - 1, node.Y, node.Z));
+            if (Weight[sectorL][Math.Abs((int)node.X - 1), Math.Abs((int)node.Z)] > 0) nodes.Add(new Vector3(node.X - 1, -8.2f, node.Z));
 
             return nodes;
         }

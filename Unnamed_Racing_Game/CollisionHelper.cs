@@ -1,37 +1,13 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using SharpDX;
 using SharpDX.Toolkit.Graphics;
+using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
     static class CollisionHelper
     {
-        public static bool IsCollision(KartEntity kart1, KartEntity kart2)
-        {
-            BoundingSphere sphere1 = kart1.Model.CalculateBounds(kart1.World), sphere2 = kart2.Model.CalculateBounds(kart2.World);
-
-            return (Collision.SphereIntersectsSphere(ref sphere1, ref sphere2));
-        }
-
-        public static bool IsCollision(KartEntity kart, Level level)
-        {
-            BoundingSphere bs1 = CreateBoundingSphere(kart.Model, kart.World);
-            //BoundingSphere bs2 = CreateBoundingSphere(level.WorldModel, level.trans);
-
-            for (int l = 0; l < level.Rooms.Count; l++)
-            {
-                for (int i = 0; i < level.Rooms[l].Walls.Meshes.Count; i++)
-                {
-                    if (bs1.Intersects(TransformBoundingSphere(level.Rooms[l].trans, level.Rooms[l].Walls.Meshes[i].BoundingSphere)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Moves a BoundingSphere by a given world matrix.
         /// </summary>
@@ -45,6 +21,12 @@ namespace Kross_Kart
             return new BoundingSphere(new Vector3(worldCenter.X, worldCenter.Y, worldCenter.Z), b.Radius);
         }
 
+        /// <summary>
+        /// Creates a BoundingSphere from a given model and world matrix.
+        /// </summary>
+        /// <param name="model">Model to create BoundingSphere from.</param>
+        /// <param name="world">Matrix to place BoundingSphere with.</param>
+        /// <returns></returns>
         public static BoundingSphere CreateBoundingSphere(Model model, Matrix world)
         {
             Matrix[] boneTransforms = new Matrix[model.Bones.Count];
@@ -60,25 +42,42 @@ namespace Kross_Kart
             return TransformBoundingSphere(world, boundingSphere);
         }
 
-        public static BoundingSphere CreateBoundingSphere(ModelMesh mesh, string roomNum)
+        /// <summary>
+        /// Creates a BoundingSphere from a given ModelMesh.
+        /// </summary>
+        /// <param name="mesh">ModelMesh to create BoundingSphere from.</param>
+        /// <param name="roomNum">0-based room number.</param>
+        /// <param name="modelPos">Position of Model in world space.</param>
+        /// <returns></returns>
+        public static BoundingSphere CreateBoundingSphere(ModelMesh mesh, string roomNum, Vector3 modelPos)
         {
+            BoundingSphere b;
             XmlDocument read = new XmlDocument();
+            XmlNode l;
             Matrix world;
+            Vector3 pos;
             /*Matrix[] boneTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(boneTransforms);*/
 
             read.Load(string.Format("Content/Models/Rooms/XML/{0}.xml", roomNum));
+            l = read.SelectSingleNode(string.Format("/Meshes/{0}", mesh.Name));
 
-            BoundingSphere meshSphere, boundingSphere = new BoundingSphere();
+            pos = new Vector3(float.Parse(l.Attributes["X"].Value),
+                float.Parse(l.Attributes["Y"].Value),
+                float.Parse(l.Attributes["Z"].Value));
 
-            world = Matrix.Translation(new Vector3(read.SelectSingleNode("{0}")))
+            pos += new Vector3(modelPos.X, 0, modelPos.Z);
+
+            world = Matrix.Translation(pos);
+
+            b = new BoundingSphere(pos, float.Parse(l.Attributes["Radius"].Value));
 
             /*for (int i = 0; i < model.Meshes.Count; i++)
             {
                 meshSphere = TransformBoundingSphere(boneTransforms[i], model.Meshes[i].BoundingSphere);
                 boundingSphere = BoundingSphere.Merge(boundingSphere, meshSphere);
             }*/
-            return TransformBoundingSphere(world, boundingSphere);
+            return TransformBoundingSphere(world, mesh.BoundingSphere);
         }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Duality;
 using SharpDX;
 using SharpDX.Toolkit;
+using SharpDX.Toolkit.Audio;
 using SharpDX.Toolkit.Content;
 using SharpDX.Toolkit.Graphics;
 using SharpDX.Toolkit.Input;
@@ -19,8 +21,13 @@ namespace Kross_Kart
         private static GraphicsDeviceManager graphics;
         SpriteBatch spritebatch;
 
-        private GameStates gameState;
+        public bool muted, fullscreen;
         event EventHandler GameStateChanged;
+        private GameStates gameState;
+        AudioManager audioManager;
+        SoundEffect menuSoundEffect, creditsSoundEffect;
+        SoundEffectInstance currentSound;
+        XmlDocument read;
 
         Menu menu;
         Level level;
@@ -76,6 +83,7 @@ namespace Kross_Kart
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            audioManager = new AudioManager(this);
             mouseManager = new MouseManager(this);
             keyboardManager = new KeyboardManager(this);
             IsMouseVisible = true;
@@ -85,6 +93,18 @@ namespace Kross_Kart
             GameStateChanged += NewGameState;
 
             content = Content;
+            try
+            {
+                read = new XmlDocument();
+                read.Load("Settings.xml");
+                muted = bool.Parse(read.SelectSingleNode("/Settings/Muted").InnerText);
+                fullscreen = bool.Parse(read.SelectSingleNode("/Settings/Fullscreen").InnerText);
+                graphics.IsFullScreen = fullscreen;
+            }
+            catch
+            {
+
+            }
         }
 
         protected override void Initialize()
@@ -103,6 +123,11 @@ namespace Kross_Kart
         {
             spritebatch = new SpriteBatch(GraphicsDevice);
 
+            menuSoundEffect = GameContent.Load<SoundEffect>("Music and Sounds/Menus");
+            currentSound = menuSoundEffect.Create();
+            currentSound.IsLooped = true;
+            currentSound.Volume = .025f;
+            currentSound.Play();
             GameState = GameStates.MainMenu;
 
             base.LoadContent();
@@ -128,6 +153,8 @@ namespace Kross_Kart
                     break;
             }
 
+            if (CurrentKeyboard.IsKeyDown(Keys.Alt) && CurrentKeyboard.IsKeyDown(Keys.F4)) Environment.Exit(0);
+
             base.Update(gameTime);
         }
 
@@ -140,6 +167,7 @@ namespace Kross_Kart
             switch(gameState)
             {
                 case GameStates.MainMenu:
+                    GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     menu.Draw(spritebatch);
                     break;
@@ -165,6 +193,11 @@ namespace Kross_Kart
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Event Handler for changing GameState.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void NewGameState(object sender, EventArgs args)
         {
             switch(gameState)
@@ -177,7 +210,7 @@ namespace Kross_Kart
                 case GameStates.Play:
                     if (level == null)
                     {
-                        level = new Level(this, "Test Kart");
+                        level = new Level(this, menu.selectedKart);
                         level.LoadContent();
                     }
                     break;

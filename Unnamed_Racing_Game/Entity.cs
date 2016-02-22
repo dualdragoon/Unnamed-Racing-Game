@@ -15,9 +15,11 @@ namespace Kross_Kart
     {
         private BasicEffect effect;
         private event EventHandler onCreated;
-        public float angle, frameTime, acceleration = (10.260796f / .22f) * 2f, velocity, yVelocity, friction = -(10.260796f / .44f) * 2f, gravitationalAcceleration = -(10.260796f / .22f) * 2f;
+        public float angle, frameTime, acceleration = (10.260796f / .11f) * 2f,
+            velocity, yVelocity, friction = -(10.260796f / .44f) * 2f,
+            gravitationalAcceleration = -(10.260796f / .22f) * 2f;
         private Level level;
-        private List<byte[, ,]> Weight = new List<byte[, ,]>(8);
+        protected byte[][,] Weight = new byte[8][,];
         private Matrix translation, view, projection, rotation;
         private Model model;
         public Vector3 rotationInRadians, position;
@@ -77,7 +79,7 @@ namespace Kross_Kart
 
         }
 
-        public KartEntity(Level level, List<byte[, ,]> weight)
+        public KartEntity(Level level, byte[][,] weight)
         {
             acceleration = 0;
             velocity = 0;
@@ -92,26 +94,27 @@ namespace Kross_Kart
 
         public virtual void LoadContent()
         {
-            Effect = new BasicEffect(null);
-            Model = null;
+
         }
 
         public List<Vector3> Pathfind(Vector3 start, Vector3 end)
         {
+            Vector3 pos = new Vector3(start.X, -8.2f, start.Z), endPos = new Vector3(end.X, -8.2f, end.Z);
             var closedSet = new List<Vector3>();
-            var openSet = new List<Vector3> { start };
+            var openSet = new List<Vector3>();
+            openSet.Add(pos);
             var cameFrom = new Dictionary<Vector3, Vector3>();
             var currentDistance = new Dictionary<Vector3, int>();
             var predictedDistance = new Dictionary<Vector3, float>();
 
-            currentDistance.Add(start, 0);
-            predictedDistance.Add(start, 0 + +Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y) + Math.Abs(start.Z - end.Z));
+            currentDistance.Add(pos, 0);
+            predictedDistance.Add(pos, 0 + +Math.Abs(pos.X - endPos.X) + Math.Abs(pos.Y - endPos.Y) + Math.Abs(pos.Z - endPos.Z));
 
             while (openSet.Count > 0)
             {
                 var current = (from p in openSet orderby predictedDistance[p] ascending select p).First();
 
-                if (current.X == end.X && current.Y == end.Y && current.Z == end.Z) return ReconstructPath(cameFrom, end);
+                if (current.X == endPos.X && current.Y == endPos.Y && current.Z == endPos.Z) return ReconstructPath(cameFrom, endPos);
 
                 openSet.Remove(current);
                 closedSet.Add(current);
@@ -128,14 +131,14 @@ namespace Kross_Kart
                         else cameFrom.Add(neighbor, current);
 
                         currentDistance[neighbor] = tempCurrentDistance;
-                        predictedDistance[neighbor] = currentDistance[neighbor] + Math.Abs(neighbor.X - end.X) + Math.Abs(neighbor.Y - end.Y) + Math.Abs(neighbor.Z - end.Z);
+                        predictedDistance[neighbor] = currentDistance[neighbor] + Math.Abs(neighbor.X - endPos.X) + Math.Abs(neighbor.Y - endPos.Y) + Math.Abs(neighbor.Z - endPos.Z);
 
                         if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
                     }
                 }
             }
 
-            throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", start.X, start.Y, start.Z, end.X, end.Y, end.Z));
+            throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", pos.X, pos.Y, pos.Z, endPos.X, endPos.Y, endPos.Z));
         }
 
         private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
@@ -154,15 +157,9 @@ namespace Kross_Kart
         {
             for (int i = 0; i < Level.Rooms.Count; i++)
             {
-                BoundingSphere s1 = Model.CalculateBounds(), s2 = Level.Rooms[i].Floor.CalculateBounds(), s3;
-                if ((i + 1) != Level.Rooms.Count)
+                if (Collision.BoxContainsPoint(ref Level.boxes[i], ref position) == ContainmentType.Contains)
                 {
-                    s3 = Level.Rooms[i + 1].Floor.CalculateBounds();
-
-                    if (Collision.SphereIntersectsSphere(ref s1, ref s2) && !Collision.SphereIntersectsSphere(ref s1, ref s3))
-                    {
-                        return i;
-                    }
+                    return i;
                 }
             }
             return Level.Rooms.Count - 1;
