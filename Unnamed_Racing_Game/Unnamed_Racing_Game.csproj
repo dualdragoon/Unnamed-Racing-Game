@@ -223,6 +223,9 @@
     <Content Include="Content\Models\Rooms\XML\1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Music and Sounds\Broadcastianite.wav" />
+    <Content Include="Content\Music and Sounds\dod dod dod dod dod       dod.wav" />
+    <Content Include="Content\Music and Sounds\Track C810.wav" />
     <Content Include="Content\Room Ratio.txt" />
     <ToolkitTexture Include="Content\Menus\Gumin Preview.png" />
     <ToolkitTexture Include="Content\Menus\Shopping Cart Preview.png" />
