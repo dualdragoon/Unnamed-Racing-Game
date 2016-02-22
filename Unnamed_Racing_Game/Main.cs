@@ -100,7 +100,7 @@ namespace Kross_Kart
                 try
                 {
                     muted = bool.Parse(read.SelectSingleNode("/Settings/Muted").InnerText);
-                    vol = (muted) ? 0 : .25f;
+                    vol = (muted) ? 0 : .025f;
                 }
                 catch
                 {

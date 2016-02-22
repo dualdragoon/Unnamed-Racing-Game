@@ -28,7 +28,7 @@ namespace Kross_Kart
         private Texture2D background, loadBar, loadBarBack;
         private Thread t;
         private ThreadStart ts;
-        private AIKart test;
+        private Player test;
         private Vector3 lowerWeightBound, upperWeightBound, roomPos, roomPlacementX = new Vector3(79.68f, 0, 0), roomPlacementZ = new Vector3(0, 0, 79.68f);
 
         #region Properties
@@ -50,7 +50,7 @@ namespace Kross_Kart
             get { return rooms; }
         }
 
-        public AIKart Player
+        public Player Player
         {
             get { return test; }
             set { test = value; }
@@ -61,8 +61,8 @@ namespace Kross_Kart
         public Level(Main main, string kart)
         {
             Cam = new Camera(this);
-            Player = new AIKart(rand.Next(), this, weight);
-            //Player = new Player(this, kart);
+            //Player = new AIKart(rand.Next(), this, weight);
+            Player = new Player(this, kart);
             test.OnCreated += OnPlayerCreate;
             this.main = main;
         }
