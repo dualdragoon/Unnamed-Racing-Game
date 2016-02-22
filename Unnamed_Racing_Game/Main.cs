@@ -23,11 +23,11 @@ namespace Kross_Kart
 
         public bool muted, fullscreen;
         event EventHandler GameStateChanged;
+        public float vol;
         private GameStates gameState;
         AudioManager audioManager;
         SoundEffect menuSoundEffect, creditsSoundEffect;
         SoundEffectInstance currentSound;
-        XmlDocument read;
 
         Menu menu;
         Level level;
@@ -95,15 +95,46 @@ namespace Kross_Kart
             content = Content;
             try
             {
-                read = new XmlDocument();
+                XmlDocument read = new XmlDocument();
                 read.Load("Settings.xml");
-                muted = bool.Parse(read.SelectSingleNode("/Settings/Muted").InnerText);
-                fullscreen = bool.Parse(read.SelectSingleNode("/Settings/Fullscreen").InnerText);
-                graphics.IsFullScreen = fullscreen;
+                try
+                {
+                    muted = bool.Parse(read.SelectSingleNode("/Settings/Muted").InnerText);
+                    vol = (muted) ? 0 : .25f;
+                }
+                catch
+                {
+                    Console.WriteLine("Muted value is invalid; setting to false.");
+                    read.SelectSingleNode("/Settings/Muted").InnerText = "false";
+                    vol = .25f;
+                }
+                try
+                {
+                    fullscreen = bool.Parse(read.SelectSingleNode("/Settings/Fullscreen").InnerText);
+                    graphics.IsFullScreen = fullscreen;
+                }
+                catch
+                {
+                    Console.WriteLine("Fullscreen value is invalid; setting to false.");
+                    read.SelectSingleNode("/Settings/Fullscreen").InnerText = "false";
+                    graphics.IsFullScreen = false;
+                }
+                read.Save("Settings.xml");
             }
             catch
             {
-
+                Console.WriteLine("Could not load settings file; most likely the file doesn't exist.");
+                Console.WriteLine("Generating settings file and setting all options to default.");
+                XmlDocument settings = new XmlDocument();
+                XmlNode rootNode = settings.CreateElement("Settings");
+                settings.AppendChild(rootNode);
+                XmlNode userNode = settings.CreateElement("Muted");
+                userNode.InnerText = "false";
+                rootNode.AppendChild(userNode);
+                userNode = settings.CreateElement("Fullscreen");
+                userNode.InnerText = "false";
+                rootNode.AppendChild(userNode);
+                settings.Save("Settings.xml");
             }
         }
 
@@ -126,7 +157,7 @@ namespace Kross_Kart
             menuSoundEffect = GameContent.Load<SoundEffect>("Music and Sounds/Menus");
             currentSound = menuSoundEffect.Create();
             currentSound.IsLooped = true;
-            currentSound.Volume = .025f;
+            currentSound.Volume = vol;
             currentSound.Play();
             GameState = GameStates.MainMenu;
 

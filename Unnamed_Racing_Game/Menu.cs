@@ -245,7 +245,7 @@ namespace Kross_Kart
                     break;
 
                 case 9:
-                    Environment.Exit(0);
+                    Environment.Exit(Environment.ExitCode);
                     break;
 
                 case 10:

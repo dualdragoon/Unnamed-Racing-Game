@@ -259,7 +259,9 @@
 xcopy "$(TargetDir)*.dll" "$(TargetDir)Lib" /Y
 xcopy "$(TargetDir)*.xml" "$(TargetDir)Lib" /Y
 del "$(TargetDir)*.dll"
-del "$(TargetDir)*.xml"</PostBuildEvent>
+del "$(TargetDir)*.xml"
+xcopy "$(TargetDir)Lib\Settings.xml" "$(TargetDir)" /Y
+del "$(TargetDir)Lib\Settings.xml"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
