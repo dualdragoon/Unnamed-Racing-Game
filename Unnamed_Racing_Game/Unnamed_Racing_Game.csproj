@@ -127,6 +127,9 @@
     <ToolkitModel Include="Content\Models\Gumin.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\1 walls.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\1 corner walls.fbx" />
+    <ToolkitFont Include="Content\Font\Font2.spritefont">
+      <SubType>Designer</SubType>
+    </ToolkitFont>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +211,7 @@
   <ItemGroup>
     <ToolkitTexture Include="Content\Menus\Load Bar.png" />
     <ToolkitTexture Include="Content\Menus\Load Bar Back.png" />
+    <ToolkitTexture Include="Content\Menus\Untitled.png" />
     <Content Include="Content\Models\Rooms\XML\0.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

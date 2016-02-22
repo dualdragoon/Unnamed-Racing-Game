@@ -25,7 +25,7 @@ namespace Kross_Kart
         Main main;
         public MenuType type = MenuType.MainMenu;
         SpriteFont font;
-        private string soundOn, screenOn;
+        private string soundOn, screenOn, Aaron, Josh, Colin;
         public string selectedKart = "";
         Texture2D background, chosenKart, startUnPressed, startPressed,
             highScoresUnPressed, highScoresPressed, optionsUnPressed,
@@ -36,7 +36,7 @@ namespace Kross_Kart
             creditsUnPressed, creditsPressed, testKartUnPressed,
             testKartPressed, tifighterUnPressed, tifighterPressed,
             shoppingCartUnPressed, shoppingCartPressed,
-            guminKartUnPressed, guminKartPressed;
+            guminKartUnPressed, guminKartPressed, Untitled;
 
         XmlDocument write;
 
@@ -82,6 +82,7 @@ namespace Kross_Kart
             shoppingCartPressed = Main.GameContent.Load<Texture2D>("Menus/ShoppingCartPressed");
             guminKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKart");
             guminKartPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKartPressed");
+            Untitled = Main.GameContent.Load<Texture2D>("Menus/Untitled");
             #endregion
 
             switch (type)
@@ -142,6 +143,12 @@ namespace Kross_Kart
                     guminKart.ButtonPressed += ButtonPressed;
                     break;
 
+                case MenuType.Credits:
+                    menu = new Button(new Vector2(9, 537), 168, 54, 4, Main.CurrentMouse, menuUnPressed, menuPressed, Main.Graphics.PreferredBackBufferWidth, Main.Graphics.PreferredBackBufferHeight);
+
+                    menu.ButtonPressed += ButtonPressed;
+                    break;
+
                 default:
                     break;
             }
@@ -178,6 +185,8 @@ namespace Kross_Kart
                     break;
 
                 case MenuType.Credits:
+                    menu.Update(Main.CurrentMouse);
+
                     break;
 
                 case MenuType.KartSelect:
@@ -238,6 +247,7 @@ namespace Kross_Kart
 
                 case 7:
                     type = MenuType.Credits;
+                    LoadContent();
                     break;
 
                 case 8:
@@ -316,6 +326,14 @@ namespace Kross_Kart
                         spriteBatch.Draw(guminKart.Texture, guminKart.Position, Color.White);
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
                         spriteBatch.Draw(chosenKart, new Vector2(400, 125), Color.White);
+                        break;
+
+                    case MenuType.Credits:
+                        spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
+                        spriteBatch.DrawString(font, "Aaron Hosler", new Vector2(200, 220), Color.White);
+                        spriteBatch.DrawString(font, "Josh Glover", new Vector2(300, 270), Color.White);
+                        spriteBatch.DrawString(font, "Colin Holmes", new Vector2(400, 320), Color.White);
+                        spriteBatch.Draw(Untitled, Vector2.Zero, Color.White);
                         break;
 
                     default:
