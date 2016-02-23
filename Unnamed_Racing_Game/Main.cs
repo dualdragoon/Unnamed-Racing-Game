@@ -14,7 +14,7 @@ using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
-    public enum GameStates { MainMenu, Play, Pause };
+    public enum GameStates { MainMenu, Play, Pause, EndGame };
 
     class Main : Game
     {
@@ -27,7 +27,7 @@ namespace Kross_Kart
         private GameStates gameState;
         AudioManager audioManager;
         SoundEffect menuSoundEffect, creditsSoundEffect;
-        SoundEffectInstance currentSound;
+        public SoundEffectInstance currentSound, menuSound, creditsSound;
 
         Menu menu;
         Level level;
@@ -155,9 +155,14 @@ namespace Kross_Kart
             spritebatch = new SpriteBatch(GraphicsDevice);
 
             menuSoundEffect = GameContent.Load<SoundEffect>("Music and Sounds/Menus");
-            currentSound = menuSoundEffect.Create();
-            currentSound.IsLooped = true;
-            currentSound.Volume = vol;
+            creditsSoundEffect = GameContent.Load<SoundEffect>("Music and Sounds/Credits");
+            menuSound = menuSoundEffect.Create();
+            creditsSound = creditsSoundEffect.Create();
+            creditsSound.IsLooped = true;
+            creditsSound.Volume = vol;
+            menuSound.IsLooped = true;
+            menuSound.Volume = vol;
+            currentSound = creditsSound;
             currentSound.Play();
             GameState = GameStates.MainMenu;
 
@@ -180,11 +185,16 @@ namespace Kross_Kart
                 case GameStates.Pause:
                     menu.Update(gameTime);
                     break;
+                case GameStates.EndGame:
+                    menu.Update(gameTime);
+                    break;
                 default:
                     break;
             }
 
-            if (CurrentKeyboard.IsKeyDown(Keys.Alt) && CurrentKeyboard.IsKeyDown(Keys.F4)) Environment.Exit(0);
+            if (CurrentKeyboard.IsKeyDown(Keys.Alt) && CurrentKeyboard.IsKeyDown(Keys.F4)) Exit();
+
+            currentSound.Volume = vol;
 
             base.Update(gameTime);
         }
@@ -209,10 +219,15 @@ namespace Kross_Kart
                     level.Draw(GraphicsDevice, spritebatch);
                     break;
                 case GameStates.Pause:
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    GraphicsDevice.Clear(Color.Black);
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     level.Draw(GraphicsDevice, spritebatch);
+                    menu.Draw(spritebatch);
+                    break;
+                case GameStates.EndGame:
+                    GraphicsDevice.Clear(Color.Black);
+                    spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     menu.Draw(spritebatch);
                     break;
                 default:
@@ -234,7 +249,7 @@ namespace Kross_Kart
             switch(gameState)
             {
                 case GameStates.MainMenu:
-                    menu = new Menu(this);
+                    if (menu == null)menu = new Menu(this);
                     menu.LoadContent();
                     level = null;
                     break;
@@ -247,6 +262,11 @@ namespace Kross_Kart
                     break;
                 case GameStates.Pause:
                     menu.type = MenuType.Pause;
+                    menu.LoadContent();
+                    break;
+                case GameStates.EndGame:
+                    menu.type = MenuType.HighScores;
+                    menu.scores.recordScore(level.Player.Score, "");
                     menu.LoadContent();
                     break;
                 default:

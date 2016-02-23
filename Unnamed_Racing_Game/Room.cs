@@ -11,12 +11,14 @@ namespace Kross_Kart
 {
     class Room
     {
+        private BasicEffect effect;
         private BoundingBox cell;
         private float yValue;
         private Level level;
         private List<BoundingBox> obstacles;
         public Matrix trans;
         private Model walls, floor;
+        private Random rand;
         public string room;
         private Vector3 floorPos;
         private XmlDocument read;
@@ -57,16 +59,23 @@ namespace Kross_Kart
         }
         #endregion
 
-        public Room(Level level, string roomTitle, Vector3 pos)
+        public Room(Level level, string roomTitle, Vector3 pos, int seed)
         {
             this.level = level; 
             room = roomTitle;
             floorPos = pos;
             trans = Matrix.Translation(floorPos);
+            rand = new Random(seed);
         }
 
         public void LoadContent()
         {
+            effect = new BasicEffect(Main.Graphics.GraphicsDevice);
+            effect.LightingEnabled = true;
+            effect.DirectionalLight0.DiffuseColor = new Color(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)).ToVector3();
+            effect.DirectionalLight0.Direction = new Vector3(1, -2.5f, -1);
+            effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
+
             try
             {
                 floor = Main.GameContent.Load<Model>("Models/Rooms/Floor");
@@ -101,8 +110,8 @@ namespace Kross_Kart
         {
             try
             {
-                Walls.Draw(graphicsDevice, trans, level.view, level.projection, level.Effect);
-                floor.Draw(graphicsDevice, trans, level.view, level.projection, level.Effect);
+                Walls.Draw(graphicsDevice, trans, level.view, level.projection, effect);
+                floor.Draw(graphicsDevice, trans, level.view, level.projection, effect);
             }
             catch {}
         }

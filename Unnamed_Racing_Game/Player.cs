@@ -17,12 +17,21 @@ namespace Kross_Kart
     /// </summary>
     sealed class Player : KartEntity
     {
-        private bool turnLeft, turnRight, grounded, accel, backward;
+        private bool turnLeft, turnRight, grounded, accel, backward, timeDone;
         public bool colliding;
-        int currentRoom = 0;
-        float collideFactor;
+        int currentRoom = 0, score = 0;
+        float collideFactor, timer;
+        List<Projectile> projectiles = new List<Projectile>();
+        Model sphere;
+        ProjectileType projectile;
         string kart;
+        Texture2D loadBarBack, loadBar, sphereRed, sphereGreen, sphereBlue, nullImage, currentSphere;
         Vector3 tempPos;
+
+        public int Score
+        {
+            get { return score; }
+        }
 
         public Player(Level level, string kart)
         {
@@ -32,10 +41,18 @@ namespace Kross_Kart
 
         public override void LoadContent()
         {
-            base.LoadContent();
             Model = Main.GameContent.Load<Model>(string.Format("Models/{0}", kart));
+            sphere = Main.GameContent.Load<Model>("Models/Sphere");
+            loadBar = Main.GameContent.Load<Texture2D>("Menus/Load Bar");
+            sphereRed = Main.GameContent.Load<Texture2D>("Menus/Red Sphere");
+            nullImage = Main.GameContent.Load<Texture2D>("Menus/Null");
+            sphereBlue = Main.GameContent.Load<Texture2D>("Menus/Blue Sphere");
+            sphereGreen = Main.GameContent.Load<Texture2D>("Menus/Green Sphere");
+            loadBarBack = Main.GameContent.Load<Texture2D>("Menus/Load Bar Back");
+            currentSphere = nullImage;
 
-            //BasicEffect.EnableDefaultLighting(model);
+            timer = 0;
+            timeDone = false;
 
             Effect = new BasicEffect(Main.Graphics.GraphicsDevice);
             Effect.LightingEnabled = true;
@@ -46,6 +63,32 @@ namespace Kross_Kart
             Rotation = Matrix.Identity;
         }
 
+        private void TimeElapsed()
+        {
+            timer = 3000;
+            if (!timeDone)
+            {
+                timeDone = true;
+                Random rand = new Random();
+                int num = rand.Next(1, 101);
+                if (num <= 75)
+                {
+                    currentSphere = sphereRed;
+                    projectile = ProjectileType.Red;
+                }
+                else if (num > 75 && num <= 95)
+                {
+                    currentSphere = sphereGreen;
+                    projectile = ProjectileType.Green;
+                }
+                else
+                {
+                    currentSphere = sphereBlue;
+                    projectile = ProjectileType.Blue;
+                } 
+            }
+        }
+
         public void Update(GameTime gameTime, Matrix view, Matrix projection)
         {
             this.View = view;
@@ -53,7 +96,7 @@ namespace Kross_Kart
 
             currentRoom = CurrentRoom();
 
-            Console.WriteLine(currentRoom);
+            if (timer < 2999) timer += gameTime.ElapsedGameTime.Milliseconds;
 
             frameTime = (float)gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
@@ -92,9 +135,32 @@ namespace Kross_Kart
             //angle = MathUtil.DegreesToRadians(s.ElapsedMilliseconds / 15.625f);
             World = Rotation * Matrix.Translation(position);
 
+            if (timer >= 3000)
+            {
+                TimeElapsed();
+
+                if (Main.CurrentKeyboard.IsKeyPressed(Keys.E))
+                {
+                    timeDone = false;
+                    timer = 0;
+                    projectiles.Add(new Projectile(projectile, sphere, position, World.Forward, angle, Level));
+                    currentSphere = nullImage;
+                }
+            }
+
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.D1)) position = Vector3.Zero;
 
             if (Main.CurrentKeyboard.IsKeyPressed(Keys.D2)) position = Level.Rooms[0].Position;
+
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                projectiles[i].Update(gameTime, view, projection);
+                if (projectiles[i].broken)
+                {
+                    score += projectiles[i].worth;
+                    projectiles.Remove(projectiles[i]);
+                }
+            }
         }
 
         private void Input()
@@ -126,6 +192,19 @@ namespace Kross_Kart
             }
 
             position -= World.Forward * (velocity * frameTime);
+        }
+
+        public override void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            base.Draw(graphicsDevice, spriteBatch);
+            foreach (Projectile p in projectiles)
+            {
+                p.Draw(graphicsDevice);
+            }
+            spriteBatch.Draw(loadBarBack, new Vector2(200, 0), Color.White);
+            spriteBatch.Draw(loadBar, new RectangleF(205, 5, (timer/3000) * 250, 25), Color.White);
+            spriteBatch.Draw(currentSphere, new Vector2(635, 5), Color.White);
+
         }
     }
 }

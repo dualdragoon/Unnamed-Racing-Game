@@ -104,16 +104,15 @@
     <Compile Include="Level.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Menu.cs" />
-    <Compile Include="NodeHelper.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <ToolkitFont Include="Content\Font\Font.spritefont" />
-    <ToolkitModel Include="Content\Models\Sphere.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart.fbx" />
     <ToolkitModel Include="Content\Models\TIE.fbx" />
     <ToolkitModel Include="Content\Models\Test Kart - Copy.fbx" />
@@ -126,10 +125,10 @@
     <ToolkitModel Include="Content\Models\Shopping Cart.fbx" />
     <ToolkitModel Include="Content\Models\Gumin.fbx" />
     <ToolkitModel Include="Content\Models\Rooms\1 walls.fbx" />
-    <ToolkitModel Include="Content\Models\Rooms\1 corner walls.fbx" />
     <ToolkitFont Include="Content\Font\Font2.spritefont">
       <SubType>Designer</SubType>
     </ToolkitFont>
+    <ToolkitModel Include="Content\Models\Sphere.fbx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -212,13 +211,11 @@
     <ToolkitTexture Include="Content\Menus\Load Bar.png" />
     <ToolkitTexture Include="Content\Menus\Load Bar Back.png" />
     <ToolkitTexture Include="Content\Menus\Untitled.png" />
+    <ToolkitTexture Include="Content\Menus\Blue Sphere.png" />
+    <ToolkitTexture Include="Content\Menus\Green Sphere.png" />
+    <ToolkitTexture Include="Content\Menus\Red Sphere.png" />
+    <ToolkitTexture Include="Content\Menus\Null.png" />
     <Content Include="Content\Models\Rooms\XML\0.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Models\Rooms\XML\1 corner.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Models\Rooms\XML\4 corner.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Rooms\XML\Test Room.xml">
@@ -227,9 +224,10 @@
     <Content Include="Content\Models\Rooms\XML\1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Music and Sounds\Broadcastianite.wav" />
-    <Content Include="Content\Music and Sounds\dod dod dod dod dod       dod.wav" />
-    <Content Include="Content\Music and Sounds\Track C810.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Broadcastianite.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\dod dod dod dod dod       dod.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Track C810.wav" />
+    <ToolkitAudio Include="Content\Music and Sounds\Button Press.wav" />
     <Content Include="Content\Room Ratio.txt" />
     <ToolkitTexture Include="Content\Menus\Gumin Preview.png" />
     <ToolkitTexture Include="Content\Menus\Shopping Cart Preview.png" />
@@ -268,7 +266,9 @@ xcopy "$(TargetDir)*.xml" "$(TargetDir)Lib" /Y
 del "$(TargetDir)*.dll"
 del "$(TargetDir)*.xml"
 xcopy "$(TargetDir)Lib\Settings.xml" "$(TargetDir)" /Y
-del "$(TargetDir)Lib\Settings.xml"</PostBuildEvent>
+del "$(TargetDir)Lib\Settings.xml"
+xcopy "$(TargetDir)Lib\Scores.xml" "$(TargetDir)" /Y
+del "$(TargetDir)Lib\Scores.xml"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

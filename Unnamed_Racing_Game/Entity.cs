@@ -97,62 +97,6 @@ namespace Kross_Kart
 
         }
 
-        public List<Vector3> Pathfind(Vector3 start, Vector3 end)
-        {
-            Vector3 pos = new Vector3(start.X, -8.2f, start.Z), endPos = new Vector3(end.X, -8.2f, end.Z);
-            var closedSet = new List<Vector3>();
-            var openSet = new List<Vector3>();
-            openSet.Add(pos);
-            var cameFrom = new Dictionary<Vector3, Vector3>();
-            var currentDistance = new Dictionary<Vector3, int>();
-            var predictedDistance = new Dictionary<Vector3, float>();
-
-            currentDistance.Add(pos, 0);
-            predictedDistance.Add(pos, 0 + +Math.Abs(pos.X - endPos.X) + Math.Abs(pos.Y - endPos.Y) + Math.Abs(pos.Z - endPos.Z));
-
-            while (openSet.Count > 0)
-            {
-                var current = (from p in openSet orderby predictedDistance[p] ascending select p).First();
-
-                if (current.X == endPos.X && current.Y == endPos.Y && current.Z == endPos.Z) return ReconstructPath(cameFrom, endPos);
-
-                openSet.Remove(current);
-                closedSet.Add(current);
-
-                foreach (var neighbor in NodeHelper.GetNeighborNodes(current, Weight))
-                {
-                    var tempCurrentDistance = currentDistance[current] + 1;
-
-                    if (closedSet.Contains(neighbor) && tempCurrentDistance >= currentDistance[neighbor]) continue;
-
-                    if (!closedSet.Contains(neighbor) || tempCurrentDistance < currentDistance[neighbor])
-                    {
-                        if (cameFrom.Keys.Contains(neighbor)) cameFrom[neighbor] = current;
-                        else cameFrom.Add(neighbor, current);
-
-                        currentDistance[neighbor] = tempCurrentDistance;
-                        predictedDistance[neighbor] = currentDistance[neighbor] + Math.Abs(neighbor.X - endPos.X) + Math.Abs(neighbor.Y - endPos.Y) + Math.Abs(neighbor.Z - endPos.Z);
-
-                        if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
-                    }
-                }
-            }
-
-            throw new Exception(string.Format("Unable to find a path between {0},{1},{2} and {3},{4},{5}", pos.X, pos.Y, pos.Z, endPos.X, endPos.Y, endPos.Z));
-        }
-
-        private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
-        {
-            if (!cameFrom.Keys.Contains(current))
-            {
-                return new List<Vector3> { current };
-            }
-
-            var path = ReconstructPath(cameFrom, cameFrom[current]);
-            path.Add(current);
-            return path;
-        }
-
         public int CurrentRoom()
         {
             for (int i = 0; i < Level.Rooms.Count; i++)
@@ -174,7 +118,7 @@ namespace Kross_Kart
             position += World.Down * (yVelocity * frameTime);
         }
 
-        public void Draw(GraphicsDevice graphicsDevice)
+        public virtual void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             Model.Draw(graphicsDevice, World, View, Projection, Effect);
         }

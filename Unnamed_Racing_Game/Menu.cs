@@ -3,30 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Xml;
 using Duality.Interaction;
+using Duality.Records;
 using SharpDX;
 using SharpDX.Toolkit;
-using SharpDX.Toolkit.Content;
+using SharpDX.Toolkit.Audio;
 using SharpDX.Toolkit.Graphics;
 using SharpDX.Toolkit.Input;
 
 namespace Kross_Kart
 {
-    enum MenuType { MainMenu, Options, HighScores, Pause, Credits, KartSelect };
+    enum MenuType { MainMenu, Options, HighScores, Pause, Credits, KartSelect, Publisher };
 
     class Menu
     {
-        bool muted, screen;
+        bool muted, fullScreen;
         Button start, highScores, options, menu, sound,
             fullscreen, credits, kartSelect, tieFighter,
             testKart, shoppingCart, guminKart, exit;
 
         Main main;
-        public MenuType type = MenuType.MainMenu;
+        public MenuType type = MenuType.Publisher;
+        SoundEffect pressed;
+        SoundEffectInstance pressedSound;
         SpriteFont font;
         private string soundOn, screenOn, Aaron, Josh, Colin;
         public string selectedKart = "";
+        public ScoreBoard scores;
         Texture2D background, chosenKart, startUnPressed, startPressed,
             highScoresUnPressed, highScoresPressed, optionsUnPressed,
             optionsPressed, title, menuPressed, menuUnPressed,
@@ -38,6 +43,7 @@ namespace Kross_Kart
             shoppingCartUnPressed, shoppingCartPressed,
             guminKartUnPressed, guminKartPressed, Untitled;
 
+        Timer timer;
         XmlDocument write;
 
         /// <summary>
@@ -47,6 +53,8 @@ namespace Kross_Kart
         public Menu(Main main)
         {
             this.main = main;
+            muted = main.muted;
+            fullScreen = main.fullscreen;
         }
 
         public void LoadContent()
@@ -83,6 +91,13 @@ namespace Kross_Kart
             guminKartUnPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKart");
             guminKartPressed = Main.GameContent.Load<Texture2D>("Menus/GuminKartPressed");
             Untitled = Main.GameContent.Load<Texture2D>("Menus/Untitled");
+            pressed = Main.GameContent.Load<SoundEffect>("Music and Sounds/Button Press");
+            pressedSound = pressed.Create();
+            pressedSound.Volume = .25f;
+            pressedSound.IsLooped = false;
+
+            scores = new ScoreBoard("Scores", "Scores", 10);
+            scores.retrieveScores();
             #endregion
 
             switch (type)
@@ -149,6 +164,12 @@ namespace Kross_Kart
                     menu.ButtonPressed += ButtonPressed;
                     break;
 
+                case MenuType.Publisher:
+                    timer = new Timer(4000);
+                    timer.Elapsed += TimeElapsed;
+                    timer.Start();
+                    break;
+
                 default:
                     break;
             }
@@ -171,7 +192,7 @@ namespace Kross_Kart
                     menu.Update(Main.CurrentMouse);
                     sound.Update(Main.CurrentMouse);
                     fullscreen.Update(Main.CurrentMouse);
-                    screenOn = (screen) ? "On" : "Off";
+                    screenOn = (fullScreen) ? "On" : "Off";
                     soundOn = (muted) ? "Off" : "On";
                     break;
 
@@ -197,9 +218,17 @@ namespace Kross_Kart
                     guminKart.Update(Main.CurrentMouse);
                     menu.Update(Main.CurrentMouse);
                     break;
+
                 default:
                     break;
             }
+        }
+
+        private void TimeElapsed(object sender, EventArgs args)
+        {
+            type = MenuType.Credits;
+            timer.Stop();
+            LoadContent();
         }
 
         /// <summary>
@@ -211,6 +240,7 @@ namespace Kross_Kart
 
         public void ButtonPressed(object sender, EventArgs args)
         {
+            pressedSound.Play();
             switch (((Button)sender).ButtonNum)
             {
                 case 1:
@@ -230,6 +260,29 @@ namespace Kross_Kart
                     break;
 
                 case 4:
+                    if (type == MenuType.Options)
+                    {
+                        XmlDocument settings = new XmlDocument();
+                        XmlNode rootNode = settings.CreateElement("Settings");
+                        settings.AppendChild(rootNode);
+                        XmlNode userNode = settings.CreateElement("Muted");
+                        userNode.InnerText = muted.ToString();
+                        rootNode.AppendChild(userNode);
+                        userNode = settings.CreateElement("Fullscreen");
+                        userNode.InnerText = fullScreen.ToString();
+                        rootNode.AppendChild(userNode);
+                        settings.Save("Settings.xml");
+                    }
+                    else if (type == MenuType.Credits)
+                    {
+                        main.currentSound.Stop();
+                        main.currentSound = main.menuSound;
+                        main.currentSound.Play();
+                    }
+                    else if (type == MenuType.HighScores)
+                    {
+                        main.GameState = GameStates.MainMenu;
+                    }
                     type = MenuType.MainMenu;
                     if (main.GameState == GameStates.Pause) main.GameState = GameStates.MainMenu;
                     LoadContent();
@@ -237,10 +290,11 @@ namespace Kross_Kart
 
                 case 5:
                     muted = !muted;
+                    main.vol = (muted) ? 0 : .025f;
                     break;
 
                 case 6:
-                    screen = !screen;
+                    fullScreen = !fullScreen;
                     Main.Graphics.IsFullScreen = !Main.Graphics.IsFullScreen;
                     Main.Graphics.ApplyChanges();
                     break;
@@ -255,7 +309,7 @@ namespace Kross_Kart
                     break;
 
                 case 9:
-                    Environment.Exit(Environment.ExitCode);
+                    main.Exit();
                     break;
 
                 case 10:
@@ -310,6 +364,10 @@ namespace Kross_Kart
 
                     case MenuType.HighScores:
                         spriteBatch.Draw(menu.Texture, menu.Position, Color.White);
+                        for (int i = 0; i < scores.HighScores.Length; i++)
+                        {
+                            spriteBatch.DrawString(font, scores.HighScores[i], new Vector2(250, 50 + (50 * i)), Color.White);
+                        }
                         break;
 
                     case MenuType.Pause:
@@ -334,6 +392,11 @@ namespace Kross_Kart
                         spriteBatch.DrawString(font, "Josh Glover", new Vector2(300, 270), Color.White);
                         spriteBatch.DrawString(font, "Colin Holmes", new Vector2(400, 320), Color.White);
                         spriteBatch.Draw(Untitled, Vector2.Zero, Color.White);
+                        break;
+
+                    case MenuType.Publisher:
+                        spriteBatch.Draw(title, new Vector2(200, 0), Color.White);
+                        spriteBatch.DrawString(font, "Published by Cognitive Thought Media", new Vector2(54, 500), Color.White);
                         break;
 
                     default:

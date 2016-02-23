@@ -20,17 +20,23 @@ namespace Kross_Kart
         };
 
         private bool turnLeft, turnRight, grounded, accel, backward;
-        public bool colliding;
-        int currentRoom = 0, nextRoom;
+        public bool colliding, circuitComplete;
+        int currentRoom = 0, nextRoom, completeCircuits, circuitRequirement = 3;
         float collideFactor, nextAngle;
         Random rand;
         Vector3 tempPos;
+
+        public bool CircuitsComplete
+        {
+            get { return (completeCircuits == circuitRequirement); }
+        }
 
         public AIKart(int kartNum, Level level, byte[][,] weight)
         {
             rand = new Random(kartNum);
             Level = level;
             Weight = weight;
+            position = new Vector3(rand.NextFloat(-10, 11), rand.NextFloat(-10, 11), rand.NextFloat(-10, 11));
         }
 
         public override void LoadContent()
@@ -44,6 +50,8 @@ namespace Kross_Kart
             Effect.DirectionalLight0.DiffuseColor = new Color(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255)).ToVector3();
             Effect.DirectionalLight0.Direction = new Vector3(1, 0, -1);
             Effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
+
+            completeCircuits = 0;
         }
 
         public void Update(GameTime gameTime, Matrix view, Matrix projection)
@@ -53,9 +61,15 @@ namespace Kross_Kart
 
             currentRoom = CurrentRoom();
 
-            Console.WriteLine(currentRoom);
-
             nextRoom = ((currentRoom + 1) == Level.Rooms.Count) ? 0 : currentRoom + 1;
+
+            if (currentRoom + 1 == Level.Rooms.Count && !circuitComplete)
+            {
+                completeCircuits++;
+                circuitComplete = true;
+            }
+
+            if (currentRoom == 1) circuitComplete = false;
 
             frameTime = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
@@ -68,7 +82,7 @@ namespace Kross_Kart
                 ApplyGravity();
             }
 
-            nextAngle = (float)Math.Atan2(Level.Rooms[nextRoom].Position.X - position.X, Level.Rooms[nextRoom].Position.Z - position.Z);
+            nextAngle = (float)Math.Atan2((Level.Rooms[nextRoom].Position.X + rand.NextFloat(-10, 11)) - position.X, (Level.Rooms[nextRoom].Position.Z + rand.NextFloat(-10, 11)) - position.Z);
 
             Rotation = Matrix.RotationY(angle);
 

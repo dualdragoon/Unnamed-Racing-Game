@@ -14,7 +14,7 @@ namespace Kross_Kart
 {
     class Level
     {
-        private BasicEffect effect;
+        private AIKart ai;
         private bool complete = false;
         public BoundingBox[] boxes;
         private byte[][,] weight = new byte[8][,];
@@ -28,15 +28,15 @@ namespace Kross_Kart
         private Texture2D background, loadBar, loadBarBack;
         private Thread t;
         private ThreadStart ts;
-        private Player test;
+        private Player player;
         private Vector3 lowerWeightBound, upperWeightBound, roomPos, roomPlacementX = new Vector3(79.68f, 0, 0), roomPlacementZ = new Vector3(0, 0, 79.68f);
 
         #region Properties
 
-        public BasicEffect Effect
+        public AIKart AI
         {
-            get { return effect; }
-            set { effect = value; }
+            get { return ai; }
+            set { ai = value; }
         }
 
         public Camera Cam
@@ -52,8 +52,8 @@ namespace Kross_Kart
 
         public Player Player
         {
-            get { return test; }
-            set { test = value; }
+            get { return player; }
+            set { player = value; }
         }
 
         #endregion
@@ -61,9 +61,9 @@ namespace Kross_Kart
         public Level(Main main, string kart)
         {
             Cam = new Camera(this);
-            //Player = new AIKart(rand.Next(), this, weight);
+            AI = new AIKart(rand.Next(), this, weight);
             Player = new Player(this, kart);
-            test.OnCreated += OnPlayerCreate;
+            player.OnCreated += OnPlayerCreate;
             this.main = main;
         }
 
@@ -103,14 +103,8 @@ namespace Kross_Kart
             loadBar = Main.GameContent.Load<Texture2D>("Menus/Load Bar");
             loadBarBack = Main.GameContent.Load<Texture2D>("Menus/Load Bar Back");
 
-            effect = new BasicEffect(Main.Graphics.GraphicsDevice);
-            /*effect.LightingEnabled = true;
-            effect.DirectionalLight0.DiffuseColor = Color.White.ToVector3();
-            effect.DirectionalLight0.Direction = new Vector3(1, -10, -1);
-            effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);*/
-            effect.EnableDefaultLighting();
-
-            test.LoadContent();
+            ai.LoadContent();
+            player.LoadContent();
 
             projection = Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45), 800f / 600f, .1f, 1000f);
         }
@@ -129,30 +123,19 @@ namespace Kross_Kart
 
             for (int i = 0; i < trackLength; i++)
             {
-                if (i != 0)
-                {
-                    rooms.Add(new Room(this, "1", roomPos));
-                }
-                else if (i == 0)
-                {
-                    rooms.Add(new Room(this, "1 corner", roomPos));
-                }
-                else if (i == trackLength - 1)
-                {
-                    rooms.Add(new Room(this, "1", roomPos));
-                }
+                rooms.Add(new Room(this, "1", roomPos, rand.Next()));
                 roomPos += roomPlacementZ;
             }
 
             for (int i = 0; i < trackWidth - 1; i++)
             {
-                rooms.Add(new Room(this, "1", roomPos));
+                rooms.Add(new Room(this, "1", roomPos, rand.Next()));
                 roomPos += roomPlacementX;
             }
 
             for (int i = 0; i < trackLength + 1; i++)
             {
-                rooms.Add(new Room(this, "1", roomPos));
+                rooms.Add(new Room(this, "1", roomPos, rand.Next()));
                 roomPos -= roomPlacementZ;
             }
 
@@ -161,7 +144,7 @@ namespace Kross_Kart
             for (int i = 0; i < trackWidth - 2; i++)
             {
                 roomPos -= roomPlacementX;
-                rooms.Add(new Room(this, "Test Room", roomPos));
+                rooms.Add(new Room(this, "1", roomPos, rand.Next()));
             }
 
             foreach (Room r in rooms)
@@ -172,17 +155,20 @@ namespace Kross_Kart
 
         public void Update(GameTime gameTime)
         {
-            //if (complete)
+            Cam.Update(gameTime);
+            Player.Update(gameTime, view, projection);
+            AI.Update(gameTime, view, projection);
+
+            view = Cam.View;
+
+            if (Main.CurrentKeyboard.IsKeyPressed(Keys.Escape))
             {
-                Cam.Update(gameTime);
-                Player.Update(gameTime, view, projection);
+                main.GameState = GameStates.Pause;
+            }
 
-                view = Cam.View;
-
-                if (Main.CurrentKeyboard.IsKeyPressed(Keys.Escape))
-                {
-                    main.GameState = GameStates.Pause;
-                }
+            if (AI.CircuitsComplete)
+            {
+                main.GameState = GameStates.EndGame;
             }
         }
 
@@ -195,9 +181,10 @@ namespace Kross_Kart
                     r.Draw(graphicsDevice);
                 }
 
-                test.Draw(graphicsDevice);
+                player.Draw(graphicsDevice, spriteBatch);
+                ai.Draw(graphicsDevice, spriteBatch);
 
-                spriteBatch.DrawString(font, Player.colliding.ToString(), Vector2.Zero, Color.Black);
+                spriteBatch.DrawString(font, Player.Score.ToString(), Vector2.Zero, Color.Black);
             }
             /*else
             {
@@ -211,31 +198,7 @@ namespace Kross_Kart
         private void OnPlayerCreate(object sender, EventArgs args)
         {
             view = Cam.View;
-            test.OnCreated -= OnPlayerCreate;
-        }
-
-        /// <summary>
-        /// Sets weight for AI pathfinding.
-        /// </summary>
-        private void SetPosWeight()
-        {
-            for (int i = 0; i < rooms.Count; i++)
-            {
-                for (int l = 0; l < rooms[i].Obstacles.Count; l++)
-                {
-                    for (int j = (int)lowerWeightBound.X; j <= upperWeightBound.X; j++)
-                    {
-                        for (int o = (int)lowerWeightBound.Z; o <= upperWeightBound.Z; o++)
-                        {
-                            BoundingBox box = rooms[i].Obstacles[l];
-                            Vector3 point = new Vector3(j, -8.2f, o);
-                            if (weight[NodeHelper.CheckSector(point)][Math.Abs(j), Math.Abs(o)] != (byte)1) weight[NodeHelper.CheckSector(point)][Math.Abs(j), Math.Abs(o)] = (Collision.BoxContainsPoint(ref box, ref point) == ContainmentType.Contains) ? (byte)1 : (byte)0;
-                        }
-                    }
-                    currentMesh++;
-                }
-            }
-            complete = true;
+            player.OnCreated -= OnPlayerCreate;
         }
     }
 }
