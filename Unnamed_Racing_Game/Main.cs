@@ -213,7 +213,7 @@ namespace Kross_Kart
                     menu.Draw(spritebatch);
                     break;
                 case GameStates.Play:
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    GraphicsDevice.Clear(Color.Black);
                     GraphicsDevice.SetRasterizerState(GraphicsDevice.RasterizerStates.CullFront);
                     spritebatch.Begin(SpriteSortMode.Deferred, graphics.GraphicsDevice.BlendStates.NonPremultiplied);
                     level.Draw(GraphicsDevice, spritebatch);
